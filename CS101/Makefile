@@ -1,9 +1,9 @@
 # Makefile for main.c with macros
 
 FLAGS   = -std=c99 -Wall
-SOURCES = main.c intVec.c
-OBJECTS = main.o intVec.o
-EXEBIN  = main
+SOURCES = digraph01.c intVec.c
+OBJECTS = digraph01.o intVec.o
+EXEBIN  = digraph01
 
 all: $(EXEBIN)
 
@@ -14,7 +14,7 @@ $(OBJECTS) : $(SOURCES)
 	gcc -c $(FLAGS) $(SOURCES)
 
 check :
-	valgrind --leak-check=full $(EXEBIN) queueClient.c out.txt
+	valgrind --leak-check=full $(EXEBIN) digraph01.c out.txt
 
 clean :
 	rm -f $(EXEBIN) $(OBJECTS)
