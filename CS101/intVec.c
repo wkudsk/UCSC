@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include "intVec.h"
 
 struct IntVecNode
@@ -9,7 +14,7 @@ struct IntVecNode
 
 int intTop(IntVec myVec)
 {
-	return myVec->data[sz];
+	return myVec->data[(myVec->sz)-1];
 }
 
 int intData(IntVec myVec, int i)
@@ -29,29 +34,40 @@ int intCapacity(IntVec myVec)
 
 IntVec intMakeEmptyVec(void)
 {
-	myVec->capacity = 4
-	myVec->data = malloc(sizeof(int)*capacity); 
+	IntVec myVec = malloc(sizeof(IntVec));
+	myVec->capacity = intInitCap;
+	myVec->data = malloc(sizeof(int)*(myVec->capacity)); 
 	myVec->sz = 0;
-	
+
+	return myVec;
 }
 
 IntVec intMakeEmptyVecN(int np1)
 {
-	
+	IntVec myVec = malloc(sizeof(IntVec));
+	myVec->capacity = np1;
+	myVec->data = malloc(sizeof(int)*(myVec->capacity)); 
+	myVec->sz = 0;
+
+	return myVec;
+		
 }
 
 void intVecPush(IntVec myVec, int newE)
 {
-	if(sz == capacity)
+	//if the array is at full capacity, double the capacity.
+	if(myVec->sz == myVec->capacity)
 	{
-		myVec->data = realloc(sizeof(int)*capacity*2);
-		capacity = capacity * 2;
+		myVec->capacity = myVec->capacity * 2;
+		myVec->data = realloc(myVec->data, sizeof(int)*(myVec->capacity));
 	}
-	sz++;
-	myVec->data[sz] = newE;
+	//add the new value to data.
+	(myVec->sz)++;
+	myVec->data[myVec->sz] = newE;
 }
 
 void intVecPop(IntVec myVec)
 {
-	sz--;
+	(myVec->sz)--;
+	//we would free here if it was required.
 }

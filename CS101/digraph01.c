@@ -1,9 +1,9 @@
-#include<stdio.h>
-#include<ctype.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
-#include"intVec.h"
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include "intVec.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	char str[256]; /* char array to store str from input file */
    bool first = true;
 
-
+   //Checks to make sure that the program was passed an input and output
 	if( argc != 3 )
    	{
    		printf("Usage: %s <input file> <output file>\n", argv[0]);
@@ -35,32 +35,47 @@ int main(int argc, char* argv[])
    		exit(EXIT_FAILURE);
    	}
 
-      intVec* myVec;
+      //initialize the array of IntVecs as well as a counter.
+      IntVec* myVec;
       int i = 0;
    	while( fgets(str, 256, in) != NULL )
    	{
+         //if this is the first element in the input, then find the size of the array.
          if(first)
          {
             int length = str[0] - 48;
             first = false;
-            myVec = (intVec*) malloc(sizeof(intVec)*length); //myVec is an array.
+            myVec = malloc(sizeof(IntVec)*length); //myVec is an array.
          
-
+            //This fills the array with empy IntVecs.
             for(int k = 0; k < length; k++)
             {
-               myVec[k] = intmakeEmptyVec();
+               myVec[k] = intMakeEmptyVec();
             }
          }
+
          else
          {
+            //Store the non-ascii values in pointA and pointB.
             int pointA = str[0] - 48;
             int pointB = str[2] - 48;
+            
+            //A little bit more work has to be done for weight since its a float, and also because 
+            //if there is a blank space it must be read as 0.
             float weight;
             if(str[5] == '.')
             {
                weight = str[4] - 48;
-               weight = weight + (float)(str[6]/10);
+               weight = weight + (float)((str[6] - 48)/10);
             }
+            else
+            {
+               weight = 0.0;
+            }
+
+            //Prints to output file, still not entirely sure out to format output.
+            fprintf(out, (char)(pointA + 48) + " " + (char)(pointB + 48));
+            i++;
          }
      	}
 }

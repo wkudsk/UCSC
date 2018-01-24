@@ -1,6 +1,7 @@
 /* intVec.h
- * The purpose of this file is to declare and prototype things that will be declared and implemented in intVec.c
- * 
+ * This file is what is known as a header.
+ * The purpose of this file declare and prototype functions that will be implemented  and defined in intVec.c
+ * These will then be imported into the main file, digraph01.c
  */
 
 #ifndef C101IntVec
