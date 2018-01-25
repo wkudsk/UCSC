@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
       if(intSize(Vec) != 0)
       {
          fprintf(out, "%i: ", i);
-         for(int j = 1; j < intSize(Vec); j++)
+         for(int j = 0; j < intSize(Vec); j++)
          {
             //Prints to output file, still not entirely sure out to format output.
             fprintf(out,  "%i ", intData(Vec, j));
