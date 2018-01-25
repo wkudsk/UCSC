@@ -5,6 +5,8 @@
 #include <string.h>
 #include "intVec.h"
 
+//initial portion of main function that reads input and output is taken from a handout from Sesh's CMPS12B 
+//class last quarter. Once it gets to the while loop, all the code is original.
 int main(int argc, char* argv[])
 {
 	FILE* in;  /* file handle for input */  
@@ -35,16 +37,18 @@ int main(int argc, char* argv[])
    	exit(EXIT_FAILURE);
    }
 
-   //initialize the array of IntVecs as well as a counter.
+   //initialize the array of IntVecs as well as a counter, m, that counts edges.
    IntVec* myVec;
    bool first = true;
+   //length is the length of the array given in the first input, this is also n
    int length = 0;
+   int m = 0;
    while( fgets(str, 256, in) != NULL )
    {
       //if this is the first element in the input, then find the size of the array.
        
         
-
+      //if this is the first line of input, do something different than the other lines.
       if(first)
       {
          
@@ -52,17 +56,14 @@ int main(int argc, char* argv[])
          first = false;
          myVec = malloc(sizeof(IntVec)*length); //myVec is an array.
          
-         //This fills the array with empy IntVecs.
+         //This fills the array with empty IntVecs.
          for(int k = 0; k <= length; k++)
          {
-               
             myVec[k] = intMakeEmptyVec();
                
          }
 
       }
-
-
 
       else
       {
@@ -72,7 +73,7 @@ int main(int argc, char* argv[])
          int pointB = (int)str[2] - 48;
             
          //A little bit more work has to be done for weight since its a float, and also because 
-         //if there is a blank space it must be read as 0.
+         //if there is a blank space it must be read as 0. Weight isnt saved anywhere in this program so this part is unimportant.
          float weight;
          if(str[5] == '.')
          {
@@ -85,23 +86,35 @@ int main(int argc, char* argv[])
             weight = 0.0;
          }
 
+         //push the edge to the vector array, and then increment m.
          intVecPush(myVec[pointA], pointB);
-   
+         m++;
       }      
   	}
 
-   for(int i = 0; i < length; i++)
+   //this prints output to a text file. This does its best to follow the format of graph.java
+   //n is the number of vertices
+   //m is the number of edges
+   fprintf(out, "n = %u\n", length);
+   fprintf(out, "m = %u\n", m);
+   for(int i = 1; i <= length; i++)
    {
+      //takes one of the vecs and then prints all of the edges from it.
       IntVec Vec = myVec[i];
       if(intSize(Vec) != 0)
       {
-         fprintf(out, "%i: ", i);
-         for(int j = 0; j < intSize(Vec); j++)
+         fprintf(out, "%i: [", i);
+         for(int j = intSize(Vec) - 1; j >= 0; j--)
          {
-            //Prints to output file, still not entirely sure out to format output.
-            fprintf(out,  "%i ", intData(Vec, j));
+            
+            if(j != 0)fprintf(out,  "%i, ", intData(Vec, j));
+            else fprintf(out,  "%i", intData(Vec, j));
          }
-         fprintf(out, "%s\n", "");
+         fprintf(out, "%s\n", "]");
+      }
+      else
+      {
+         fprintf(out, "%u NULL\n", i);
       }
    }
 
