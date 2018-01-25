@@ -5,3 +5,4 @@
     William Kudsk
 
 Makefile and I/O portion of digraph01.c taken from homework assignments in CS12B.
+the website tutorialspoint was used to find out the proper use of certain C functions, ones like realloc, printf, fgets, and fprintf
