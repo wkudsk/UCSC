@@ -3,11 +3,9 @@
 import	java.io.*;
 import java.util.*;
 
-public
-class	graph
+public class graph
 	{
-	public static
-	void	main(String[] argv)
+	public static void main(String[] argv)
 		{
 		int	m, n;
 		IntList[]	adjVertices;
