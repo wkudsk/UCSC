@@ -38,7 +38,6 @@ IntVec intMakeEmptyVec(void)
 	myVec->capacity = intInitCap;
 	myVec->sz = 0;
 	myVec->data = malloc(sizeof(int)*(myVec->capacity)); 
-	printf("%u\n",myVec->capacity);
 	return myVec;
 }
 
@@ -60,7 +59,6 @@ void intVecPush(IntVec myVec, int newE)
 	if(myVec->sz == myVec->capacity)
 	{
 
-		printf("%u\n", myVec->capacity);
 		myVec->capacity = (myVec->capacity)*2;
 		myVec->data = realloc(myVec->data, sizeof(int)*(myVec->capacity));
 	}
