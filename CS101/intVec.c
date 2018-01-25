@@ -36,8 +36,8 @@ IntVec intMakeEmptyVec(void)
 {
 	IntVec myVec = malloc(sizeof(IntVec));
 	myVec->capacity = intInitCap;
-	myVec->data = malloc(sizeof(int)*(myVec->capacity)); 
 	myVec->sz = 0;
+	myVec->data = malloc(sizeof(int)*(myVec->capacity)); 
 
 	return myVec;
 }
@@ -58,12 +58,13 @@ void intVecPush(IntVec myVec, int newE)
 	//if the array is at full capacity, double the capacity.
 	if(myVec->sz == myVec->capacity)
 	{
-		myVec->capacity = myVec->capacity * 2;
+		myVec->capacity = myVec->capacity*2;
 		myVec->data = realloc(myVec->data, sizeof(int)*(myVec->capacity));
 	}
 	//add the new value to data.
-	(myVec->sz)++;
+	myVec->sz++;
 	myVec->data[myVec->sz] = newE;
+	
 }
 
 void intVecPop(IntVec myVec)
