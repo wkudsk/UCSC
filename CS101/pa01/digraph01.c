@@ -49,9 +49,8 @@ int main(int argc, char* argv[])
        
         
       //if this is the first line of input, do something different than the other lines.
-      if(first)
+      if(first && (int)str[0] >= 48 && (int)str[0] <= 57)
       {
-         
          length = str[0] - 48;
          first = false;
          myVec = malloc(sizeof(IntVec)*length+1); //myVec is an array.
@@ -59,13 +58,14 @@ int main(int argc, char* argv[])
          //This fills the array with empty IntVecs.
          for(int k = 0; k <= length; k++)
          {
-            myVec[k] = intMakeEmptyVec();
+	    myVec[k] = intMakeEmptyVec();
                
          }
 
       }
-
-      else
+	
+      //Makes sure that proper format is used.
+      else if((int)str[0] >= 48 && (int)str[0] <= 57)
       {
          
          //Store the non-ascii values in pointA and pointB.
@@ -89,8 +89,13 @@ int main(int argc, char* argv[])
          //push the edge to the vector array, and then increment m.
          intVecPush(myVec[pointA], pointB);
          m++;
+      }
+      else
+      {
+      	 printf("Incorrect input format.\n");
+      	 exit(EXIT_FAILURE);
       }      
-  	}
+  }
 
    //this prints output to a text file. This does its best to follow the format of graph.java
    //n is the number of vertices
@@ -118,7 +123,7 @@ int main(int argc, char* argv[])
       }
    }
 
-
+	
    fclose(in);
    fclose(out);
    return(EXIT_SUCCESS);
