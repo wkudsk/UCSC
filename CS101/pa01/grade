@@ -1,0 +1,30 @@
+Prototype agree with intVec.h          [10]    __       Prototype    9
+And comments added
+
+Input file(s) read, eof detected       [10]    __       Input        5
+fgets in C
+
+Edge (2 or 3 fields) from input line   [10]    __       Edges        00
+sscanf in C
+
+Array of adjacency lists built         [10]    __       built        00
+      using IntVec ops (should be ADT)
+
+Adjacency list contents correctly      [10]    __       printed      00
+printed
+
+Correct organization of functions in   [10]    __       organization 08
+      header (.h) files. (If any)
+
+Makefile with correct targets and      [10]    __       Makefile     02
+      dependencies
+
+Accurate specifications as comments,   [10]    __       pre/post     10
+      in header files when appropriate.
+
+Test file(s) to demonstrate all cases  [10]    __       Test files   00
+      except input with no edges
+      (no error checking required)
+
+README with appropriate contents,      [10]    __       README       03
+      explaining what test files show
