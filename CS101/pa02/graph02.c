@@ -4,20 +4,20 @@
 #include <stdbool.h>
 #include <string.h>
 #include "intVec.h"
+#include "loadGraph.h"
 
 //initial portion of main function that reads input and output is taken from a handout from Sesh's CMPS12B 
 //class last quarter. Once it gets to the while loop, all the code is original.
 int main(int argc, char* argv[])
 {
 	FILE* in;  /* file handle for input */  
-	FILE* out; /* file handle for output */
 	char str[256]; /* char array to store str from input file */
    
 
    //Checks to make sure that the program was passed an input and output
-	if( argc != 3 )
+	if( argc != 2)
    {
-		printf("Usage: %s <input file> <output file>\n", argv[0]);
+		printf("Usage: %s <input file>\n", argv[0]);
    	exit(EXIT_FAILURE);
    }
 
@@ -26,14 +26,6 @@ int main(int argc, char* argv[])
    if( in==NULL )
    {
    	printf("Unable to read from file %s\n", argv[1]);
-   	exit(EXIT_FAILURE);
-   }
-
-  	/* open output file for writing */
-   out = fopen(argv[2], "w");
-   if( out==NULL )
-   {
-   	printf("Unable to write to file %s\n", argv[2]);
    	exit(EXIT_FAILURE);
    }
 
@@ -58,8 +50,7 @@ int main(int argc, char* argv[])
          //This fills the array with empty IntVecs.
          for(int k = 0; k <= length; k++)
          {
-	    myVec[k] = intMakeEmptyVec();
-               
+            myVec[k] = intMakeEmptyVec();   
          }
 
       }
@@ -97,31 +88,7 @@ int main(int argc, char* argv[])
       }      
   }
 
-   //this prints output to a text file. This does its best to follow the format of graph.java
-   //n is the number of vertices
-   //m is the number of edges
-   fprintf(out, "n = %u\n", length);
-   fprintf(out, "m = %u\n", m);
-   for(int i = 1; i <= length; i++)
-   {
-      //takes one of the vecs and then prints all of the edges from it.
-      IntVec Vec = myVec[i];
-      if(intSize(Vec) != 0)
-      {
-         fprintf(out, "%i: [", i);
-         for(int j = intSize(Vec) - 1; j >= 0; j--)
-         {
-            
-            if(j != 0)fprintf(out,  "%i, ", intData(Vec, j));
-            else fprintf(out,  "%i", intData(Vec, j));
-         }
-         fprintf(out, "%s\n", "]");
-      }
-      else
-      {
-         fprintf(out, "%u NULL\n", i);
-      }
-   }
+   
 
 	
    fclose(in);

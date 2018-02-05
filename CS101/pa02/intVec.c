@@ -63,8 +63,8 @@ void intVecPush(IntVec myVec, int newE)
 		myVec->data = realloc(myVec->data, sizeof(int)*(myVec->capacity));
 	}
 	//add the new value to data.
-	myVec->data[myVec->sz] = newE;
 	myVec->sz++;
+	myVec->data[myVec->sz] = newE;
 	
 }
 
