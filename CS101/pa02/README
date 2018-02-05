@@ -3,3 +3,6 @@
     UC Santa Cruz Student Policies and Regulations Handbook,
     and the related sections of the class syllabus."
 William Kudsk
+
+Makefile taken from the Cmake directory in the class locker.
+intVec.c, intVec.h, and graph02.c all have portions that were taken from the previous homework.
