@@ -47,8 +47,6 @@ int main(int argc, char* argv[])
          first = false;
          myVec = malloc(sizeof(IntVec)*length+1); //myVec is an array.
          
-         //myVec[0] will hold the length of the array
-         myVec[0] = length;
 
          //This fills the array with empty IntVecs.
          for(int k = 1; k <= length; k++)
@@ -112,7 +110,7 @@ if(length <= 12)
 }
 
 //Step 5, make transpose of transpose, aka original.
-InteVec* originalVec = transposeGraph(tVec, length);
+IntVec* originalVec = transposeGraph(tVec, length);
 printAdjVerts(originalVec, length, m);
 
 //Step 6, make the AdjMatrix of original graph again.
@@ -124,6 +122,5 @@ if(length <= 12)
 
 	
    fclose(in);
-   fclose(out);
    return(EXIT_SUCCESS);
 }

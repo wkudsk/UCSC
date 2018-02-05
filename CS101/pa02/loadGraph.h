@@ -1,3 +1,4 @@
+#include "intVec.h"
 #ifndef C101loadGraph
 #define C101loadGraph
 

@@ -41,16 +41,13 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 		}
 	}
 
-	//Store the length at position 0,0 since it wont be used for the program.
-	adjMatrix[0][0] = n;
 	
 	return adjMatrix;
 }
 
 IntVec* transposeGraph(IntVec* origGraph, int n)
 {
-	IntVec* newVec = myVec = malloc(sizeof(IntVec)*n+1); //newVec is an array.
-	newVec[o] = n;
+	IntVec* newVec = malloc(sizeof(IntVec)*n+1); //newVec is an array.
 	for(int i = 1; i <= n; i++)
 	{
 		newVec[i] = intMakeEmptyVec();   
@@ -58,7 +55,7 @@ IntVec* transposeGraph(IntVec* origGraph, int n)
 
 	for(int a = 1; a <= n; a++)
 	{
-		for(int j = 1; j <= intSize(origGraph); j++)
+		for(int j = 1; j <= intSize(origGraph[a]); j++)
 		{
 			int b = intData(origGraph[a], j);
 			intVecPush(newVec[b], a);
@@ -102,7 +99,7 @@ void printAdjVerts(IntVec* origGraph, int length, int m)
 void printAdjMatrix(int** adjMatrix, int n)
 {
 	
-	fprintf(strout, "   ");
+	fprintf(stdout, "   ");
 	for(int i = 1; i <= n; i++)
 	{
 		fprintf(stdout, "  %u", i);
@@ -121,7 +118,7 @@ void printAdjMatrix(int** adjMatrix, int n)
 		fprintf(stdout, "%u :", i);
 		for(int k = 1; k <= n; k++)
 		{
-			fprintf(stdout, "  %u", adjMatrix[i][j]);
+			fprintf(stdout, "  %u", adjMatrix[i][k]);
 		}
 		fprintf(stdout, "\n");
 	}
