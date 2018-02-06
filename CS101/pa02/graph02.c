@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
       {
          length = str[0] - 48;
          first = false;
-         myVec = malloc(sizeof(IntVec)*length+1); //myVec is an array.
+         myVec = malloc(sizeof(IntVec)*length + 1); //myVec is an array.
          
 
          //This fills the array with empty IntVecs.
