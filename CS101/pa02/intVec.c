@@ -55,15 +55,16 @@ IntVec intMakeEmptyVecN(int np1)
 void intVecPush(IntVec myVec, int newE)
 {
 	//if the array is at full capacity, double the capacity.
-	
+
+	myVec->sz++;		
 	if(myVec->sz == myVec->capacity)
 	{
 
 		myVec->capacity = (myVec->capacity)*2;
 		myVec->data = realloc(myVec->data, sizeof(int)*(myVec->capacity));
 	}
+
 	//add the new value to data.
-	myVec->sz++;
 	myVec->data[myVec->sz] = newE;
 	
 }
