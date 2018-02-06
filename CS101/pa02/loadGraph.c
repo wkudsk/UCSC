@@ -67,8 +67,8 @@ void printAdjVerts(IntVec* origGraph, int length, int m)
     fprintf(stdout, "n = %u\n", length);
     fprintf(stdout, "m = %u\n", m);
     
-    for(int i = 1; i <= length; i++)
-    {
+	for(int i = 1; i <= length; i++)
+	{
        //takes one of the vecs and then prints all of the edges from it.
        IntVec Vec = origGraph[i];
        if(intSize(Vec) != 0)
@@ -77,7 +77,7 @@ void printAdjVerts(IntVec* origGraph, int length, int m)
           for(int j = intSize(Vec); j > 0; j--)
           {
             
-            if(j-1 != 0)fprintf(stdout,  "%i, ", intData(Vec, j));
+            if(j-1 != 0) fprintf(stdout,  "%i, ", intData(Vec, j));
             else fprintf(stdout,  "%i", intData(Vec, j));
 
           }
