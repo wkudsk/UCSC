@@ -14,7 +14,16 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 	for(int i = 0; i <= n; i++)
 	{
 		adjMatrix[i] = malloc((n+1)*sizeof(int));
+		for(int j = 0; j <= n; j++)
+		{
+			adjMatrix[i][j] = 0;
+		}
+		
+	}
 
+	//this populates the rest of the matrix with 0's.
+	for(int i = 0; i <=n; i++)
+	{
 		//Take an IntVec, put a 1 at the matrix for each edge.
 		if(i != 0)
 		{
@@ -24,21 +33,8 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 				int vector = intData(Vec, j);
 				adjMatrix[i][vector] = 1;
 			}
-		}
+		}	
 	}
-
-	//this populates the rest of the matrix with 0's.
-	for(int i = 0; i <=n; i++)
-	{
-		for(int j = 0; j <=n; j++)
-		{
-			if(adjMatrix[i][j] != 1)
-			{
-				adjMatrix[i][j] = 0;
-			}
-		}
-	}
-
 	
 	return adjMatrix;
 }
