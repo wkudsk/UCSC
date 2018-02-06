@@ -14,8 +14,6 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 	for(int i = 0; i <= n; i++)
 	{
 		adjMatrix[i] = malloc((n+1)*sizeof(int));
-		
-		
 
 		//Take an IntVec, put a 1 at the matrix for each edge.
 		if(i != 0)
@@ -48,14 +46,14 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 IntVec* transposeGraph(IntVec* origGraph, int n)
 {
 	IntVec* newVec = malloc(sizeof(IntVec)*n+1); //newVec is an array.
-	for(int i = 1; i <= n; i++)
+	for(int i = 0; i <= n; i++)
 	{
 		newVec[i] = intMakeEmptyVec();   
 	}
 
-	for(int a = 1; a <= n; a++)
+	for(int a = 0; a <= n; a++)
 	{
-		for(int j = 1; j <= intSize(origGraph[a]); j++)
+		for(int j = 0; j <= intSize(origGraph[a]); j++)
 		{
 			int b = intData(origGraph[a], j);
 			intVecPush(newVec[b], a);
