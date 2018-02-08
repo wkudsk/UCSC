@@ -68,8 +68,20 @@ int main(int argc, char* argv[])
          
          //Store the non-ascii values in pointA and pointB.
          int pointA = (int)str[0] - 48;
-         int pointB = (int)str[2] - 48;
-            
+         int k = 2;
+         if((int)str[1] >= 48 && (int)str[1] <= 57)
+         {
+            pointA = (pointA*10) + ((int)str[1] - 48);
+            int k = k + 1;
+         }
+
+         int pointB = (int)str[k] - 48;
+         
+         if((int)str[k+1] >= 48 && (int)str[k+1] <= 57)
+         {
+            pointB = (pointB*10) + ((int)str[1] - 48);
+            int k = k + 1;
+         }            
          //A little bit more work has to be done for weight since its a float, and also because 
          //if there is a blank space it must be read as 0. Weight isnt saved anywhere in this program so this part is unimportant.
          float weight;
