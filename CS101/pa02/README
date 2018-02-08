@@ -7,7 +7,8 @@ William Kudsk
 Makefile taken from the Cmake directory in the class locker.
 intVec.c, intVec.h, and graph02.c all have portions that were taken from the previous homework.
 
-The program takes an input.txt which should formatted in form:
+Compile the program using the Makefile, when running it make sure to give it an input text file as an argument.
+The program takes an input text file which should formatted in form:
 6
 1 4
 5 4
