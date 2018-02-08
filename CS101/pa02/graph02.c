@@ -72,11 +72,11 @@ int main(int argc, char* argv[])
          if((int)str[1] >= 48 && (int)str[1] <= 57)
          {
             pointA = (pointA*10) + (str[1] - 48);
-            int k = k + 1;
+            k = k + 1;
          }
 
          int pointB = (int)str[k] - 48;
-         
+
          if((int)str[k+1] >= 48 && (int)str[k+1] <= 57)
          {
             pointB = (pointB*10) + ((int)str[k+1] - 48);
