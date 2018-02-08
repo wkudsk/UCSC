@@ -44,20 +44,14 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 IntVec* transposeGraph(IntVec* origGraph, int n)
 {
 	IntVec* newVec = malloc(sizeof(IntVec)*(n+1)); //newVec is an array.
-<<<<<<< HEAD
-=======
 	//Fills the array with empty IntVec
->>>>>>> 4ba9ac9bfe49fe39eefdb8e2e3f2423d2bf55bbe
 	for(int i = 0; i <= n; i++)
 	{
 		newVec[i] = intMakeEmptyVec();   
 	}
 
-<<<<<<< HEAD
-=======
 	//Goes through the original graph, and takes the a of original array,
 	//and puts it in b of the new array (a, b) -> (b, a)
->>>>>>> 4ba9ac9bfe49fe39eefdb8e2e3f2423d2bf55bbe
 	for(int a = 1; a <= n; a++)
 	{
 		if(intSize(origGraph[a]) != 0)
@@ -66,20 +60,17 @@ IntVec* transposeGraph(IntVec* origGraph, int n)
 			{
 				int b = intData(origGraph[a], j);
 				intVecPush(newVec[b], a);
-<<<<<<< HEAD
 			}	
-=======
-			}
->>>>>>> 4ba9ac9bfe49fe39eefdb8e2e3f2423d2bf55bbe
 		}
 	}
+	
 	//returns the new Vec
 	return newVec;
 }
 
 void printAdjVerts(IntVec* origGraph, int length, int m)
 {
-	//This does its best to follow the format of graph.java
+    //This does its best to follow the format of graph.java
     //length is the number of vertices
     //m is the number of edges
     fprintf(stdout, "n = %u\n", length);
