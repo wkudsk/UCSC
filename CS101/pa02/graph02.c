@@ -43,7 +43,12 @@ int main(int argc, char* argv[])
       //if this is the first line of input, do something different than the other lines.
       if(first && (int)str[0] >= 48 && (int)str[0] <= 57)
       {
+         
          length = str[0] - 48;
+         //if the number is greater than 9, add the second number.
+         if((int)str[0] >= 48 && (int)str[0] <= 57)
+            length = length + (str[1] - 48);
+         
          first = false;
          myVec = malloc(sizeof(IntVec)*(length + 1)); //myVec is an array.
          
