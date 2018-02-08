@@ -47,8 +47,9 @@ int main(int argc, char* argv[])
          length = ((int)str[0] - 48);
          //if the number is greater than 9, add the second number.
          if((int)str[1] >= 48 && (int)str[1] <= 57)
-            length = length + ((int)str[1] - 48);
-         
+         {
+            length = (length*10) + ((int)str[1] - 48);
+         }
          first = false;
          myVec = malloc(sizeof(IntVec)*(length + 1)); //myVec is an array.
          

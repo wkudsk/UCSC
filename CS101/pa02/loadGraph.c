@@ -91,7 +91,7 @@ void printAdjVerts(IntVec* origGraph, int length, int m)
        }
        else
        {
-          fprintf(stdout, "%u NULL\n", i);
+          fprintf(stdout, "%u []\n", i);
        }
     }
 }
