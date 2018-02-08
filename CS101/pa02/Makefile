@@ -26,11 +26,11 @@ CFLAGS = -g -Wall -O0 -std=c99 -D_SVID_SOURCE
 graph02:    graph02.o  intVec.o loadGraph.o
 		${CC} -o graph02 ${CFLAGS} graph02.o intVec.o loadGraph.o
 
-graph02.o:  graph02.c  intVec.h loadGraph.h
+graph02.o:  graph02.c
 		${CC} -c ${CFLAGS} graph02.c
 
-intVec.o:     intVec.c  intVec.h
+intVec.o:     intVec.c
 		${CC} -c ${CFLAGS} intVec.c
 
-loadGraph.o:     loadGraph.c  loadGraph.h intVec.h
+loadGraph.o:     loadGraph.c
 		${CC} -c ${CFLAGS} loadGraph.c

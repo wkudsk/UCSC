@@ -43,11 +43,11 @@ int main(int argc, char* argv[])
       //if this is the first line of input, do something different than the other lines.
       if(first && (int)str[0] >= 48 && (int)str[0] <= 57)
       {
-         
-         length = str[0] - 48;
+
+         length = ((int)str[0] - 48);
          //if the number is greater than 9, add the second number.
-         if((int)str[0] >= 48 && (int)str[0] <= 57)
-            length = length + (str[1] - 48);
+         if((int)str[1] >= 48 && (int)str[1] <= 57)
+            length = length + ((int)str[1] - 48);
          
          first = false;
          myVec = malloc(sizeof(IntVec)*(length + 1)); //myVec is an array.
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
       }
       else
       {
-      	 printf("Incorrect input format.\n");
+      	 printf("Incorrect input format, see line %s\n", str);
       	 exit(EXIT_FAILURE);
       }      
   }
