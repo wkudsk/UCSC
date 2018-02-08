@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
          int k = 2;
          if((int)str[1] >= 48 && (int)str[1] <= 57)
          {
-            pointA = (pointA*10) + ((int)str[1] - 48);
+            pointA = (pointA*10) + (str[1] - 48);
             int k = k + 1;
          }
 
@@ -79,22 +79,8 @@ int main(int argc, char* argv[])
          
          if((int)str[k+1] >= 48 && (int)str[k+1] <= 57)
          {
-            pointB = (pointB*10) + ((int)str[1] - 48);
-            int k = k + 1;
+            pointB = (pointB*10) + ((int)str[k+1] - 48);
          }            
-         //A little bit more work has to be done for weight since its a float, and also because 
-         //if there is a blank space it must be read as 0. Weight isnt saved anywhere in this program so this part is unimportant.
-         float weight;
-         if(str[5] == '.')
-         {
-            weight = str[4] - 48;
-            weight = weight + (float)((str[6] - 48)/10);
-         }
-            
-         else
-         {
-            weight = 0.0;
-         }
 
          //push the edge to the vector array, and then increment m.
          intVecPush(myVec[pointA], pointB);
