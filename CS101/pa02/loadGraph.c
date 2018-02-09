@@ -101,12 +101,12 @@ void printAdjMatrix(int** adjMatrix, int n)
 {
 	//prints this out in matrix form, following the format in the handout
 	//prints out the first line, 1 2 3 4 5 ... n
-	fprintf(stdout, "   ");
+	fprintf(stdout, "    ");
 	for(int i = 1; i <= n; i++)
 	{
 		fprintf(stdout, "  %u", i);
 	}
-	fprintf(stdout, "\n   ");
+	fprintf(stdout, "\n   --");
 
 	//prints out a line of '-'s
 	for(int i = 1; i <= n; i++)
@@ -118,7 +118,8 @@ void printAdjMatrix(int** adjMatrix, int n)
 	//prints out array by array, M[i][k]
 	for(int i = 1; i <= n; i++)
 	{
-		fprintf(stdout, "%u :", i);
+		if(i < 10) fprintf(stdout, "%u  :", i);
+		else fprintf(stdout, "%u :", i);
 		for(int k = 1; k <= n; k++)
 		{
 			fprintf(stdout, "  %u", adjMatrix[i][k]);
