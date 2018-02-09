@@ -9,11 +9,11 @@
 int** makeAdjMatrix(IntVec* myVec, int n)
 {
 	//get the length of the array, so that the adjcency matrix can have the same length.
-	int** adjMatrix = malloc((n)*sizeof(int*));
+	int** adjMatrix = malloc((n+1)*sizeof(int*));
 
 	for(int i = 0; i <= n; i++)
 	{
-		adjMatrix[i] = malloc((n)*sizeof(int));
+		adjMatrix[i] = malloc((n+1)*sizeof(int));
 		//fill the arrays with 0's
 		for(int j = 0; j <= n; j++)
 		{
@@ -43,7 +43,7 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 
 IntVec* transposeGraph(IntVec* origGraph, int n)
 {
-	IntVec* newVec = malloc(sizeof(IntVec)*(n)); //newVec is an array.
+	IntVec* newVec = malloc(sizeof(IntVec)*(n+1z)); //newVec is an array.
 	//Fills the array with empty IntVec
 	for(int i = 0; i <= n; i++)
 	{
