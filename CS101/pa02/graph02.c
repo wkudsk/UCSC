@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
    //Checks to make sure that the program was passed an input and output
 	if( argc != 2)
    {
-		printf("Usage: %s <input file>\n", argv[0]);
+		fprintf(stderr, "Usage: %s <input file>\n", argv[0]);
    	exit(EXIT_FAILURE);
    }
 
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
    in = fopen(argv[1], "r");
    if( in==NULL )
    {
-   	printf("Unable to read from file %s\n", argv[1]);
+   	fprintf(stderr, "Unable to read from file %s\n", argv[1]);
    	exit(EXIT_FAILURE);
    }
 
@@ -38,9 +38,6 @@ int main(int argc, char* argv[])
    while( fgets(str, 256, in) != NULL )
    {
       //if this is the first element in the input, then find the size of the array.
-       
-        
-      //if this is the first line of input, do something different than the other lines.
       if(first && (int)str[0] >= 48 && (int)str[0] <= 57)
       {
 
@@ -51,7 +48,7 @@ int main(int argc, char* argv[])
             length = (length*10) + ((int)str[1] - 48);
          }
          first = false;
-         myVec = malloc(sizeof(IntVec)*(length + 1)); //myVec is an array.
+         myVec = malloc(sizeof(IntVec)*(length)); //myVec is an array.
          
 
          //This fills the array with empty IntVecs.
@@ -88,7 +85,7 @@ int main(int argc, char* argv[])
       }
       else
       {
-      	 printf("Incorrect input format, see line %s\n", str);
+      	 fprintf(stderr, "Incorrect input format, see line: %s\n", str);
       	 exit(EXIT_FAILURE);
       }      
   }
