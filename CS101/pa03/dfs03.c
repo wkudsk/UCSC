@@ -112,29 +112,28 @@ int main(int argc, char* argv[])
    printAdjVerts(myVec, length, m);
 
    //Step 2, print out the AdjMatrix
-   if(length <= 12)
-   {
-      int** adjMatrix = makeAdjMatrix(myVec, length);
-      printAdjMatrix(adjMatrix, length);
-   }
+   //if(length <= 12)
+   //{
+     // int** adjMatrix = makeAdjMatrix(myVec, length);
+      //printAdjMatrix(adjMatrix, length);
+   //}
    //Step 3, make the transpose and print
-   IntVec* tVec = transposeGraph(myVec, length);
-   printAdjVerts(tVec, length, m);
+   //IntVec* tVec = transposeGraph(myVec, length);
+   //printAdjVerts(tVec, length, m);
 
    //Step 4, print out the AdjMatrix of transpose
-   if(length <= 12)
-   {
-      int** adjTranMatrix = makeAdjMatrix(tVec, length);   
-      printAdjMatrix(adjTranMatrix, length); 
-   }
+   //if(length <= 12)
+   //{
+     // int** adjTranMatrix = makeAdjMatrix(tVec, length);   
+     // printAdjMatrix(adjTranMatrix, length); 
+   //}
 
    Data data = makeEmptyDataSet(length);
    int v = 1;
-   int counter = 1;
-   data = dfs(myVec, data, length, v, counter);
+   data = dfs(myVec, data, length, v);
 
    dfsPrint(data, length);
-   
+
    fclose(in);
    return(EXIT_SUCCESS);
 }

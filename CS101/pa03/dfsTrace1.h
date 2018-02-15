@@ -13,7 +13,7 @@ Data makeEmptyDataSet(int n);
  * 				 n >= 0
  * postcondition: returns a 2D array matrix of length n.
  */
-Data dfs(IntVec* graph, Data data, int n, int v, int counter);
+Data dfs(IntVec* graph, Data data, int n, int v);
 
 IntVec* makeCopy(IntVec* graph, int n);
 

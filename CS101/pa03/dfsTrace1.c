@@ -13,6 +13,7 @@ struct DataNode
 	int* dTime;
 	int* fTime;
 	int* parent;
+	int counter;
 };
 
 /*Constructors*/
@@ -25,6 +26,7 @@ Data makeEmptyDataSet(int n)
 	data->dTime = malloc((n+1)*sizeof(int));
 	data->fTime = malloc((n+1)*sizeof(int));
 	data->parent = malloc((n+1)*sizeof(int));
+	data->counter = 1;
 	for(int k = 0; k <= n; k++)
 	{
 		data->dTime[k] = 0;
@@ -37,7 +39,7 @@ Data makeEmptyDataSet(int n)
 }
 
 
-Data dfs(IntVec* graph, Data data, int n, int v, int counter)
+Data dfs(IntVec* graph, Data data, int n, int v)
 {
 	//Start by finding the vector at point V.
 	for(int i = v; i <= n; i++)
@@ -47,9 +49,9 @@ Data dfs(IntVec* graph, Data data, int n, int v, int counter)
 		if(data->color[i] != 'B' && data->color[i] != 'G')
 		{	
 			//if the point has yet to be visited, enter in its discovery time, increment counter, and look for the points inside.
-			data->dTime[i] = counter;
+			data->dTime[i] = data->counter;
 			data->color[i] = 'G';
-			counter++;
+			data->counter++;
 		}
 		//while the inside is not empty, try to find the points and recursively store their information.
 		if(data->color[i] != 'B')
@@ -65,14 +67,15 @@ Data dfs(IntVec* graph, Data data, int n, int v, int counter)
 				if(data->color[edge] != 'B')
 				{	
 					v = edge;
-					data = dfs(graph, data, n, v, counter);
+					fprintf(stdout, "Entering recursion for %u\n", v);
+					data = dfs(graph, data, n, v);
 				}
 				
 			}
 			//once you're done with an edge, turn it black, store finish time, and increment counter.
-			data->fTime[i] = counter;
+			data->fTime[i] = data->counter;
 			data->color[i] = 'B';
-			counter++;
+			data->counter++;
 
 			//if the vector has a parent, the for loop needs to go back to the parent, instead of continuing with the array.
 			if(data->parent[i] != -1)
@@ -117,7 +120,26 @@ void dfsPrint(Data data, int n)
 	fprintf(stdout, "V   color dTime fTime  parent\n");
 	for(int i = 1; i <= n; i++)
 	{
-		fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+		if(data->dTime[i] <= 9 && data->fTime[i] <= 9)
+		{	
+			if(data->parent[i] < 0)fprintf(stdout, "%u       %c     %u     %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+			else fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+		}
+		else if(data->dTime[i] <= 9 && data->fTime[i] > 9) 
+		{
+			if(data->parent[i] < 0) fprintf(stdout, "%u       %c     %u    %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+			else fprintf(stdout, "%u       %c     %u    %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+		}
+		else if(data->dTime[i] > 9 && data->fTime[i] <= 9)
+		{
+			if(data->parent[i] < 0) fprintf(stdout, "%u       %c    %u    %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+			else fprintf(stdout, "%u       %c    %u    %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+		}
+		else
+		{
+			if(data->parent[i] < 0) fprintf(stdout, "%u       %c    %u    %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+			else fprintf(stdout, "%u       %c    %u    %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+		}
 	}
 
 }
