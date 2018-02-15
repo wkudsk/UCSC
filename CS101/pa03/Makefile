@@ -1,11 +1,13 @@
-# Makefile for the graph02 program
+# Makefile for the dfs03 program
 
-# graph02 needs: IntVec and loadGraph
+# dfs03 needs: IntVec, loadGraph, and dfsTracec1
 # Please make sure to use the .c and .h files.
-# the main file is graph02.c
-# the executable should be graph02
+# the main file is dfs03.c
+# the executable should be dfs03
 # the program requires one input file in the form of a textfile.
-# example run: "./graph02 input.txt"
+# example run: "./dfs03 input.txt"
+# You can also give it the flag "-U" to make the graph undirected.
+# example run: "./dfs03 -U input.txt"
 
 # Explanatory comments follow the ``real code.''
 # Everything after the # on any line is a comment

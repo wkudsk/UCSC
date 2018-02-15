@@ -120,17 +120,18 @@ int main(int argc, char* argv[])
       printAdjMatrix(adjMatrix, length);
    }
 
+   //Step 3, run dfs to get a data set, and print out the data.
    Data data = makeEmptyDataSet(length);
    int v = 1;
    data = dfs(myVec, data, length, v);
 
    dfsPrint(data, length);
 
-   //Step 3, make the transpose and print
+   //Step 4, make the transpose and print
    
    printAdjVerts(tVec, length, m);
 
-   //Step 4, print out the AdjMatrix of transpose
+   //Step 5, print out the AdjMatrix of transpose
    if(length <= 12)
    {
      int** adjTranMatrix = makeAdjMatrix(tVec, length);   

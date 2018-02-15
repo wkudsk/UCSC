@@ -6,7 +6,7 @@ William Kudsk
 
 Makefile taken from the Cmake directory in the class locker.
 intVec.c, intVec.h, and graph02.c all have portions that were taken from the previous homework.
-strcmp() was taken from a stackoverflow question and proper use was learned from tutorialspoint documentation.
+strcmp() was taken from a stackoverflow question and proper use was learned from tutorialspoint's documentation.
 https://stackoverflow.com/questions/8004237/how-do-i-properly-compare-strings
 https://www.tutorialspoint.com/c_standard_library/c_function_strcmp.htm
 

@@ -18,6 +18,7 @@ struct DataNode
 
 /*Constructors*/
 
+//Allocates memory for a Data struct.
 Data makeEmptyDataSet(int n)
 {
 	Data data = malloc(sizeof(struct DataNode));
@@ -26,7 +27,13 @@ Data makeEmptyDataSet(int n)
 	data->dTime = malloc((n+1)*sizeof(int));
 	data->fTime = malloc((n+1)*sizeof(int));
 	data->parent = malloc((n+1)*sizeof(int));
+	
+	//Counter must start at one, this variable will be used to keep track
+	//of dTime and fTime.
 	data->counter = 1;
+
+	//Initializes the arrays with 0's and white's.
+	//They will be changed to their proper numbers in dfs()
 	for(int k = 0; k <= n; k++)
 	{
 		data->dTime[k] = 0;
@@ -38,7 +45,7 @@ Data makeEmptyDataSet(int n)
 	return data;
 }
 
-
+//This is the most important part of this assignment.
 Data dfs(IntVec* graph, Data data, int n, int v)
 {
 
@@ -87,6 +94,7 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 		}
 	}
 
+	//This changes all the roots to -1.
 	for(int i = 0; i <= n; i++)
 	{
 		if(data->parent[i] == 0)
@@ -98,35 +106,12 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 	return data;
 }
 
-
-IntVec* makeCopy(IntVec* graph, int n)
-{
-	IntVec* copyVec = malloc(sizeof(IntVec)*(n+1)); //remVec is an array.
-         
-    //This fills the array with empty IntVecs.
-    for(int k = 0; k <= n; k++)
-    {
-    	copyVec[k] = intMakeEmptyVec();
-    }
-
-    for(int a = 1; a <= n; a++)
-    {
-    	for(int j = 1; j <= intSize(graph[a]); j++)
-    	{
-            int b = intData(graph[a], j);
-            intVecPush(copyVec[a], b);
-        }
-    }
-
-    return copyVec;
-}
-
-/*Manipulation Procedures*/
-
 /*Access Functions*/
 
 void dfsPrint(Data data, int n)
 {
+	//all the print statements do the same thing, theyre just for formatting.
+	//You can see an example of what this prints out in the README
 	fprintf(stdout, "V   color dTime fTime  parent\n");
 	for(int i = 1; i <= n; i++)
 	{
