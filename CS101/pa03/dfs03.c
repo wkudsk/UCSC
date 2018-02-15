@@ -5,6 +5,7 @@
 #include <string.h>
 #include "intVec.h"
 #include "loadGraph.h"
+#include "dfsTrace1.h"
 
 //initial portion of main function that reads input and output is taken from a handout from Sesh's CMPS12B 
 //class last quarter. Once it gets to the while loop, all the code is original.
@@ -12,7 +13,7 @@ int main(int argc, char* argv[])
 {
 	FILE* in;  /* file handle for input */  
 	char str[256]; /* char array to store str from input file */
-   bool reverse;
+   bool undirected;
    int argin = 1;
 
    //Checks to make sure that the program was passed an input and output
@@ -24,12 +25,12 @@ int main(int argc, char* argv[])
    
    if(argv[argin] == "-U")
    {
-      reverse = true;
+      undirected = true;
       argin++;
    }
    else
    {
-      reverse = false
+      undirected = false;
    }
 
    /* open input file for reading */
@@ -94,7 +95,7 @@ int main(int argc, char* argv[])
 
          //push the edge to the vector array, and then increment m.
          intVecPush(myVec[pointA], pointB);
-         if(reverse)
+         if(undirected)
          {
             intVecPush(myVec[pointB], pointA);
          }
@@ -107,38 +108,33 @@ int main(int argc, char* argv[])
       }      
   }
 
-//Step 1, print out the original matrix
-printAdjVerts(myVec, length, m);
+   //Step 1, print out the original matrix
+   printAdjVerts(myVec, length, m);
 
-//Step 2, print out the AdjMatrix
-if(length <= 12)
-{
-   int** adjMatrix = makeAdjMatrix(myVec, length);
-   printAdjMatrix(adjMatrix, length);
-}
-//Step 3, make the transpose and print
-IntVec* tVec = transposeGraph(myVec, length);
-printAdjVerts(tVec, length, m);
+   //Step 2, print out the AdjMatrix
+   if(length <= 12)
+   {
+      int** adjMatrix = makeAdjMatrix(myVec, length);
+      printAdjMatrix(adjMatrix, length);
+   }
+   //Step 3, make the transpose and print
+   IntVec* tVec = transposeGraph(myVec, length);
+   printAdjVerts(tVec, length, m);
 
-//Step 4, print out the AdjMatrix of transpose
-if(length <= 12)
-{
-   int** adjTMatrix = makeAdjMatrix(tVec, length);   
-   printAdjMatrix(adjTMatrix, length); 
-}
+   //Step 4, print out the AdjMatrix of transpose
+   if(length <= 12)
+   {
+      int** adjTranMatrix = makeAdjMatrix(tVec, length);   
+      printAdjMatrix(adjTranMatrix, length); 
+   }
 
-//Step 5, make transpose of transpose, aka original.
-IntVec* originalVec = transposeGraph(tVec, length);
-printAdjVerts(originalVec, length, m);
+   Data data = makeEmptyDataSet(length);
+   int v = 1;
+   int counter = 1;
+   data = dfs(myVec, data, length, v, counter);
 
-//Step 6, make the AdjMatrix of original graph again.
-if(length <= 12)
-{
-   int** adjOriginalMatrix = makeAdjMatrix(originalVec, length);
-   printAdjMatrix(adjOriginalMatrix, length);
-}
-
-	
+   dfsPrint(data, length);
+   
    fclose(in);
    return(EXIT_SUCCESS);
 }

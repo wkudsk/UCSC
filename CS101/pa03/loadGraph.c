@@ -43,7 +43,7 @@ int** makeAdjMatrix(IntVec* myVec, int n)
 
 IntVec* transposeGraph(IntVec* origGraph, int n)
 {
-	IntVec* newVec = malloc(sizeof(IntVec)*(n+1z)); //newVec is an array.
+	IntVec* newVec = malloc(sizeof(IntVec)*(n+1)); //newVec is an array.
 	//Fills the array with empty IntVec
 	for(int i = 0; i <= n; i++)
 	{

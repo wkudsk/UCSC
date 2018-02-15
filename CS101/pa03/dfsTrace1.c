@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include "intVec.h"
 #include "dfsTrace1.h"
 
@@ -10,7 +15,9 @@ struct DataNode
 	int* parent;
 };
 
-Data dfs(IntVec* graph, int n)
+/*Constructors*/
+
+Data makeEmptyDataSet(int n)
 {
 	Data data = malloc(sizeof(struct DataNode));
 	data->graph = malloc((n+1)*sizeof(int));
@@ -18,26 +25,68 @@ Data dfs(IntVec* graph, int n)
 	data->dTime = malloc((n+1)*sizeof(int));
 	data->fTime = malloc((n+1)*sizeof(int));
 	data->parent = malloc((n+1)*sizeof(int));
-
-	IntVec* remVec = makeCopy(graph, n); //remVec is a copy of graph array.
-         
-    int counter = 1;
-
-
-	while(remVec != NULL)
+	for(int k = 0; k <= n; k++)
 	{
-		IntVec vec = remVec[i]
+		data->dTime[k] = 0;
+		data->fTime[k] = 0;
+		data->color[k] = 'W';
+		data->parent[k] = -1;
 	}
 
 	return data;
 }
 
-void dfsPrint(struct data, int n)
-{
 
+Data dfs(IntVec* graph, Data data, int n, int v, int counter)
+{
+	//Start by finding the vector at point V.
+	for(int i = v; i <= n; i++)
+	{
+		IntVec vec = graph[i];
+		//if the point is black or gray, then there is no point in looking at it yet.
+		if(data->color[i] != 'B' && data->color[i] != 'G')
+		{	
+			//if the point has yet to be visited, enter in its discovery time, increment counter, and look for the points inside.
+			data->dTime[i] = counter;
+			data->color[i] = 'G';
+			counter++;
+		}
+		//while the inside is not empty, try to find the points and recursively store their information.
+		if(data->color[i] != 'B')
+		{
+			while(intSize(vec) != 0)
+			{
+				
+				int edge = intData(vec, intSize(vec));
+				//once the edege is stored, pop it from the original IntVec so that you don't visit it twice.
+				intVecPop(vec);
+				//if you find a new edge, store its parent, then move to recursion.
+				data->parent[edge] = i;
+				if(data->color[edge] != 'B')
+				{	
+					v = edge;
+					data = dfs(graph, data, n, v, counter);
+				}
+				
+			}
+			//once you're done with an edge, turn it black, store finish time, and increment counter.
+			data->fTime[i] = counter;
+			data->color[i] = 'B';
+			counter++;
+
+			//if the vector has a parent, the for loop needs to go back to the parent, instead of continuing with the array.
+			if(data->parent[i] != -1)
+			{
+				i = data->parent[i];
+			}
+
+		}
+	}
+	return data;
 }
 
-IntVec makeCopy(IntVec* graph, int n)
+
+IntVec* makeCopy(IntVec* graph, int n)
 {
 	IntVec* copyVec = malloc(sizeof(IntVec)*(n+1)); //remVec is an array.
          
@@ -57,4 +106,18 @@ IntVec makeCopy(IntVec* graph, int n)
     }
 
     return copyVec;
+}
+
+/*Manipulation Procedures*/
+
+/*Access Functions*/
+
+void dfsPrint(Data data, int n)
+{
+	fprintf(stdout, "V   color dTime fTime  parent\n");
+	for(int i = 1; i <= n; i++)
+	{
+		fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+	}
+
 }

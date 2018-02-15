@@ -4,15 +4,20 @@
 
 typedef struct DataNode * Data;
 
-/*Constructors:*/
+/*Constructors*/
+
+Data makeEmptyDataSet(int n);
 
 /* dfs()
  * precondition: myVec must not be null.
  * 				 n >= 0
  * postcondition: returns a 2D array matrix of length n.
  */
-Data dfs(IntVec* myVec);
+Data dfs(IntVec* graph, Data data, int n, int v, int counter);
 
+IntVec* makeCopy(IntVec* graph, int n);
+
+/* Manipulation Procedures*/
 
 /*Access Functions*/
 
@@ -21,7 +26,7 @@ Data dfs(IntVec* myVec);
  *				 n >= 0
  * postcondition: prints out the information in Data.
  */
-void printDfs(Data data);
+void dfsPrint(Data data, int n);
 
 
 

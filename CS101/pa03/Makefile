@@ -23,14 +23,17 @@ CFLAGS = -g -Wall -O0 -std=c99 -D_SVID_SOURCE
 # because shuffle.c is not in this directory.
 
 
-graph02:    graph02.o  intVec.o loadGraph.o
-		${CC} -o graph02 ${CFLAGS} graph02.o intVec.o loadGraph.o
+dfs03:    dfs03.o  intVec.o loadGraph.o dfsTrace1.o
+		${CC} -o dfs03 ${CFLAGS} dfs03.o intVec.o loadGraph.o dfsTrace1.o
 
-graph02.o:  graph02.c
-		${CC} -c ${CFLAGS} graph02.c
+dfs03.o:  dfs03.c
+		${CC} -c ${CFLAGS} dfs03.c
 
 intVec.o:     intVec.c
 		${CC} -c ${CFLAGS} intVec.c
 
 loadGraph.o:     loadGraph.c
 		${CC} -c ${CFLAGS} loadGraph.c
+
+dfsTrace1.o:     dfsTrace1.c
+		${CC} -c ${CFLAGS} dfsTrace1.c
