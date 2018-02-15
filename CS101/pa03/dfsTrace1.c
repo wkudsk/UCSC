@@ -32,7 +32,7 @@ Data makeEmptyDataSet(int n)
 		data->dTime[k] = 0;
 		data->fTime[k] = 0;
 		data->color[k] = 'W';
-		data->parent[k] = -1;
+		data->parent[k] = 0;
 	}
 
 	return data;
@@ -41,6 +41,8 @@ Data makeEmptyDataSet(int n)
 
 Data dfs(IntVec* graph, Data data, int n, int v)
 {
+
+
 	//Start by finding the vector at point V.
 	for(int i = v; i <= n; i++)
 	{
@@ -62,12 +64,11 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 				int edge = intData(vec, intSize(vec));
 				//once the edege is stored, pop it from the original IntVec so that you don't visit it twice.
 				intVecPop(vec);
-				//if you find a new edge, store its parent, then move to recursion.
-				data->parent[edge] = i;
-				if(data->color[edge] != 'B')
+				if(data->color[edge] != 'B' && data->color[edge] != 'G')
 				{	
+					//if you find a new edge, store its parent, then move to recursion.
+					data->parent[edge] = i;
 					v = edge;
-					fprintf(stdout, "Entering recursion for %u\n", v);
 					data = dfs(graph, data, n, v);
 				}
 				
@@ -78,13 +79,22 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 			data->counter++;
 
 			//if the vector has a parent, the for loop needs to go back to the parent, instead of continuing with the array.
-			if(data->parent[i] != -1)
+			if(data->parent[i] != 0)
 			{
-				i = data->parent[i];
+				return data;
 			}
 
 		}
 	}
+
+	for(int i = 0; i <= n; i++)
+	{
+		if(data->parent[i] == 0)
+		{
+			data->parent[i] = -1;
+		}
+	}
+
 	return data;
 }
 

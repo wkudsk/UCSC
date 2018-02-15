@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
    	exit(EXIT_FAILURE);
    }
    
-   if(argv[argin] == "-U")
+   if(strcmp((argv[argin]), "-U") == 0)
    {
       undirected = true;
       argin++;
@@ -108,31 +108,35 @@ int main(int argc, char* argv[])
       }      
   }
 
+   IntVec* tVec = transposeGraph(myVec, length);
+
    //Step 1, print out the original matrix
    printAdjVerts(myVec, length, m);
 
    //Step 2, print out the AdjMatrix
-   //if(length <= 12)
-   //{
-     // int** adjMatrix = makeAdjMatrix(myVec, length);
-      //printAdjMatrix(adjMatrix, length);
-   //}
-   //Step 3, make the transpose and print
-   //IntVec* tVec = transposeGraph(myVec, length);
-   //printAdjVerts(tVec, length, m);
-
-   //Step 4, print out the AdjMatrix of transpose
-   //if(length <= 12)
-   //{
-     // int** adjTranMatrix = makeAdjMatrix(tVec, length);   
-     // printAdjMatrix(adjTranMatrix, length); 
-   //}
+   if(length <= 12)
+   {
+      int** adjMatrix = makeAdjMatrix(myVec, length);
+      printAdjMatrix(adjMatrix, length);
+   }
 
    Data data = makeEmptyDataSet(length);
    int v = 1;
    data = dfs(myVec, data, length, v);
 
    dfsPrint(data, length);
+
+   //Step 3, make the transpose and print
+   
+   printAdjVerts(tVec, length, m);
+
+   //Step 4, print out the AdjMatrix of transpose
+   if(length <= 12)
+   {
+     int** adjTranMatrix = makeAdjMatrix(tVec, length);   
+     printAdjMatrix(adjTranMatrix, length); 
+   }
+
 
    fclose(in);
    return(EXIT_SUCCESS);
