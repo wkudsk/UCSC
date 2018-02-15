@@ -1,0 +1,58 @@
+"I have read and understood the Academic Misconduct Policy for
+    Undergraduates, the related sections 102.01-102.016 and 105.15 of the
+    UC Santa Cruz Student Policies and Regulations Handbook,
+    and the related sections of the class syllabus."
+William Kudsk
+
+Makefile taken from the Cmake directory in the class locker.
+intVec.c, intVec.h, and graph02.c all have portions that were taken from the previous homework.
+strcmp() was taken from a stackoverflow question and proper use was learned from tutorialspoint documentation.
+https://stackoverflow.com/questions/8004237/how-do-i-properly-compare-strings
+https://www.tutorialspoint.com/c_standard_library/c_function_strcmp.htm
+
+Compile the program using the Makefile, when running it make sure to give it an input text file as an argument.
+An example run would be:
+./dfs03 input.txt
+
+You can also make the graph undirected by passing the flag -U. In order to do that run the program like this:
+./dfs03 -U input.txt
+
+The program takes an input text file which should formatted in form:
+6
+1 3
+1 5
+1 4
+5 4
+
+It will then output to console the adjcency lists:
+n = 6
+m = 4
+1  [4, 5, 3]
+2  []
+3  []
+4  []
+5  [4]
+6  []
+
+It then prints it in the form of an adjcency matrix:
+     1  2  3  4  5  6
+   ------------------
+1 :  0  0  1  1  1  0
+2 :  0  0  0  0  0  0
+3 :  0  0  0  0  0  0
+4 :  0  0  0  0  0  0
+5 :  0  0  0  1  0  0
+6 :  0  0  0  0  0  0
+
+It then transposes the matrix, making (a,b) -> (b,a) and prints the adjcency list & matrix for it.
+And then it finally transposes that new matrix, making the original matrix, and prints it againrun.
+
+It then prints a set of data points that show the color, discovery and finish time, and the parent if one exists.
+The format for the data output:
+V   color dTime fTime  parent
+1       B     1     8    -1
+2       B     9    10    -1
+3       B     6     7     1
+4       B     2     3     1
+5       B     4     5     1
+6       B    11    12    -1
