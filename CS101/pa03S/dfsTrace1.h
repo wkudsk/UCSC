@@ -1,12 +1,14 @@
 #include "intVec.h"
+
 #ifndef C101dfsTrace1
 #define C101dfsTrace1
 
 typedef struct DataNode * Data;
-
 typedef struct StackNode * finishStk1;
 
-/*Constructors*/
+/* Constructors */
+
+finishStk1 makeEmptyStack(int n);
 
 /* makeEmptyDataSet()
  * precondition: There must be a corresponding IntVec* to go with Data.
@@ -15,7 +17,6 @@ typedef struct StackNode * finishStk1;
  */
 Data makeEmptyDataSet(int n);
 
-finishStk1 makeEmptyStack(int n);
 
 /* dfs()
  * precondition: graph must not be null.
@@ -26,12 +27,7 @@ finishStk1 makeEmptyStack(int n);
  */
 Data dfs(IntVec* graph, Data data, int n, int v);
 
-Data dfsPhase2(IntVec* graph, Data data, int n, int i);
-
-/* Manipulation Procedures*/
-
-
-
+/* Manipulation Procedures */
 void pushStack(finishStk1 finishStack, int vec);
 
 
@@ -42,18 +38,15 @@ int popStack(finishStk1 finishStack);
 
 bool isEmpty(finishStk1 finishStack);
 
-finishStk1 getDataStack(Data data);
-
-
-void stackPrint(finishStk1 finishStack);
-
+finishStk1 getStack(Data data);
 
 /* dfsPrint()
  * precondition: Data must have data, therefore there must be a non-empty intVec.
  *				 n >= 0
  * postcondition: prints out the information in Data.
  */
-
 void dfsPrint(Data data, int n);
+
+void stackPrint(finishStk1 finishStack);
 
 #endif
