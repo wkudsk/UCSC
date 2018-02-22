@@ -39,7 +39,7 @@ Data makeEmptyDataSet(int n)
 		data->dTime[k] = 0;
 		data->fTime[k] = 0;
 		data->color[k] = 'W';
-		data->parent[k] = 0;
+		data->parent[k] = -1;
 	}
 
 	return data;
@@ -48,8 +48,6 @@ Data makeEmptyDataSet(int n)
 //This is the most important part of this assignment.
 Data dfs(IntVec* graph, Data data, int n, int v)
 {
-
-
 	//Start by finding the vector at point V.
 	for(int i = v; i <= n; i++)
 	{
@@ -86,20 +84,11 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 			data->counter++;
 
 			//if the vector has a parent, the for loop needs to go back to the parent, instead of continuing with the array.
-			if(data->parent[i] != 0)
+			if(data->parent[i] != -1)
 			{
 				return data;
 			}
 
-		}
-	}
-
-	//This changes all the roots to -1.
-	for(int i = 0; i <= n; i++)
-	{
-		if(data->parent[i] == 0)
-		{
-			data->parent[i] = -1;
 		}
 	}
 
