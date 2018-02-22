@@ -84,6 +84,7 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 			data->color[i] = 'G';
 			data->counter++;
 		}
+
 		//while the inside is not empty, try to find the points and recursively store their information.
 		if(data->color[i] != 'B')
 		{
@@ -108,12 +109,6 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 			data->counter++;
 			pushStack(data->finishStack, i);
 
-			int parent = data->parent[i];
-			data->root[i] = data->parent[i];
-			while(parent != -1)
-			{
-				data->root[i] = data->parent[parent];
-			}
 			//if the vector has a parent, the for loop needs to go back to the parent, instead of continuing with the array.
 			if(data->parent[i] != -1)
 			{
@@ -131,7 +126,7 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 Data dfsPhase2(IntVec* graph, Data data, int n, int i)
 {
 	IntVec vec = graph[i];
-	fprintf(stdout, "%d\n", i);
+	//fprintf(stdout, "%d\n", i);
 	//if the point is black or gray, then there is no point in looking at it yet.
 	if(data->color[i] != 'B' && data->color[i] != 'G')
 	{	
@@ -141,7 +136,7 @@ Data dfsPhase2(IntVec* graph, Data data, int n, int i)
 		data->counter++;
 	}
 	//while the inside is not empty, try to find the points and recursively store their information.
-	if(data->color[i] != 'B' && data->color[i] != 'G')
+	if(data->color[i] != 'B')
 	{
 		while(intSize(vec) != 0)
 		{
@@ -162,6 +157,12 @@ Data dfsPhase2(IntVec* graph, Data data, int n, int i)
 		data->fTime[i] = data->counter;
 		data->color[i] = 'B';
 		data->counter++;
+		int root = data->parent[i];
+		while(data->parent[root] != -1)
+		{
+			root = data->parent[root];
+		}
+		data->root[i] = root;
 
 	}
 
@@ -254,46 +255,46 @@ void dfsPrint(Data data, int n)
 			if(data->dTime[i] <= 9 && data->fTime[i] <= 9)
 			{	
 				if(data->parent[i] < 0 && data->root[i] >= 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c     %u     %u    %d       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] < 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c     %u     %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u     %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 				else 
-					fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u     %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 			}
 			else if(data->dTime[i] <= 9 && data->fTime[i] > 9) 
 			{
 				if(data->parent[i] < 0 && data->root[i] >= 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c     %u    %u    %d       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] < 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c     %u    %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u    %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 				else 
-					fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u    %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 			}
 			else if(data->dTime[i] > 9 && data->fTime[i] <= 9)
 			{
 				if(data->parent[i] < 0 && data->root[i] >= 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c    %u     %u    %d       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] < 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c    %u     %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u     %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 				else 
-					fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u     %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 			}
 			else
 			{
 				if(data->parent[i] < 0 && data->root[i] >= 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c    %u    %u    %d       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] < 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
+					fprintf(stdout, "%u       %c    %u    %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u    %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 				else 
-					fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u    %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 			}
 		}
 	}
