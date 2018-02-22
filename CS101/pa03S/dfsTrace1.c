@@ -126,9 +126,8 @@ Data dfs(IntVec* graph, Data data, int n, int v)
 Data dfsPhase2(IntVec* graph, Data data, int n, int i)
 {
 	IntVec vec = graph[i];
-	//fprintf(stdout, "%d\n", i);
 	//if the point is black or gray, then there is no point in looking at it yet.
-	if(data->color[i] != 'B' && data->color[i] != 'G')
+	if(data->color[i] == 'W')
 	{	
 		//if the point has yet to be visited, enter in its discovery time, increment counter, and look for the points inside.
 		data->dTime[i] = data->counter;
@@ -148,8 +147,18 @@ Data dfsPhase2(IntVec* graph, Data data, int n, int i)
 			{	
 				//if you find a new edge, store its parent, then move to recursion.
 				data->parent[edge] = i;
-				i = edge;
-				data = dfs(graph, data, n, i);
+
+				if(data->color[edge] == 'W') 
+				{
+					int root = i;
+					while(root != -1)
+					{
+						data->root[edge] = root;
+						root = data->parent[root];
+					}
+
+					data = dfs(graph, data, n, edge);
+				}
 			}
 			
 		}
@@ -157,12 +166,7 @@ Data dfsPhase2(IntVec* graph, Data data, int n, int i)
 		data->fTime[i] = data->counter;
 		data->color[i] = 'B';
 		data->counter++;
-		int root = data->parent[i];
-		while(data->parent[root] != -1)
-		{
-			root = data->parent[root];
-		}
-		data->root[i] = root;
+		if(data->parent[i] == -1) data->root[i] = i;		
 
 	}
 
@@ -259,9 +263,9 @@ void dfsPrint(Data data, int n)
 				else if(data->parent[i] < 0 && data->root[i] < 0)
 					fprintf(stdout, "%u       %c     %u     %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u     %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u     %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else 
-					fprintf(stdout, "%u       %c     %u     %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u     %u     %d       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 			}
 			else if(data->dTime[i] <= 9 && data->fTime[i] > 9) 
 			{
@@ -270,9 +274,9 @@ void dfsPrint(Data data, int n)
 				else if(data->parent[i] < 0 && data->root[i] < 0)
 					fprintf(stdout, "%u       %c     %u    %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c     %u    %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u    %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else 
-					fprintf(stdout, "%u       %c     %u    %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c     %u    %u     %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 			}
 			else if(data->dTime[i] > 9 && data->fTime[i] <= 9)
 			{
@@ -281,9 +285,9 @@ void dfsPrint(Data data, int n)
 				else if(data->parent[i] < 0 && data->root[i] < 0)
 					fprintf(stdout, "%u       %c    %u     %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c    %u     %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u     %u     %d     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else 
-					fprintf(stdout, "%u       %c    %u     %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u     %u      %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 			}
 			else
 			{
@@ -292,9 +296,9 @@ void dfsPrint(Data data, int n)
 				else if(data->parent[i] < 0 && data->root[i] < 0)
 					fprintf(stdout, "%u       %c    %u    %u    %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else if(data->parent[i] >= 0 && data->root[i] < 0)
-					fprintf(stdout, "%u       %c    %u    %u      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u    %u    %d     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 				else 
-					fprintf(stdout, "%u       %c    %u    %u       %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+					fprintf(stdout, "%u       %c    %u    %u     %d      %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i], data->root[i]);
 			}
 		}
 	}
