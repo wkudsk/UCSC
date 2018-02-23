@@ -8,6 +8,10 @@ typedef struct StackNode * finishStk1;
 
 /* Constructors */
 
+/* makeEmptyStack()
+ * precondition: n > 0
+ * postcondition: initializes an empty stack that can have things pushed into it.
+ */
 finishStk1 makeEmptyStack(int n);
 
 /* makeEmptyDataSet()
@@ -28,16 +32,38 @@ Data makeEmptyDataSet(int n);
 Data dfs(IntVec* graph, Data data, int n, int v);
 
 /* Manipulation Procedures */
+
+/* pushStack()
+ * precondition: finishStack is initialized with makeEmptyStack().
+ * 				 vec > 0.
+ * postcondition: vec is now in finishStack->stack[finishStack->size].
+ */
 void pushStack(finishStk1 finishStack, int vec);
 
 
+
+/* popStack()
+ * precondition: finishStack is initialized with makeEmptyStack().
+ * 				 finishStack->size > 0.
+ * postcondition: size is decremented making the last value unaccessible.
+ *				  the last value is returned to user.
+ */
 int popStack(finishStk1 finishStack);
 
 
 /*Access Functions*/
 
+/* isEmpty()
+ * precondition: finishStack is initialized with makeEmptyStack().
+ * postcondition: returns a bool that tells you if the stack is empty or not.
+ */
 bool isEmpty(finishStk1 finishStack);
 
+
+/* getStack()
+ * precondition: dfs() id run for a proper graph, creating a Data struct.
+ * postcondition: returns the finishStack that was stored in the Data struct.
+ */
 finishStk1 getStack(Data data);
 
 /* dfsPrint()
@@ -47,6 +73,10 @@ finishStk1 getStack(Data data);
  */
 void dfsPrint(Data data, int n);
 
+/* stackPrint()
+ * precondition: dfs() and getStack has been run, finishStack.size == n
+ * postcondition: the finishStack is printed to console.
+ */
 void stackPrint(finishStk1 finishStack);
 
 #endif

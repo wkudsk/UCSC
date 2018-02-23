@@ -70,55 +70,40 @@ Data makeEmptyDataSet(int n)
 Data dfs(IntVec* graph, Data data, int n, int v)
 {
 	//Start by finding the vector at point V.
-	for(int i = v; i <= n; i++)
-	{
-		IntVec vec = graph[i];
-		//if the point is black or gray, then there is no point in looking at it yet.
-		if(data->color[i] != 'B' && data->color[i] != 'G')
-		{	
-			//if the point has yet to be visited, enter in its discovery time, increment counter, and look for the points inside.
-			data->dTime[i] = data->counter;
-			data->color[i] = 'G';
-			data->counter++;
-		}
-
+	IntVec vec = graph[v];
+	//if the point is black or gray, then there is no point in looking at it yet.
+	if(data->color[v] == 'W')
+	{	
+		//if the point has yet to be visited, enter in its discovery time, increment counter, and look for the points inside.
+		data->dTime[v] = data->counter;
+		data->color[v] = 'G';
+		data->counter++;
+	
 		//while the inside is not empty, try to find the points and recursively store their information.
-		if(data->color[i] != 'B')
-		{
-			while(intSize(vec) != 0)
-			{
-				
-				int edge = intData(vec, intSize(vec));
-				//once the edege is stored, pop it from the original IntVec so that you don't visit it twice.
-				intVecPop(vec);
-				if(data->color[edge] != 'B' && data->color[edge] != 'G')
-				{	
-					//if you find a new edge, store its parent, then move to recursion.
-					data->parent[edge] = i;
-					v = edge;
-					data = dfs(graph, data, n, v);
-				}
-				
+		while(intSize(vec) != 0)
+		{	
+			int edge = intData(vec, intSize(vec));
+			//once the edege is stored, pop it from the original IntVec so that you don't visit it twice.
+			intVecPop(vec);
+			if(data->color[edge] == 'W')
+			{	
+				//if you find a new edge, store its parent, then move to recursion.
+				data->parent[edge] = v;
+				data = dfs(graph, data, n, edge);
 			}
-			//once you're done with an edge, turn it black, store finish time, and increment counter.
-			data->fTime[i] = data->counter;
-			data->color[i] = 'B';
-			data->counter++;
-			pushStack(data->finishStack, i);
-
-			//if the vector has a parent, the for loop needs to go back to the parent, instead of continuing with the array.
-			if(data->parent[i] != -1)
-			{
-				return data;
-			}
-
+			
 		}
+		//once you're done with an edge, turn it black, store finish time, and increment counter.
+		data->fTime[v] = data->counter;
+		data->color[v] = 'B';
+		data->counter++;
+		pushStack(data->finishStack, v);
 	}
-
 	return data;
 }
 
 /* Manipulation Procedures */
+
 void pushStack(finishStk1 finishStack, int vec)
 {
 	finishStack->stack[finishStack->size] = vec;

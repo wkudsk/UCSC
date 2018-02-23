@@ -24,14 +24,15 @@ void printGraph(IntVec* myVec, int length, int m)
 
 void findSCCs(IntVec* myVec, int length, int m)
 {
-   //Step 2, Make transpose
+   //Step 1, Make transpose
    IntVec* tVec = transposeGraph(myVec, length);
 
-   //Step 3, run dfs to get a data set, and print out the data.
+   //Step 2, run dfs to get a data set, and print out the data.
    Data data = makeEmptyDataSet(length);
-   int v = 1;
-   data = dfs(myVec, data, length, v);
-   
+   for(int v = 1; v <= length; v++)
+   {
+      data = dfs(myVec, data, length, v);
+   }
    finishStk1 finishStack = getStack(data);
    
    //This is where I print the data set.
@@ -41,10 +42,10 @@ void findSCCs(IntVec* myVec, int length, int m)
    stackPrint(finishStack);
 
 
-   //Step 4, print the transpose
+   //Step 3, print the transpose
    printAdjVerts(tVec, length, m);
 
-   //Step 5, print out the AdjMatrix of transpose
+   //Step 4, print out the AdjMatrix of transpose
    if(length <= 12)
    {
      int** adjTranMatrix = makeAdjMatrix(tVec, length);   

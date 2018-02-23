@@ -7,6 +7,7 @@
 #include "dfsTrace1.h"
 #include "dfsPhase2.h"
 
+//This struct holds a data set of all values 
 struct SCCNode
 {
 	char* color;
@@ -101,47 +102,31 @@ void sccPrint(SCC scc, int n)
 		//this is just for formatting, theres probably better ways to do this but I dont know them.
 		if(scc->dTime[i] <= 9 && scc->fTime[i] <= 9)
 		{	
-			if(scc->parent[i] < 0 && scc->root[i] >= 0)
+			if(scc->parent[i] < 0)
 				fprintf(stdout, "%u       %c      %u      %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] < 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c      %u      %u     %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] >= 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c      %u      %u     %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 			else 
 				fprintf(stdout, "%u       %c      %u      %u      %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 		}
 		else if(scc->dTime[i] <= 9 && scc->fTime[i] > 9) 
 		{
-			if(scc->parent[i] < 0 && scc->root[i] >= 0)
+			if(scc->parent[i] < 0)
 				fprintf(stdout, "%u       %c      %u     %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] < 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c      %u     %u     %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] >= 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c      %u     %u     %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 			else 
-				fprintf(stdout, "%u       %c      %u     %u      %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
+				fprintf(stdout, "%u       %c      %u     %u      %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 		}
 		else if(scc->dTime[i] > 9 && scc->fTime[i] <= 9)
 		{
-			if(scc->parent[i] < 0 && scc->root[i] >= 0)
+			if(scc->parent[i] < 0)
 				fprintf(stdout, "%u       %c     %u      %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] < 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c     %u      %u     %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] >= 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c     %u      %u      %d   %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 			else 
 				fprintf(stdout, "%u       %c     %u      %u       %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 		}
 		else
 		{
-			if(scc->parent[i] < 0 && scc->root[i] >= 0)
+			if(scc->parent[i] < 0)
 				fprintf(stdout, "%u       %c     %u     %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] < 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c     %u     %u     %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else if(scc->parent[i] >= 0 && scc->root[i] < 0)
-				fprintf(stdout, "%u       %c     %u     %u     %d   %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 			else 
-				fprintf(stdout, "%u       %c    %u      %u      %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
+				fprintf(stdout, "%u       %c     %u     %u      %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 		}
 	}
 }
