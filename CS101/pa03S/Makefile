@@ -1,6 +1,6 @@
 # Makefile for the scc03 program
 
-# scc03 needs: IntVec, loadGraph, and dfsTracec1
+# scc03 needs: IntVec, loadGraph, and dfsTrace1
 # Please make sure to use the .c and .h files.
 # the main file is scc03.c
 # the executable should be scc03
@@ -25,17 +25,20 @@ CFLAGS = -g -Wall -O0 -std=c99 -D_SVID_SOURCE
 # because shuffle.c is not in this directory.
 
 
-scc03:    scc03.o  intVec.o loadGraph.o dfsTrace1.o
-		${CC} -o scc03 ${CFLAGS} scc03.o intVec.o loadGraph.o dfsTrace1.o
+scc03:    scc03.o  intVec.o loadGraph.o dfsTrace1.o dfsPhase2.o
+		${CC} -o scc03 ${CFLAGS} scc03.o intVec.o loadGraph.o dfsTrace1.o dfsPhase2.o
 
 scc03.o:  scc03.c
 		${CC} -c ${CFLAGS} scc03.c
 
-intVec.o:     intVec.c
+intVec.o:     intVec.c intVec.h
 		${CC} -c ${CFLAGS} intVec.c
 
-loadGraph.o:     loadGraph.c
+loadGraph.o:     loadGraph.c loadGraph.h
 		${CC} -c ${CFLAGS} loadGraph.c
 
-dfsTrace1.o:     dfsTrace1.c
+dfsTrace1.o:     dfsTrace1.c dfsTrace1.h
 		${CC} -c ${CFLAGS} dfsTrace1.c
+
+dfsPhase2.o:     dfsPhase2.c dfsPhase2.h
+		${CC} -c ${CFLAGS} dfsPhase2.c 

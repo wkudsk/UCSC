@@ -6,6 +6,62 @@
 #include "intVec.h"
 #include "loadGraph.h"
 #include "dfsTrace1.h"
+#include "dfsPhase2.h"
+
+void printGraph(IntVec* myVec, int length, int m)
+{
+   //Step 1, print out the original matrix
+   printAdjVerts(myVec, length, m);
+
+   //Step 2, print out the AdjMatrix
+   if(length <= 12)
+   {
+      int** adjMatrix = makeAdjMatrix(myVec, length);
+      printAdjMatrix(adjMatrix, length);
+   }
+
+}
+
+void findSCCs(IntVec* myVec, int length, int m)
+{
+   //Step 1, Make transpose
+   IntVec* tVec = transposeGraph(myVec, length);
+
+   //Step 2, run dfs to get a data set, and print out the data.
+   Data data = makeEmptyDataSet(length);
+   for(int v = 1; v <= length; v++)
+   {
+      data = dfs(myVec, data, length, v);
+   }
+   finishStk1 finishStack = getStack(data);
+   
+   //This is where I print the data set.
+   dfsPrint(data, length);
+
+   //This is where I print the stack
+   stackPrint(finishStack);
+
+
+   //Step 3, print the transpose
+   printAdjVerts(tVec, length, m);
+
+   //Step 4, print out the AdjMatrix of transpose
+   if(length <= 12)
+   {
+     int** adjTranMatrix = makeAdjMatrix(tVec, length);   
+     printAdjMatrix(adjTranMatrix, length); 
+   }
+
+   //This is where I create the SCC data set, using the finish stack.
+   SCC dataT = makeEmptySCCSet(length);
+   while(!isEmpty(finishStack))
+   {
+      int popInt = popStack(finishStack);
+      dataT = dfsPhase2(tVec, dataT, length, popInt);
+   }
+   //this is where I print the SCC data set
+   sccPrint(dataT,length);
+}
 
 //initial portion of main function that reads input and output is taken from a handout from Sesh's CMPS12B 
 //class last quarter. Once it gets to the while loop, all the code is original.
@@ -105,48 +161,12 @@ int main(int argc, char* argv[])
       	 fprintf(stderr, "Incorrect input format, see line: %s\n", str);
       	 exit(EXIT_FAILURE);
       }      
-  }
-
-   IntVec* tVec = transposeGraph(myVec, length);
-
-   //Step 1, print out the original matrix
-   printAdjVerts(myVec, length, m);
-
-   //Step 2, print out the AdjMatrix
-   if(length <= 12)
-   {
-      int** adjMatrix = makeAdjMatrix(myVec, length);
-      printAdjMatrix(adjMatrix, length);
    }
 
-   //Step 3, run dfs to get a data set, and print out the data.
-   Data data = makeEmptyDataSet(length);
-   int v = 1;
-   data = dfs(myVec, data, length, v);
    
-   finishStk1 finishStack = getDataStack(data);
-   
-   dfsPrint(data, length);
+   printGraph(myVec, length, m);
+   findSCCs(myVec, length, m);
 
-   stackPrint(finishStack);
-   //Step 4, make the transpose and print
-   
-   printAdjVerts(tVec, length, m);
-
-   //Step 5, print out the AdjMatrix of transpose
-   if(length <= 12)
-   {
-     int** adjTranMatrix = makeAdjMatrix(tVec, length);   
-     printAdjMatrix(adjTranMatrix, length); 
-   }
-
-   Data dataT = makeEmptyDataSet(length);
-   while(!isEmpty(finishStack))
-   {
-      int popInt = popStack(finishStack);
-      dataT = dfsPhase2(tVec, dataT, length, popInt);
-   }
-   dfsPrint(dataT,length);
 
    fclose(in);
    return(EXIT_SUCCESS);
