@@ -96,9 +96,9 @@ SCC dfsPhase2(IntVec* graph, SCC scc, int n, int i)
 
 void sccPrint(SCC scc, int n)
 {
-	fprintf(stdout, "V   color2 dTime2 fTime2 parent2 dfstRoot2\n");
+	fprintf(stdout, " V   color2 dTime2 fTime2 parent2 dfstRoot2\n");
 	for(int i = 1; i <= n; i++)
 	{
-		fprintf(stdout, "%u%8c%7u%7u%7d%6d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
+		fprintf(stdout, "%2u%8c%7u%7u%7d%6d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 	}
 }

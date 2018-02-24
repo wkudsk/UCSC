@@ -152,10 +152,10 @@ void dfsPrint(Data data, int n)
 {
 	//all the print statements do the same thing, theyre just for formatting.
 	//You can see an example of what this prints out in the README
-	fprintf(stdout, "V   color dTime fTime  parent\n");
+	fprintf(stdout, " V   color dTime fTime  parent\n");
 	for(int i = 1; i <= n; i++)
 	{
-		fprintf(stdout, "%u%8c%6u%6u%7d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
+		fprintf(stdout, "%2u%8c%6u%6u%7d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 	}
 
 }
