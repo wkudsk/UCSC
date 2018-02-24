@@ -99,34 +99,6 @@ void sccPrint(SCC scc, int n)
 	fprintf(stdout, "V   color2 dTime2 fTime2 parent2 dfstRoot2\n");
 	for(int i = 1; i <= n; i++)
 	{
-		//this is just for formatting, theres probably better ways to do this but I dont know them.
-		if(scc->dTime[i] <= 9 && scc->fTime[i] <= 9)
-		{	
-			if(scc->parent[i] < 0)
-				fprintf(stdout, "%u       %c      %u      %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else 
-				fprintf(stdout, "%u       %c      %u      %u      %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-		}
-		else if(scc->dTime[i] <= 9 && scc->fTime[i] > 9) 
-		{
-			if(scc->parent[i] < 0)
-				fprintf(stdout, "%u       %c      %u     %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else 
-				fprintf(stdout, "%u       %c      %u     %u      %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-		}
-		else if(scc->dTime[i] > 9 && scc->fTime[i] <= 9)
-		{
-			if(scc->parent[i] < 0)
-				fprintf(stdout, "%u       %c     %u      %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else 
-				fprintf(stdout, "%u       %c     %u      %u       %d    %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-		}
-		else
-		{
-			if(scc->parent[i] < 0)
-				fprintf(stdout, "%u       %c     %u     %u     %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-			else 
-				fprintf(stdout, "%u       %c     %u     %u      %d     %d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
-		}
+		fprintf(stdout, "%u%8c%7u%7u%7d%6d\n",i, scc->color[i], scc->dTime[i], scc->fTime[i], scc->parent[i], scc->root[i]);
 	}
 }

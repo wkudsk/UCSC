@@ -155,26 +155,7 @@ void dfsPrint(Data data, int n)
 	fprintf(stdout, "V   color dTime fTime  parent\n");
 	for(int i = 1; i <= n; i++)
 	{
-		if(data->dTime[i] <= 9 && data->fTime[i] <= 9)
-		{	
-			if(data->parent[i] < 0)fprintf(stdout, "%u       %c     %u     %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-			else fprintf(stdout, "%u       %c     %u     %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-		}
-		else if(data->dTime[i] <= 9 && data->fTime[i] > 9) 
-		{
-			if(data->parent[i] < 0) fprintf(stdout, "%u       %c     %u    %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-			else fprintf(stdout, "%u       %c     %u    %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-		}
-		else if(data->dTime[i] > 9 && data->fTime[i] <= 9)
-		{
-			if(data->parent[i] < 0) fprintf(stdout, "%u       %c    %u    %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-			else fprintf(stdout, "%u       %c    %u    %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-		}
-		else
-		{
-			if(data->parent[i] < 0) fprintf(stdout, "%u       %c    %u    %u    %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-			else fprintf(stdout, "%u       %c    %u    %u     %d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
-		}
+		fprintf(stdout, "%u%8c%6u%6u%7d\n",i, data->color[i], data->dTime[i], data->fTime[i], data->parent[i]);
 	}
 
 }
