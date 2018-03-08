@@ -121,17 +121,14 @@ void decreaseKey(MinPQ pq, int id, double priority, int par)
 MinPQ createPQ(int n, int status[], double priority[], int parent[])
 {
 	MinPQ pq = malloc(sizeof(struct MinPQNode));
+	pq->oo = 1.0/0.0;
 	pq->numVertices = n; 
 	pq->numPQ = 0;
 	pq->minVertex = -1;
 	pq->status = status;
-	for(int i = 0; i < n; i++)
-	{
-		pq->status[i] = UNSEEN;
-	}
 	pq->parent = parent;
 	pq->fringeWgt = priority;
-
+	return pq;
 }
 
 

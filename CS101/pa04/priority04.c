@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
 
    else
    {
-      fprintf(stderr, "Use flag <-P> or <-D>\n", argv[0]);
+      fprintf(stderr, "Use flag <-P> or <-D>\n");
       exit(EXIT_FAILURE);
    }
    
