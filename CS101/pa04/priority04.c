@@ -18,6 +18,7 @@ void greedyTree(AdjWgtVec* myVec, int task, int s, int n, int* status, int* pare
    while(isEmptyPQ(pq) == 0)
    {
       int v = getMin(pq);
+      fprintf(stdout, "%d\n", v);
       delMin(pq);
       updateFringe(task, pq, myVec[v], v);
    }

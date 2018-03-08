@@ -84,6 +84,7 @@ double getPriority(MinPQ pq, int id)
 void delMin(MinPQ pq)
 {
 	int oldMin = getMin(pq);
+	fprintf(stdout, "%d\n", oldMin);
 	pq->status[oldMin] = INTREE;
 	pq->minVertex = -1;
 	pq->numPQ--;
