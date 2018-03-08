@@ -30,6 +30,7 @@ void findMin(MinPQ pq)
 			if(pq->fringeWgt[v] < minWgt)
 			{
 				pq->minVertex = v;
+				fprintf(stdout, "%d\n", v);
 				minWgt = pq->fringeWgt[v];
 			}
 		}
