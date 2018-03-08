@@ -40,7 +40,9 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
       {
          AdjWgt edge = adjWgtTop(remVec);
          int w = edge.to;
+         fprintf(stdout, "%d\n", w);
          double newWgt = edge.wgt;
+         fprintf(stdout, "%lf\n", newWgt);
          if(getStatus(pq, w) == UNSEEN)
          {
             insertPQ(pq, w, newWgt, v);
