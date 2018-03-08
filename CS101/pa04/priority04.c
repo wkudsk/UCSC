@@ -45,6 +45,7 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
          fprintf(stdout, "%lf\n", newWgt);
          if(getStatus(pq, w) == UNSEEN)
          {
+            fprintf(stdout, "Entering in: %d %lf\n", w, newWgt);
             insertPQ(pq, w, newWgt, v);
          }
          else if(getStatus(pq, w) == FRINGE)
