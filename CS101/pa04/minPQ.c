@@ -17,25 +17,25 @@ struct MinPQNode
 	double* fringeWgt;
 };
 
-void findMin(MinPQ pq)
+int findMin(MinPQ pq)
 {
 	int v;
 	double minWgt;
-
+	int minV = -1;
 	minWgt = pq->oo;
 	for(v = 1; v <= pq->numVertices; v++)
 	{
 		if(pq->status[v] == FRINGE)
 		{
-			if(pq->fringeWgt[v] <= minWgt)
+			if(pq->fringeWgt[v] < minWgt)
 			{
-				pq->minVertex = v;
+				minV = v;
 				fprintf(stdout, "v = %d\n", v);
 				minWgt = pq->fringeWgt[v];
 			}
 		}
 	}
-	return;
+	return minV;
 }
 
 
@@ -53,7 +53,7 @@ int isEmptyPQ(MinPQ pq)
 */
 int getMin(MinPQ pq)
 {
-	if(pq->minVertex == -1) findMin(pq);
+	if(pq->minVertex == -1) pq->minVertex = findMin(pq);
 	return pq->minVertex;
 }
 /** getStatus (what are the preconditions, if any? Replace this question with your comments.)
@@ -85,7 +85,7 @@ double getPriority(MinPQ pq, int id)
 void delMin(MinPQ pq)
 {
 	int oldMin = getMin(pq);
-	fprintf(stdout, "%d\n", oldMin);
+	fprintf(stdout, "OldMin = %d\n", oldMin);
 	pq->status[oldMin] = INTREE;
 	pq->minVertex = -1;
 	pq->numPQ--;
