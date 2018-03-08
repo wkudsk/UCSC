@@ -1,4 +1,4 @@
-#include "AdjWgtVec.h"
+#include "adjWgtVec.h"
 #ifndef C101loadWgtGraph
 #define C101loadWgtGraph
 

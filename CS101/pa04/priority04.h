@@ -3,7 +3,7 @@
 
 void greedyTree(AdjWgtVec* myVec, int task, int s, int n, int* status, int* parent, double* fringeWgt);
 
-void updateFringe(MinPQ pq, AdjWgtVec myVec, int v);
+void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v);
 
 void calcPriority();
 

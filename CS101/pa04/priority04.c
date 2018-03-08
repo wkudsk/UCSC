@@ -50,16 +50,16 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
    else if(task == 'D')
    {
       double myDist = getPriority(pq, v);
-      AdjWgtVec = remVec;
+      AdjWgtVec remVec;
       remVec = myVec;
       while(adjWgtSize(remVec) > 0)
       {
          AdjWgt edge = adjWgtTop(remVec);
          int w = edge.to;
-         double neDist = myDist + edge.wgt;
+         double newDist = myDist + edge.wgt;
          if(getStatus(pq, w) == UNSEEN)
          {
-            insertPQ(pq, w, newWgt, v);
+            insertPQ(pq, w, newDist, v);
          }
          else if(getStatus(pq, w) == FRINGE)
          {
