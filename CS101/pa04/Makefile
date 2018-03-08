@@ -1,13 +1,13 @@
-# Makefile for the scc03 program
+# Makefile for the priority04 program
 
-# scc03 needs: IntVec, loadGraph, and dfsTrace1
+# priority04 needs: adjWgtVec, loadWgtGraph, and minPQ
 # Please make sure to use the .c and .h files.
-# the main file is scc03.c
-# the executable should be scc03
+# the main file is priority04.c
+# the executable should be priority04
 # the program requires one input file in the form of a textfile.
-# example run: "./scc03 input.txt"
+# example run: "./priority04 input.txt"
 # You can also give it the flag "-U" to make the graph undirected.
-# example run: "./scc03 -U input.txt"
+# example run: "./priority04 -U input.txt"
 
 # Explanatory comments follow the ``real code.''
 # Everything after the # on any line is a comment
@@ -25,20 +25,17 @@ CFLAGS = -g -Wall -O0 -std=c99 -D_SVID_SOURCE
 # because shuffle.c is not in this directory.
 
 
-scc03:    scc03.o  intVec.o loadGraph.o dfsTrace1.o dfsPhase2.o
-		${CC} -o scc03 ${CFLAGS} scc03.o intVec.o loadGraph.o dfsTrace1.o dfsPhase2.o
+priority04:    priority04.o  adjWgtVec.o loadWgtGraph.o minPQ.o
+		${CC} -o priority04 ${CFLAGS} priority04.o adjWgtVec.o loadWgtGraph.o minPQ.o
 
-scc03.o:  scc03.c intVec.h loadGraph.h dfsTrace1.h dfsPhase2.h
-		${CC} -c ${CFLAGS} scc03.c
+priority04.o:  priority04.c adjWgtVec.h loadWgtGraph.h minPQ.h priority04.h
+		${CC} -c ${CFLAGS} priority04.c
 
-intVec.o:     intVec.c intVec.h
-		${CC} -c ${CFLAGS} intVec.c
+adjWgtVec.o:     adjWgtVec.c adjWgtVec.h
+		${CC} -c ${CFLAGS} adjWgtVec.c
 
-loadGraph.o:     loadGraph.c loadGraph.h
-		${CC} -c ${CFLAGS} loadGraph.c
+loadWgtGraph.o:     loadWgtGraph.c loadWgtGraph.h
+		${CC} -c ${CFLAGS} loadWgtGraph.c
 
-dfsTrace1.o:     dfsTrace1.c dfsTrace1.h
-		${CC} -c ${CFLAGS} dfsTrace1.c
-
-dfsPhase2.o:     dfsPhase2.c dfsPhase2.h
-		${CC} -c ${CFLAGS} dfsPhase2.c 
+minPQ.o:     minPQ.c minPQ.h
+		${CC} -c ${CFLAGS} minPQ.c

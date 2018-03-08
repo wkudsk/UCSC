@@ -58,8 +58,7 @@ int main(int argc, char* argv[])
          //This fills the array with empty IntVecs.
          for(int k = 0; k <= length; k++)
          {
-	    myVec[k] = intMakeEmptyVec();
-               
+	        myVec[k] = intMakeEmptyVec();    
          }
 
       }
