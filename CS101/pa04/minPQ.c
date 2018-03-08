@@ -27,7 +27,7 @@ int findMin(MinPQ pq)
 	{
 		if(pq->status[v] == FRINGE)
 		{
-			fprintf(stdout, "Potential min: %lf\n", pq->fringeWgt[v]);
+			fprintf(stdout, "Potential min: %lf Actual min: %lf\n", pq->fringeWgt[v], minWgt);
 			if(pq->fringeWgt[v] < minWgt)
 			{
 				minV = v;
