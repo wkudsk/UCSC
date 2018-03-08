@@ -17,7 +17,7 @@ struct MinPQNode
 	double* fringeWgt;
 };
 
-static void findMin(MinPQ pq)
+void findMin(MinPQ pq)
 {
 	int v;
 	double minWgt;
