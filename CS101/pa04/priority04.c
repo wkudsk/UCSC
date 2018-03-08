@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 #include "adjWgtVec.h"
 #include "minPQ.h"
 #include "loadWgtGraph.h"
@@ -175,7 +176,7 @@ int main(int argc, char* argv[])
             myVec[k] = adjWgtMakeEmptyVec();
             parent[k] = -1;
             status[k] = UNSEEN;
-            fringeWgt[k] = 1.0/0.0;
+            fringeWgt[k] = INFINITY;
          }  
       }
 	

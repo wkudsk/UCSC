@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 #include "minPQ.h"
 
 
@@ -13,7 +14,7 @@ struct MinPQNode
 	int minVertex;
 	int* status;
 	int* parent;
-	int oo;
+	double oo;
 	double* fringeWgt;
 };
 
@@ -124,7 +125,7 @@ void decreaseKey(MinPQ pq, int id, double priority, int par)
 MinPQ createPQ(int n, int status[], double priority[], int parent[])
 {
 	MinPQ pq = malloc(sizeof(struct MinPQNode));
-	pq->oo = 1.0/0.0;
+	pq->oo = INFINITY;
 	pq->numVertices = n; 
 	pq->numPQ = 0;
 	pq->minVertex = -1;
