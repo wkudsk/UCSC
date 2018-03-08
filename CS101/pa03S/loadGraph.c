@@ -81,7 +81,7 @@ void printAdjVerts(IntVec* origGraph, int length, int m)
        IntVec Vec = origGraph[i];
        if(intSize(Vec) != 0)
        {
-       	  fprintf(stdout, "%u  [", i);
+       	  fprintf(stdout, "%2u  [", i);
           for(int j = intSize(Vec); j > 0; j--)
           {
             if(j-1 != 0) fprintf(stdout,  "%i, ", intData(Vec, j));
@@ -91,7 +91,7 @@ void printAdjVerts(IntVec* origGraph, int length, int m)
        }
        else
        {
-          fprintf(stdout, "%u  []\n", i);
+          fprintf(stdout, "%2u  []\n", i);
        }
     }
 }
@@ -117,8 +117,7 @@ void printAdjMatrix(int** adjMatrix, int n)
 	//prints out array by array, M[i][k]
 	for(int i = 1; i <= n; i++)
 	{
-		if(i < 10) fprintf(stdout, "%u  :", i);
-		else fprintf(stdout, "%u :", i);
+		fprintf(stdout, "%2u  :", i);
 		for(int k = 1; k <= n; k++)
 		{
 			fprintf(stdout, "  %u", adjMatrix[i][k]);
