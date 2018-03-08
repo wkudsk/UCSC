@@ -12,8 +12,12 @@
 void greedyTree(AdjWgtVec* myVec, int task, int s, int n, int* status, int* parent, double* fringeWgt)
 {
    //make MinPQ
+   status[s] = INTREE;
+   parent[s] = -1;
+   fringeWgt[s] = 0.0;
    MinPQ pq = createPQ(n, status, fringeWgt, parent);
-   insertPQ(pq, s, 0.0, -1);
+   
+   updateFringe(task, pq, myVec[s], s);
    
    while(isEmptyPQ(pq) == 0)
    {
