@@ -27,10 +27,10 @@ void findMin(MinPQ pq)
 	{
 		if(pq->status[v] == FRINGE)
 		{
-			if(pq->fringeWgt[v] < minWgt)
+			if(pq->fringeWgt[v] <= minWgt)
 			{
 				pq->minVertex = v;
-				fprintf(stdout, "v =%d\n", v);
+				fprintf(stdout, "v = %d\n", v);
 				minWgt = pq->fringeWgt[v];
 			}
 		}
@@ -85,7 +85,7 @@ double getPriority(MinPQ pq, int id)
 void delMin(MinPQ pq)
 {
 	int oldMin = getMin(pq);
-	fprintf(stdout, "oldMin = %d\n", oldMin);
+	fprintf(stdout, "%d\n", oldMin);
 	pq->status[oldMin] = INTREE;
 	pq->minVertex = -1;
 	pq->numPQ--;

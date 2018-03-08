@@ -63,6 +63,7 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
       {
          AdjWgt edge = adjWgtTop(remVec);
          int w = edge.to;
+         fprintf(stdout, "w = %d\n", w);
          double newDist = myDist + edge.wgt;
          if(getStatus(pq, w) == UNSEEN)
          {
@@ -82,11 +83,6 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
    }
    
    return;
-}
-
-void calcPriority()
-{
-
 }
 
 void printOutput()
@@ -133,9 +129,7 @@ int main(int argc, char* argv[])
       exit(EXIT_FAILURE);
    }
    
-   fprintf(stdout, "%c\n", task);
    s = (int)argv[argin][0] - 48;
-   fprintf(stdout, "%d\n", s);
    argin++;
    /* open input file for reading */
    in = fopen(argv[argin], "r");
@@ -161,7 +155,6 @@ int main(int argc, char* argv[])
 
          
          length = ((int)str[0] - 48);
-         fprintf(stdout, "%d\n", length);
          //if the number is greater than 9, add the second number.
          if((int)str[1] >= 48 && (int)str[1] <= 57)
          {
@@ -221,8 +214,6 @@ int main(int argc, char* argv[])
          {
             weight = 0.0;
          }
-
-         fprintf(stdout, "%d %d %lf\n", pointA, pointB, weight);
 
          AdjWgt* edge = malloc(sizeof(AdjWgt));
          edge->to = pointB;
