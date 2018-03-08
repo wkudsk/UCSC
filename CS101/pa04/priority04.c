@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
    
    fprintf(stdout, "%c\n", task);
    s = (int)argv[argin][0] - 48;
-   
+   fprintf(stdout, "%d\n", s);
    argin++;
    /* open input file for reading */
    in = fopen(argv[argin], "r");
