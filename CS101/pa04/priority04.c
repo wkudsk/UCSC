@@ -13,7 +13,7 @@ void greedyTree(AdjWgtVec* myVec, int task, int s, int n, int* status, int* pare
 {
    //make MinPQ
    MinPQ pq = createPQ(n, status, fringeWgt, parent);
-   insertPQ(pq, s, 0, -1);
+   insertPQ(pq, s, 0.0, -1);
    
    while(isEmptyPQ(pq) == 0)
    {
@@ -175,6 +175,7 @@ int main(int argc, char* argv[])
             myVec[k] = adjWgtMakeEmptyVec();
             parent[k] = -1;
             status[k] = UNSEEN;
+            fringeWgt[k] = 1.0/0.0;
          }  
       }
 	
