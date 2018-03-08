@@ -27,10 +27,10 @@ void findMin(MinPQ pq)
 	{
 		if(pq->status[v] == FRINGE)
 		{
-			if(pq->fringeWgt[v] < minWgt)
+			if(pq->fringeWgt[v] <= minWgt)
 			{
 				pq->minVertex = v;
-				fprintf(stdout, "%d\n", v);
+				fprintf(stdout, "v = %d\n", v);
 				minWgt = pq->fringeWgt[v];
 			}
 		}
