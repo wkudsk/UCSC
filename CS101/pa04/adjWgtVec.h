@@ -1,5 +1,5 @@
 /* adjWgtVec.h
- * (what is the overall purpose of this file? Replace question with your text)
+ * This will serve a very similar purpose as IntVec.h but it will also hold weight along with direction.
  */
 
 #ifndef C101AdjWgtVec
@@ -25,7 +25,7 @@ static const int adjWgtInitCap = 4;
  */
 
 /** adjWgtTop()
- * (what are the preconditions? Replace question with your text)
+ * precondition: myVec must have a size greater than 0.
  */
 AdjWgt adjWgtTop(AdjWgtVec myVec);
 

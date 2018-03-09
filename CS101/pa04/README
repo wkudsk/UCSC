@@ -5,3 +5,51 @@ and the related sections of the class syllabus."
 followed by your name as a signature.
 William Kudsk
 
+The purpose of this program is to apply either Primm's algorithm or Dijkstra's algorithm on to a graph to find the 
+minimum spanning tree or the single shortest path of the graph.
+
+A proper form of input for this program is:
+3
+1 2 4.5
+2 3 1.5
+1 3 2.5
+3 2 1.0
+where the first number is the number of vertices, and then each line that follows is an edge with a weight.
+The Output for the given input above (using primms algorithm on vertex 2) would be:
+ Primm's Algorithm starting at vertex 2
+ V  fringeWgt  parent  status
+ 1       2.50       3       t
+ 2       0.00      -1       t
+ 3       1.00       2       t
+
+This would be called with the command ./priority04 -P 2 input.txt
+Note that for Primm's Algorithm all edges are undirected.
+
+An example of Dijkstra's would look like this:
+input.txt:
+6
+1 2 4.0
+1 6 2.0
+2 1 1.0
+2 3 3.0
+2 4 4.0
+3 1 6.0
+3 2 3.0
+3 4 7.0
+4 1 6.0
+4 5 2.0
+5 4 5.0
+6 4 2.0
+6 5 3.0
+
+command : ./priority04 -D 1 input.txt
+
+output:
+ Dijkstra's Algorithm starting at vertex 1
+ V  fringeWgt  parent  status
+ 1       0.00      -1       t
+ 2       4.00       1       t
+ 3       7.00       2       t
+ 4       4.00       6       t
+ 5       5.00       6       t
+ 6       2.00       1       t

@@ -4,10 +4,10 @@
 # Please make sure to use the .c and .h files.
 # the main file is priority04.c
 # the executable should be priority04
-# the program requires one input file in the form of a textfile.
-# example run: "./priority04 input.txt"
-# You can also give it the flag "-U" to make the graph undirected.
-# example run: "./priority04 -U input.txt"
+# the program requires a flag (-P for Primm's -D for Dijkstra's), a start vector, and an input file in the form of a textfile.
+# example run: "./priority04 -P 2 input.txt"
+# You can also give it the flag "-D" to run dijkstra's algorithm.
+# example run: "./priority04 -D 2 input.txt"
 
 # Explanatory comments follow the ``real code.''
 # Everything after the # on any line is a comment

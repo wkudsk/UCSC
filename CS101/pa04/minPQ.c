@@ -6,7 +6,6 @@
 #include <math.h>
 #include "minPQ.h"
 
-
 struct MinPQNode
 {
 	int numVertices;
@@ -28,11 +27,9 @@ int findMin(MinPQ pq)
 	{
 		if(pq->status[v] == FRINGE)
 		{
-			fprintf(stdout, "Potential min: %lf Actual min: %lf\n", pq->fringeWgt[v], minWgt);
 			if(pq->fringeWgt[v] < minWgt)
 			{
 				minV = v;
-				fprintf(stdout, "v = %d\n", v);
 				minWgt = pq->fringeWgt[v];
 			}
 		}
@@ -43,37 +40,30 @@ int findMin(MinPQ pq)
 
 /* ***************** Access functions */
 
-/** isEmpty (what are the preconditions, if any? Replace this question with your comments.)
-*/
 int isEmptyPQ(MinPQ pq)
 {
 	if(pq->numPQ == 0) return 1;
 	else return 0;
 } 
 
-/** getMin (what are the preconditions, if any? Replace this question with your comments.)
-*/
 int getMin(MinPQ pq)
 {
 	if(pq->minVertex == -1) pq->minVertex = findMin(pq);
 	return pq->minVertex;
 }
-/** getStatus (what are the preconditions, if any? Replace this question with your comments.)
-*/
+
 int getStatus(MinPQ pq, int id)
 {
 	return pq->status[id];
 }
 
-/** getParent (what are the preconditions, if any? Replace this question with your comments.)
-*/
+
 int getParent(MinPQ pq, int id)
 {
 	return pq->parent[id];
 }
 
-/** getPriority (what are the preconditions, if any? Replace this question with your comments.)
-*/
+
 double getPriority(MinPQ pq, int id)
 {
 	return pq->fringeWgt[id];
@@ -82,20 +72,15 @@ double getPriority(MinPQ pq, int id)
 
 /* ***************** Manipulation procedures */
 
-/** delMin (what are the preconditions and/or postconditions? Replace this question with your comment.)
-*/
 void delMin(MinPQ pq)
 {
 	int oldMin = getMin(pq);
-	fprintf(stdout, "OldMin = %d\n", oldMin);
 	pq->status[oldMin] = INTREE;
 	pq->minVertex = -1;
 	pq->numPQ--;
 	return;
 }
 
-/** insertPQ (what are the preconditions and/or postconditions? Replace this question with your comment.)
-*/
 void insertPQ(MinPQ pq, int id, double priority, int par)
 {
 	pq->parent[id] = par;
@@ -107,8 +92,6 @@ void insertPQ(MinPQ pq, int id, double priority, int par)
 
 }
 
-/** decreaseKey (what are the preconditions and/or postconditions? Replace this question with your comment.)
-*/
 void decreaseKey(MinPQ pq, int id, double priority, int par)
 {
 	pq->parent[id] = par;
@@ -120,8 +103,6 @@ void decreaseKey(MinPQ pq, int id, double priority, int par)
 
 /* ***************** Constructors */
 
-/** createPQ (what are the preconditions and/or postconditions? Replace this question with your comment.)
-*/
 MinPQ createPQ(int n, int status[], double priority[], int parent[])
 {
 	MinPQ pq = malloc(sizeof(struct MinPQNode));
