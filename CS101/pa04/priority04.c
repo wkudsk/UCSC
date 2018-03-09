@@ -15,6 +15,7 @@ void greedyTree(AdjWgtVec* myVec, int task, int s, int n, int* status, int* pare
    //make MinPQ
    MinPQ pq = createPQ(n, status, fringeWgt, parent);
    
+   //insert the start vertex and begin adding to tree based on edges from start vertex.
    insertPQ(pq, s, 0.0, -1);
    while(isEmptyPQ(pq) == 0)
    {
