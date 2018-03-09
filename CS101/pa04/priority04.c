@@ -13,17 +13,12 @@
 void greedyTree(AdjWgtVec* myVec, int task, int s, int n, int* status, int* parent, double* fringeWgt)
 {
    //make MinPQ
-   status[s] = INTREE;
-   parent[s] = -1;
-   fringeWgt[s] = 0.0;
    MinPQ pq = createPQ(n, status, fringeWgt, parent);
    
-   updateFringe(task, pq, myVec[s], s);
-   
+   insertPQ(pq, s, 0.0, -1);
    while(isEmptyPQ(pq) == 0)
    {
       int v = getMin(pq);
-      fprintf(stdout, "%d\n", v);
       delMin(pq);
       updateFringe(task, pq, myVec[v], v);
    }
@@ -41,12 +36,9 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
       {
          AdjWgt edge = adjWgtTop(remVec);
          int w = edge.to;
-         fprintf(stdout, "%d\n", w);
          double newWgt = edge.wgt;
-         fprintf(stdout, "%lf\n", newWgt);
          if(getStatus(pq, w) == UNSEEN)
          {
-            fprintf(stdout, "Entering in: %d %lf with parent %d\n", w, newWgt, v);
             insertPQ(pq, w, newWgt, v);
          }
          else if(getStatus(pq, w) == FRINGE)
@@ -65,7 +57,6 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
       {
          AdjWgt edge = adjWgtTop(remVec);
          int w = edge.to;
-         fprintf(stdout, "w = %d\n", w);
          double newDist = myDist + edge.wgt;
          if(getStatus(pq, w) == UNSEEN)
          {
@@ -112,27 +103,28 @@ int main(int argc, char* argv[])
 		fprintf(stderr, "Usage: %s <-P or -D> <int startVex> <input file>\n", argv[0]);
    	exit(EXIT_FAILURE);
    }
-   
+
+   //Stores the task, makes sure that its either P or D
    if(strcmp((argv[argin]), "-P") == 0)
    {
       task = 'P';
       argin++;
    }
-
    else if(strcmp((argv[argin]), "-D") == 0)
    {
       task = 'D';
       argin++;
    }
-
    else
    {
       fprintf(stderr, "Use flag <-P> or <-D>\n");
       exit(EXIT_FAILURE);
    }
    
+   //Stores start vertex
    s = (int)argv[argin][0] - 48;
    argin++;
+   
    /* open input file for reading */
    in = fopen(argv[argin], "r");
    if( in==NULL )
@@ -237,7 +229,7 @@ int main(int argc, char* argv[])
    }  
 
    greedyTree(myVec, task, s, length, status, parent, fringeWgt);
-   
+   printTree(task, s, length, status, parent, fringeWgt);
    fclose(in);
    return(EXIT_SUCCESS);
 
