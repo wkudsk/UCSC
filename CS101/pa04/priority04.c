@@ -180,36 +180,34 @@ int main(int argc, char* argv[])
          //Store the non-ascii values in pointA and pointB.
          int pointA;
          int pointB;
-         double weight;
-
-         pointA = (int)str[0] - 48;
-         int k = 2;
-         if((int)str[1] >= 48 && (int)str[1] <= 57)
+         double weight = 0.0;
+         int k = 0;
+         while(str[k] != ' ')
          {
-            pointA = (pointA*10) + (str[1] - 48);
-            k = k + 1;
+            pointA = str[k] - 48;
+            str[k]++;         
+         }
+         k++;
+
+         while(str[k] != ' ')
+         {
+            pointB = str[k] - 48;
+            k++;
+         }
+         k++;
+         while((str[k] != '.') && (str[k] >= 48 && str[k] <= 57))
+         {
+            weight = str[k] - 48;
+            k++;
+         }
+      
+         k++;
+         for(int i = 1; (str[k + i] >= 48 && str[k + i] <= 57) && i <= 6; i++)
+         {
+               weight = weight + (((double)str[k+i] - 48.0)/(pow(10.0, i)));
          }
 
-         pointB = (int)str[k] - 48;
-
-         if((int)str[k+1] >= 48 && (int)str[k+1] <= 57)
-         {
-            pointB = (pointB*10) + ((int)str[k+1] - 48);
-         }         
          
-         k += 3;
-         
-         if(str[k] == '.')
-         {
-            weight = str[k-1] - 48;
-            weight = weight + ((double)(str[k+1] - 48)/10.0);
-         }
-            
-         else
-         {
-            weight = 0.0;
-         }
-
          AdjWgt* edge = malloc(sizeof(AdjWgt));
          edge->to = pointB;
          edge->wgt = weight;
