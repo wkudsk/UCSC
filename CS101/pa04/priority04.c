@@ -182,32 +182,37 @@ int main(int argc, char* argv[])
          int pointB;
          double weight = 0.0;
          int k = 0;
+         fprintf(stdout, "%s", "pointA: ");
          while(str[k] != ' ')
          {
-            fprintf(stdout, "%c\n", str[k]);
+            fprintf(stdout, "%c ", str[k]);
             pointA = str[k] - 48;
             str[k]++;         
          }
          k++;
 
+         fprintf(stdout, "\n%s", "pointB: ");
          while(str[k] != ' ')
          {
-            fprintf(stdout, "%c\n", str[k]);
+            fprintf(stdout, "%c ", str[k]);
             pointB = str[k] - 48;
             k++;
          }
          k++;
+
+         fprintf(stdout, "\n%s", "weight: ");
          while((str[k] != '.') && (str[k] >= 48 && str[k] <= 57))
          {
-            fprintf(stdout, "%c\n", str[k]);
+            fprintf(stdout, "%c ", str[k]);
             weight = str[k] - 48;
             k++;
          }
       
          k++;
+         fprintf(stdout, "\n%s", "weight: ");
          for(int i = 1; (str[k + i] >= 48 && str[k + i] <= 57) && i <= 6; i++)
          {
-            fprintf(stdout, "%c\n", str[k]);
+            fprintf(stdout, "%c ", str[k]);
             weight = weight + (((double)str[k+i] - 48.0)/(pow(10.0, i)));
          }
 
