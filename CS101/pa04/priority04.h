@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <math.h>
+
 #ifndef C101priority04
 #define C101priority04
 

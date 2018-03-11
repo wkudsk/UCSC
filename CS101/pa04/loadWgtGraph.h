@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <math.h>
 #include "adjWgtVec.h"
 #ifndef C101loadWgtGraph
 #define C101loadWgtGraph
