@@ -184,6 +184,7 @@ int main(int argc, char* argv[])
          int k = 0;
          while(str[k] != ' ')
          {
+            fprintf(stdout, "%c\n", str[k]);
             pointA = str[k] - 48;
             str[k]++;         
          }
@@ -191,12 +192,14 @@ int main(int argc, char* argv[])
 
          while(str[k] != ' ')
          {
+            fprintf(stdout, "%c\n", str[k]);
             pointB = str[k] - 48;
             k++;
          }
          k++;
          while((str[k] != '.') && (str[k] >= 48 && str[k] <= 57))
          {
+            fprintf(stdout, "%c\n", str[k]);
             weight = str[k] - 48;
             k++;
          }
@@ -204,7 +207,8 @@ int main(int argc, char* argv[])
          k++;
          for(int i = 1; (str[k + i] >= 48 && str[k + i] <= 57) && i <= 6; i++)
          {
-               weight = weight + (((double)str[k+i] - 48.0)/(pow(10.0, i)));
+            fprintf(stdout, "%c\n", str[k]);
+            weight = weight + (((double)str[k+i] - 48.0)/(pow(10.0, i)));
          }
 
          
