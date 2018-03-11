@@ -17,7 +17,7 @@
 # CFLAGS is platform dependent.  This one is for Linux.
 
 CC     = gcc
-CFLAGS = -g -Wall -O0 -std=c99 -D_SVID_SOURCE
+CFLAGS = -g -Wall -O0 -std=c99 -D_SVID_SOURCE -lm
 
 # The next line has the first target.  Typing "make" without any names
 # causes "make" to default to this target.
