@@ -49,6 +49,7 @@ void updateFringe(int task, MinPQ pq, AdjWgtVec myVec, int v)
          adjWgtVecPop(remVec);  
       } 
    }
+   
    else if(task == 'D')
    {
       double myDist = getPriority(pq, v);
