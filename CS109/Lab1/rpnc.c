@@ -77,14 +77,13 @@ bool isOperation(char i)
 
 void completeOperation(Stack stack, char c)
 {
-	int result = 0;
+	int result = -1;
 	int x = pop(stack);
 	int y = pop(stack);
-	if(c == 42) result = x * y;
-	if(c == 43) result = x + y;
-	if(c == 45) result = y - x;
-	if(c == 47) result = y / x;
-	else result = -1;
+	if((int)c == 42) result = x * y;
+	if((int)c == 43) result = x + y;
+	if((int)c == 45) result = y - x;
+	if((int)c == 47) result = y / x;
 	push(stack, result);
 }
 
@@ -111,23 +110,34 @@ int main(int argc, char* argv[])
 
    while( fgets(str, 256, in) != NULL )
    {
-   	  Stack stack = makeStack();
-      for(int i = 0; i < strlen(str); i++)
-      {
-         if((int)str[i] >= 48 && (int)str[i] <= 57)
-         {
-         	push(stack, (int)(str[i] - 48));
-         }
-         else if(isOperation(str[i]))
-         {
-         	completeOperation(stack, str[i]);
-         }
-      }
-      int final = pop(stack);
-      fprintf(stdout, "%d\n", final);
+   		Stack stack = makeStack();
+    	for(int i = 0; i < strlen(str); i++)
+    	{
+
+        	if((int)str[i] >= 48 && (int)str[i] <= 57)
+        	{
+        		int val = 0;
+        		while((int)str[i] >= 48 && (int)str[i] <= 57)
+         		{
+         			val = val * 10;
+         			val += (int)(str[i] - 48);
+         			i++;
+         		}
+
+         		push(stack, val);
+        	}
+
+        	else if(isOperation(str[i]))
+        	{
+         		completeOperation(stack, str[i]);
+        	}
+        }
+
+    int final = pop(stack);
+    fprintf(stdout, "%d\n", final);
    }
    
    fclose(in);
-   return(EXIT_SUCCESS);
+   return(0);
 }
 
