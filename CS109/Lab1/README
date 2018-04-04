@@ -1,0 +1,3 @@
+William Kudsk (wkudsk) solution for Lab1.
+Lab1 requires you to write programs in C, bash, and python that can complete operations in reverse polish notation.
+the Makefile should compile all the files into executables.
