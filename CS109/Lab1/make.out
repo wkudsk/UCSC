@@ -1,3 +1,0 @@
-/tmp/ccQARAco.o: In function `completeOperation':
-rpnc.c:(.text+0x25f): undefined reference to `pow'
-collect2: error: ld returned 1 exit status
