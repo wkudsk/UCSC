@@ -1,0 +1,3 @@
+rpnc.c:72:5: warning: conflicting types for built-in function 'pow'
+ int pow(int y, int x)
+     ^~~

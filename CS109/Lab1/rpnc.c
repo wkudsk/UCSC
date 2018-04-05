@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <math.h>
 
 /*
  * Reverse Polish Notation (RPN) Calculator
@@ -70,6 +69,16 @@ int isEmpty(Stack stack)
    else return 0;
 }
 
+int pow(int y, int x)
+{
+	int z = 1;
+	for(int i = 0; i < x; i++)
+	{
+		z = z * y;
+	}
+	return z;
+}
+
 bool isOperation(char i)
 {
    if(i == 42 || i == 43 || i == 45 || i == 47 || i == 94) return true;
@@ -86,7 +95,7 @@ void completeOperation(Stack stack, char c)
 	if((int)c == 43) result = x + y;
 	if((int)c == 45) result = y - x;
 	if((int)c == 47) result = y / x;
-	if((int)c == 94) result = (int)pow((double) y, (double)x);
+	if((int)c == 94) result = pow(y, x);
 	push(stack, result);
 }
 
