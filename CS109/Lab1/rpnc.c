@@ -69,7 +69,7 @@ int isEmpty(Stack stack)
    else return 0;
 }
 
-int pow(int y, int x)
+int exponent(int y, int x)
 {
 	int z = 1;
 	for(int i = 0; i < x; i++)
@@ -95,61 +95,49 @@ void completeOperation(Stack stack, char c)
 	if((int)c == 43) result = x + y;
 	if((int)c == 45) result = y - x;
 	if((int)c == 47) result = y / x;
-	if((int)c == 94) result = pow(y, x);
+	if((int)c == 94) result = exponent(y, x);
 	push(stack, result);
 }
 
 int main(int argc, char* argv[])
-{
-	FILE* in;  /* file handle for input */  
-	char str[256]; /* char array to store str from input file */
-
+{ 
    //Checks to make sure that the program was passed an input and output
 	if( argc != 2 )
-   {
+  {
 		printf("Usage: %s <input file>\n", argv[0]);
    	exit(EXIT_FAILURE);
-   }
+  }
 
-   /* open input file for reading */
-   in = fopen(argv[1], "r");
-   //if( in==NULL )
-   //{
-   	//printf("Unable to read from file %s\n", argv[1]);
-   	//exit(EXIT_FAILURE);
-   //}
+  char* str = argv[1]; /* char array to store str from input */
 
+  //stack is a array based stack that will hold operands.
+ 	Stack stack = makeStack();
+  
+  for(int i = 0; i < strlen(str) && str[i] != ':'; i++)
+  {
 
-   while( fgets(str, 256, in) != NULL )
-   {
-   		Stack stack = makeStack();
-    	for(int i = 0; i < strlen(str) && str[i] != ':'; i++)
-    	{
+    if((int)str[i] >= 48 && (int)str[i] <= 57)
+    {
+  		int val = 0;
+  		while((int)str[i] >= 48 && (int)str[i] <= 57)
+   		{
+   			val = val * 10;
+   			val += (int)(str[i] - 48);
+   			i++;
+   		}
 
-        	if((int)str[i] >= 48 && (int)str[i] <= 57)
-        	{
-        		int val = 0;
-        		while((int)str[i] >= 48 && (int)str[i] <= 57)
-         		{
-         			val = val * 10;
-         			val += (int)(str[i] - 48);
-         			i++;
-         		}
+   		push(stack, val);
+  	}
 
-         		push(stack, val);
-        	}
+  	else if(isOperation(str[i]))
+  	{
+   		completeOperation(stack, str[i]);
+  	}
+  }
 
-        	else if(isOperation(str[i]))
-        	{
-         		completeOperation(stack, str[i]);
-        	}
-        }
-
-    int final = pop(stack);
-    fprintf(stdout, "%d\n", final);
-   }
+  int final = pop(stack);
+  fprintf(stdout, "%d\n", final);
    
-   fclose(in);
    return(0);
 }
 
