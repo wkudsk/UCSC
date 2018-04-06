@@ -14,7 +14,7 @@ rpn=`echo "$1" | sed 's/\*/x/g'`
 
 for oper in $rpn
 do
-	#if the character is a number,
+	#if the character is a number,push it to stack.
 	if [[ "$oper" =~ ^[0-9]+$ ]]
 	then
 		stack[$next]=$oper
@@ -42,8 +42,10 @@ do
 		then
 			(( value = $oper_1 ** $oper_2 ))
 		fi
+		#the new result is pushed back onto the stack
 		stack[$next]=$value
 	fi
+	#stack point is increamented
 	(( next += 1 ))
 done
 echo ${stack[0]}
