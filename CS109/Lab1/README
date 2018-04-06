@@ -1,3 +1,19 @@
 William Kudsk (wkudsk) solution for Lab1.
 Lab1 requires you to write programs in C, bash, and python that can complete operations in reverse polish notation.
 the Makefile should compile all the files into executables.
+
+rpnc.sh was completed with the help of David Harrison's notes from his Lecture on April 5th, 2018
+
+Each program should only have one argument passed in the form of a string. Each element from the stirng should be seperated with a space.
+Example input:
+"3 11 +"
+This should return "14"
+
+List of sources:
+https://www.tutorialspoint.com/python/python_functions.htm
+https://stackoverflow.com/questions/70797/python-user-input-and-commandline-arguments
+http://www.pythonforbeginners.com/dictionary/python-split
+https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
+http://opencast-util.lt.ucsc.edu/search/?seriestitle=CMPS-109-LEC-01-2182-61545
+https://classes.soe.ucsc.edu/cmps101/Winter18/
+https://classes.soe.ucsc.edu/cmps101/Winter18/Handouts/standardVec.txt

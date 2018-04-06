@@ -71,12 +71,12 @@ int isEmpty(Stack stack)
 
 int exponent(int y, int x)
 {
-	int z = 1;
-	for(int i = 0; i < x; i++)
-	{
-		z = z * y;
-	}
-	return z;
+  int z = 1;
+  for(int i = 0; i < x; i++)
+  {
+    z = z * y;
+  }
+  return z;
 }
 
 bool isOperation(char i)
@@ -88,51 +88,51 @@ bool isOperation(char i)
 //source of pow function: https://www.tutorialspoint.com/c_standard_library/c_function_pow.htm
 void completeOperation(Stack stack, char c)
 {
-	int result = -1;
-	int x = pop(stack);
-	int y = pop(stack);
-	if((int)c == 42) result = x * y;
-	if((int)c == 43) result = x + y;
-	if((int)c == 45) result = y - x;
-	if((int)c == 47) result = y / x;
-	if((int)c == 94) result = exponent(y, x);
-	push(stack, result);
+  int result = -1;
+  int x = pop(stack);
+  int y = pop(stack);
+  if((int)c == 42) result = x * y;
+  if((int)c == 43) result = x + y;
+  if((int)c == 45) result = y - x;
+  if((int)c == 47) result = y / x;
+  if((int)c == 94) result = exponent(y, x);
+  push(stack, result);
 }
 
 int main(int argc, char* argv[])
 { 
    //Checks to make sure that the program was passed an input and output
-	if( argc != 2 )
+  if( argc != 2 )
   {
-		printf("Usage: %s <input file>\n", argv[0]);
-   	exit(EXIT_FAILURE);
+  printf("Usage: %s <input file>\n", argv[0]);
+    exit(EXIT_FAILURE);
   }
 
   char* str = argv[1]; /* char array to store str from input */
 
   //stack is a array based stack that will hold operands.
- 	Stack stack = makeStack();
+  Stack stack = makeStack();
   
   for(int i = 0; i < strlen(str) && str[i] != ':'; i++)
   {
 
     if((int)str[i] >= 48 && (int)str[i] <= 57)
     {
-  		int val = 0;
-  		while((int)str[i] >= 48 && (int)str[i] <= 57)
-   		{
-   			val = val * 10;
-   			val += (int)(str[i] - 48);
-   			i++;
-   		}
+      int val = 0;
+      while((int)str[i] >= 48 && (int)str[i] <= 57)
+      {
+        val = val * 10;
+        val += (int)(str[i] - 48);
+        i++;
+      }
 
-   		push(stack, val);
-  	}
+      push(stack, val);
+    }
 
-  	else if(isOperation(str[i]))
-  	{
-   		completeOperation(stack, str[i]);
-  	}
+    else if(isOperation(str[i]))
+    {
+      completeOperation(stack, str[i]);
+    }
   }
 
   int final = pop(stack);
