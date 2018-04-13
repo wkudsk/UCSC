@@ -1,0 +1,4 @@
+bounds.c: In function ‘move’:
+bounds.c:34:27: warning: suggest parentheses around ‘&&’ within ‘||’ [-Wparentheses]
+  if(arena->type == CIRCLE && shape->type == CIRCLE || arena->type == SPHERE && shape->type == SPHERE)
+                           ^
