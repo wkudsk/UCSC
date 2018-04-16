@@ -4,7 +4,10 @@ shape Polygon -4,-4,0 -4,4,0 4,4,0 4,-4,0
 shape Polygon 0,8,0 -7.6193,-7.6193,0 7.6193,-7.6193,0
 0 0,0,0 true
 0 9,9,0 false
+0 15,15,0 false
 1 0,0,0 true
 1 7,-7,0 false
+1 20,20,0 false
 2 1,1,0 true
 2 3,-3,0 false
+2 30,30,0 false
