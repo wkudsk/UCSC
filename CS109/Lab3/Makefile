@@ -22,11 +22,11 @@ check: bounds
 grade: clean bounds
 	@./grade.sh 
 
+comply: 
+	@./comply.sh
+
 clean:
 	@rm -f bounds make.out
 
-submit: clean
-	@tar czvf ~/CMPS109-Lab3.tar.gz \
-	--exclude include/containable.h \
-	--exclude src/main.cc \
-        src/*.cc include/*.h 
+submit: clean comply
+	@tar czvf ~/CMPS109-Lab3.tar.gz --exclude include/containable.h src/*.cc include/*.h 

@@ -1,4 +1,20 @@
+src/main.cc: In function ‘void testCirclesinTriangle()’:
+src/main.cc:43:115: error: no matching function for call to ‘RegularConvexPolygon::RegularConvexPolygon(Point2D, Point2D, Point2D)’
+     RegularConvexPolygon arenaTriangle = RegularConvexPolygon(Point2D(0.0, 9.0), Point2D(9.0, 0), Point2D(-9.0, 0));
+                                                                                                                   ^
+In file included from include/circle.h:13:0,
+                 from src/main.cc:10:
+include/polygon.h:27:9: note: candidate: RegularConvexPolygon::RegularConvexPolygon(std::vector<Point2D>)
+         RegularConvexPolygon(std::vector<Point2D> vertices);
+         ^
+include/polygon.h:27:9: note:   candidate expects 1 argument, 3 provided
+include/polygon.h:21:7: note: candidate: RegularConvexPolygon::RegularConvexPolygon(const RegularConvexPolygon&)
+ class RegularConvexPolygon : public Containable2D {
+       ^
+include/polygon.h:21:7: note:   candidate expects 1 argument, 3 provided
+include/polygon.h:21:7: note: candidate: RegularConvexPolygon::RegularConvexPolygon(RegularConvexPolygon&&)
+include/polygon.h:21:7: note:   candidate expects 1 argument, 3 provided
 src/main.cc: In function ‘int main(int, char**)’:
-src/main.cc:15:9: warning: unused variable ‘ununsed’ [-Wunused-variable]
+src/main.cc:70:9: warning: unused variable ‘ununsed’ [-Wunused-variable]
      int ununsed; // to fail warning test, remove
          ^
