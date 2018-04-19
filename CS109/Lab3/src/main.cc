@@ -40,7 +40,7 @@ void testCirclesinCircles()
 void testCirclesinTriangle()
 {
 	//Tests for Circles
-    RegularConvexPolygon arenaTriangle = RegularConvexPolygon(Point2D(0.0, 9.0), Point2D(9.0, 0), Point2D(-9.0, 0));
+    RegularConvexPolygon arenaTriangle = RegularConvexPolygon( {Point2D(0.0, 9.0), Point2D(9.0, 0), Point2D(-9.0, 0)} );
     Circle outerCircle = Circle(Point2D(10.0,10.0), 2.0);
     Circle innerCircle = Circle(Point2D(0.0,0.0), 4.0);
     Circle intersectCircle = Circle(Point2D(4.1,0.0), 10.0);
