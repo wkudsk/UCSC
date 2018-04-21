@@ -9,6 +9,7 @@
 
 #include "circle.h"
 #include "polygon.h"
+#include "reuleauxtriangle.h"
 #include "geom.h"
 
 Circle::Circle(const Point2D &center, double radius) {
@@ -62,6 +63,15 @@ bool Circle::containedWithin(RegularConvexPolygon &polygon)
     return true;
 }
 
+//https://opencast-player-1.lt.ucsc.edu:8443/engage/theodul/ui/core.html?id=956436f9-b748-4ab7-b7b7-2e27605f1667
 bool Circle::containedWithin(ReuleauxTriangle &rt) {
-    throw "Not implemented";
+    Circle circleA = Circle(rt.getCircle(0).center(), rt.getCircle(0).radius());
+    Circle circleB = Circle(rt.getCircle(1).center(), rt.getCircle(1).radius());
+    Circle circleC = Circle(rt.getCircle(2).center(), rt.getCircle(2).radius());
+
+
+    return ((*this).containedWithin(circleA) && 
+        (*this).containedWithin(circleB) &&
+        (*this).containedWithin(circleC));
+
 }
