@@ -11,6 +11,7 @@
 #include "polygon.h"
 #include "reuleauxtriangle.h"
 
+
 void testCirclesInCircles()
 {
     Circle arenaCircle = Circle(Point2D(0.0,0.0), 8.0);
@@ -65,7 +66,11 @@ void testCirclesInTriangle()
 
 void testCirclesInReuTriangle()
 {
-	ReuleauxTriangle arenaReuTriangle = ReuleauxTriangle( {Point2D(3.0, 3.0), Point2D(6.0, 0.0), Point2D(0.0, 0.0)} );
+    Point2D vertices[3];
+    vertices[0] = Point2D(0.0,0.0);
+    vertices[1] = Point2D(3.0, 5.196152423);
+    vertices[2] = Point2D(6.0, 0.0);
+	ReuleauxTriangle arenaReuTriangle = ReuleauxTriangle(vertices);
     Circle outerCircle = Circle(Point2D(15.0,15.0), 2.0);
     Circle innerCircle = Circle(Point2D(3.0,1.0), 1.0);
     Circle intersectCircle = Circle(Point2D(0.0,4.0), 6.0);
@@ -145,8 +150,12 @@ void testTrianglesInCircle()
 
 void testTrianglesInReuTriangle()
 {
-	ReuleauxTriangle arenaReuTriangle = ReuleauxTriangle({Point2D(0.0, 0.0), Point2D(3.0, 3.0), Point2D(6.0, 0.0)});
-    RegularConvexPolygon innerTriangle = RegularConvexPolygon( {Point2D(0.0, 0.0), Point2D(1.0, 0.0), Point2D(0.0, 1.0)} );
+    Point2D vertices[3];
+    vertices[0] = Point2D(0.0,0.0);
+    vertices[1] = Point2D(3.0, 5.196152423);
+    vertices[2] = Point2D(6.0, 0.0);
+	ReuleauxTriangle arenaReuTriangle = ReuleauxTriangle(vertices);
+    RegularConvexPolygon innerTriangle = RegularConvexPolygon( {Point2D(3.0, 1.0), Point2D(5.0, 1.0), Point2D(4.0, 2.0)} );
     RegularConvexPolygon intersectTriangle = RegularConvexPolygon( {Point2D(4.5, 4.5), Point2D(-1.0, 0.0), Point2D(12.0, 0.0)} );
     RegularConvexPolygon outerTriangle = RegularConvexPolygon( {Point2D(20.0,20.0), Point2D(15.0, 15.0), Point2D(30.0, 0.0)} );
     
@@ -171,17 +180,98 @@ void testTrianglesInReuTriangle()
 
 void testReuTrianglesInCircle()
 {
-	return;
+	Circle arenaCircle = Circle(Point2D(0.0,0.0), 9);
+    Point2D innerVertices[3] = {Point2D(0.0, 0.0), Point2D(3.0, 5.196152423), Point2D(6.0, 0.0)};
+    ReuleauxTriangle innerReuTriangle = ReuleauxTriangle(innerVertices);
+    Point2D intersectVertices[3] = {Point2D(5.0, 0.0), Point2D(8.0, 5.196152423), Point2D(11.0, 0.0)};
+    ReuleauxTriangle intersectReuTriangle = ReuleauxTriangle(intersectVertices);
+    Point2D outerVertices[3] ={Point2D(10.0, 0.0), Point2D(13.0, 5.196152423), Point2D(16.0, 0.0)};
+    ReuleauxTriangle outerReuTriangle = ReuleauxTriangle(outerVertices);
+    
+
+
+    std::cout << "ReuleauxTriangle-in-Circle: ";
+    if (innerReuTriangle.containedWithin(arenaCircle)) 
+        std::cout << "PASS\n";
+    else 
+        std::cout << "FAIL\n";
+
+    std::cout << "ReuleauxTriangle-intersect-Circle: ";
+    if(!intersectReuTriangle.containedWithin(arenaCircle))
+        std::cout << "PASS\n";
+    else
+        std::cout << "FAIL\n";
+
+    std::cout << "ReuleauxTriangle-outside-Circle: ";
+    if(!outerReuTriangle.containedWithin(arenaCircle))
+        std::cout << "PASS\n";
+    else
+        std::cout << "FAIL\n";   
 }
 
 void testReuTrianglesInTriangle()
 {
-	return;
+    RegularConvexPolygon arenaTriangle = RegularConvexPolygon({Point2D(0.0, 9.0), Point2D(9.0, 0.0), Point2D(-9.0, 0.0)});
+    Point2D innerVertices[3] = {Point2D(0.0, 0.0), Point2D(3.0, 5.196152423), Point2D(6.0, 0.0)};
+    ReuleauxTriangle innerReuTriangle = ReuleauxTriangle(innerVertices);
+    Point2D intersectVertices[3] = {Point2D(5.0, 0.0), Point2D(8.0, 5.196152423), Point2D(11.0, 0.0)};
+    ReuleauxTriangle intersectReuTriangle = ReuleauxTriangle(intersectVertices);
+    Point2D outerVertices[3] ={Point2D(10.0, 0.0), Point2D(13.0, 5.196152423), Point2D(16.0, 0.0)};
+    ReuleauxTriangle outerReuTriangle = ReuleauxTriangle(outerVertices);
+    
+
+
+    std::cout << "ReuleauxTriangle-in-Triangle: ";
+    if (innerReuTriangle.containedWithin(arenaTriangle)) 
+        std::cout << "PASS\n";
+    else 
+        std::cout << "FAIL\n";
+
+    std::cout << "ReuleauxTriangle-intersect-Triangle: ";
+    if(!intersectReuTriangle.containedWithin(arenaTriangle))
+        std::cout << "PASS\n";
+    else
+        std::cout << "FAIL\n";
+
+    std::cout << "ReuleauxTriangle-outside-Triangle: ";
+    if(!outerReuTriangle.containedWithin(arenaTriangle))
+        std::cout << "PASS\n";
+    else
+        std::cout << "FAIL\n";   
+	
 }
 
 void testReuTrianglesInReuTriangle()
 {
-	return;
+    Point2D arenaVertices[3] = {Point2D(0.0, 0.0), Point2D(4.5, 7.794228634), Point2D(9.0, 0.0)};
+	ReuleauxTriangle arenaReuTriangle = ReuleauxTriangle(arenaVertices);
+    Point2D innerVertices[3] = {Point2D(0.0, 0.0), Point2D(3.0, 5.196152423), Point2D(6.0, 0.0)};
+    ReuleauxTriangle innerReuTriangle = ReuleauxTriangle(innerVertices);
+    Point2D intersectVertices[3] = {Point2D(5.0, 0.0), Point2D(8.0, 5.196152423), Point2D(11.0, 0.0)};
+    ReuleauxTriangle intersectReuTriangle = ReuleauxTriangle(intersectVertices);
+    Point2D outerVertices[3] ={Point2D(10.0, 0.0), Point2D(13.0, 5.196152423), Point2D(16.0, 0.0)};
+    ReuleauxTriangle outerReuTriangle = ReuleauxTriangle(outerVertices);
+
+
+
+
+    std::cout << "ReuleauxTriangle-in-ReuleauxTriangle: ";
+    if (innerReuTriangle.containedWithin(arenaReuTriangle)) 
+        std::cout << "PASS\n";
+    else 
+        std::cout << "FAIL\n";
+
+    std::cout << "ReuleauxTriangle-intersect-ReuleauxTriangle: ";
+    if(!intersectReuTriangle.containedWithin(arenaReuTriangle))
+        std::cout << "PASS\n";
+    else
+        std::cout << "FAIL\n";
+
+    std::cout << "ReuleauxTriangle-outside-ReuleauxTriangle: ";
+    if(!outerReuTriangle.containedWithin(arenaReuTriangle))
+        std::cout << "PASS\n";
+    else
+        std::cout << "FAIL\n";   
 }
 
 int main(int argc, char *argv[]) 
@@ -192,7 +282,7 @@ int main(int argc, char *argv[])
  	testTrianglesInTriangle(); 
  	testTrianglesInCircle();
  	testTrianglesInReuTriangle();
- 	//testReuTrianglesInTriangle();
- 	//testReuTrianglesInCircle();
- 	//testReuTrianglesInReuTriangle();
+ 	testReuTrianglesInTriangle();
+ 	testReuTrianglesInCircle();
+ 	testReuTrianglesInReuTriangle();
 }

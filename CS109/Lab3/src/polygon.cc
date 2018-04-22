@@ -72,10 +72,11 @@ bool RegularConvexPolygon::containedWithin(RegularConvexPolygon &polygon) {
 //https://opencast-player-1.lt.ucsc.edu:8443/engage/theodul/ui/core.html?id=956436f9-b748-4ab7-b7b7-2e27605f1667
 bool RegularConvexPolygon::containedWithin(ReuleauxTriangle &rt) {
     Circle circleA = Circle(rt.getCircle(0).center(), rt.getCircle(0).radius());
-    Circle circleB = Circle(rt.getCircle(1).center(), rt.getCircle(0).radius());
-    Circle circleC = Circle(rt.getCircle(2).center(), rt.getCircle(0).radius());
+    Circle circleB = Circle(rt.getCircle(1).center(), rt.getCircle(1).radius());
+    Circle circleC = Circle(rt.getCircle(2).center(), rt.getCircle(2).radius());
 
 
+    
     return (containedWithin(circleA) && 
         containedWithin(circleB) &&
         containedWithin(circleC));

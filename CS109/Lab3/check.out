@@ -1,4 +1,31 @@
 
+Circle-in-Circle: PASS
+Circle-intersect-Circle: PASS
+Circle-outside-Circle: PASS
+Circle-in-Triangle: PASS
+Circle-intersect-Triangle: PASS
+Circle-outside-Triangle: PASS
+Circle-in-ReuleauxTriangle: PASS
+Circle-intersect-ReuleauxTriangle: PASS
+Circle-outside-ReuleauxTriangle: PASS
+Triangle-in-Triangle: PASS
+Triangle-intersect-Triangle: PASS
+Triangle-outside-Triangle: PASS
+Triangle-in-Circle: PASS
+Triangle-intersect-Circle: PASS
+Triangle-outside-Circle: PASS
+Triangle-in-ReuleauxTriangle: PASS
+Triangle-intersect-ReuleauxTriangle: PASS
+Triangle-outside-ReuleauxTriangle: PASS
+ReuleauxTriangle-in-Triangle: FAIL
+ReuleauxTriangle-intersect-Triangle: PASS
+ReuleauxTriangle-outside-Triangle: PASS
+ReuleauxTriangle-in-Circle: FAIL
+ReuleauxTriangle-intersect-Circle: PASS
+ReuleauxTriangle-outside-Circle: PASS
+ReuleauxTriangle-in-ReuleauxTriangle: FAIL
+ReuleauxTriangle-intersect-ReuleauxTriangle: PASS
+ReuleauxTriangle-outside-ReuleauxTriangle: PASS
 
-               Tests:    0/  0     0.0%
+               Tests:   24/ 27    88.0%
 
