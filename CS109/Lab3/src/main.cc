@@ -245,7 +245,7 @@ void testReuTrianglesInReuTriangle()
 {
     Point2D arenaVertices[3] = {Point2D(0.0, 0.0), Point2D(4.5, 7.794228634), Point2D(9.0, 0.0)};
 	ReuleauxTriangle arenaReuTriangle = ReuleauxTriangle(arenaVertices);
-    Point2D innerVertices[3] = {Point2D(0.0, 0.0), Point2D(3.0, 5.196152423), Point2D(6.0, 0.0)};
+    Point2D innerVertices[3] = {Point2D(1.0, 1.0), Point2D(4.0, 6.196152423), Point2D(7.0, 1.0)};
     ReuleauxTriangle innerReuTriangle = ReuleauxTriangle(innerVertices);
     Point2D intersectVertices[3] = {Point2D(5.0, 0.0), Point2D(8.0, 5.196152423), Point2D(11.0, 0.0)};
     ReuleauxTriangle intersectReuTriangle = ReuleauxTriangle(intersectVertices);
@@ -279,10 +279,10 @@ int main(int argc, char *argv[])
     testCirclesInCircles();
     testCirclesInTriangle();
  	testCirclesInReuTriangle();
- 	testTrianglesInTriangle(); 
- 	testTrianglesInCircle();
+    testTrianglesInCircle();
+ 	testTrianglesInTriangle();
  	testTrianglesInReuTriangle();
+    testReuTrianglesInCircle();
  	testReuTrianglesInTriangle();
- 	testReuTrianglesInCircle();
  	testReuTrianglesInReuTriangle();
 }

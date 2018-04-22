@@ -20,12 +20,12 @@ Triangle-outside-ReuleauxTriangle: PASS
 ReuleauxTriangle-in-Triangle: FAIL
 ReuleauxTriangle-intersect-Triangle: PASS
 ReuleauxTriangle-outside-Triangle: PASS
-ReuleauxTriangle-in-Circle: FAIL
+ReuleauxTriangle-in-Circle: PASS
 ReuleauxTriangle-intersect-Circle: PASS
 ReuleauxTriangle-outside-Circle: PASS
 ReuleauxTriangle-in-ReuleauxTriangle: FAIL
 ReuleauxTriangle-intersect-ReuleauxTriangle: PASS
 ReuleauxTriangle-outside-ReuleauxTriangle: PASS
 
-               Tests:   24/ 27    88.0%
+               Tests:   25/ 27    92.0%
 
