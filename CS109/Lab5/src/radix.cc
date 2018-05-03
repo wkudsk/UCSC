@@ -13,4 +13,12 @@ RadixSort::RadixSort(const unsigned int cores) {
 
 void RadixSort::msd(std::vector<std::reference_wrapper<std::vector<unsigned int>>> &lists) { 
     // your implementation goes here :)
+    for(int i = 0; i < lists.size(); i++)
+    {
+    	std::vector<unsigned int> list = lists[i];
+    	for(int j = 0; j < list.size(); j++)
+    	{
+    		std::cout << list[j] << endl
+    	}
+    }
 }
