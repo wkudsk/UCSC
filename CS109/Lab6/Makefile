@@ -21,18 +21,18 @@ mperf: $(SRC) perf.o
 	$(CC) -o perf $^ $(CFLAGS) $(LIBS) 2>&1 >/dev/null 
 
 check: radix
-	@./check.sh 99999
+	@./check.sh 500000
 
 perf: mperf
-	@./perf.sh  99999
+	@./perf.sh  500000
 
 grade: clean radix mperf
-	@./grade.sh 99999
+	@./grade.sh 500000
 
 clean:
-	@rm -f radix make.out
+	@rm -f radix perf make.out
 
 submit: clean 
-	@tar czvf ~/CMPS109-Lab5.tar.gz \
+	@tar czvf ~/CMPS109-Lab6.tar.gz \
 	    --exclude Makefile.h \
 	    src/*.cc src/*.h 

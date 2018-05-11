@@ -1,0 +1,46 @@
+src/radix.cc: In member function ‘void ParallelRadixSort::msd(std::vector<std::reference_wrapper<std::vector<unsigned int> > >&, unsigned int)’:
+src/radix.cc:74:10: error: no match for ‘operator=’ (operand types are ‘std::vector<int>::iterator {aka __gnu_cxx::__normal_iterator<int*, std::vector<int> >}’ and ‘std::vector<unsigned int>::iterator {aka __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >}’)
+       it = list.end();
+          ^
+In file included from /usr/include/c++/5/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/5/vector:60,
+                 from src/radix.h:8,
+                 from src/radix.cc:8:
+/usr/include/c++/5/bits/stl_iterator.h:721:11: note: candidate: constexpr __gnu_cxx::__normal_iterator<int*, std::vector<int> >& __gnu_cxx::__normal_iterator<int*, std::vector<int> >::operator=(const __gnu_cxx::__normal_iterator<int*, std::vector<int> >&)
+     class __normal_iterator
+           ^
+/usr/include/c++/5/bits/stl_iterator.h:721:11: note:   no known conversion for argument 1 from ‘std::vector<unsigned int>::iterator {aka __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >}’ to ‘const __gnu_cxx::__normal_iterator<int*, std::vector<int> >&’
+/usr/include/c++/5/bits/stl_iterator.h:721:11: note: candidate: constexpr __gnu_cxx::__normal_iterator<int*, std::vector<int> >& __gnu_cxx::__normal_iterator<int*, std::vector<int> >::operator=(__gnu_cxx::__normal_iterator<int*, std::vector<int> >&&)
+/usr/include/c++/5/bits/stl_iterator.h:721:11: note:   no known conversion for argument 1 from ‘std::vector<unsigned int>::iterator {aka __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >}’ to ‘__gnu_cxx::__normal_iterator<int*, std::vector<int> >&&’
+src/radix.cc:75:53: error: no matching function for call to ‘std::vector<unsigned int>::insert(std::vector<int>::iterator&, std::vector<unsigned int>::iterator, std::vector<unsigned int>::iterator)’
+       list.insert(it, bins[i].begin(), bins[i].end());
+                                                     ^
+In file included from /usr/include/c++/5/vector:69:0,
+                 from src/radix.h:8,
+                 from src/radix.cc:8:
+/usr/include/c++/5/bits/vector.tcc:107:5: note: candidate: std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::insert(std::vector<_Tp, _Alloc>::const_iterator, const value_type&) [with _Tp = unsigned int; _Alloc = std::allocator<unsigned int>; std::vector<_Tp, _Alloc>::iterator = __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >; typename std::_Vector_base<_Tp, _Alloc>::pointer = unsigned int*; std::vector<_Tp, _Alloc>::const_iterator = __gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int> >; typename __gnu_cxx::__alloc_traits<typename std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type>::const_pointer = const unsigned int*; std::vector<_Tp, _Alloc>::value_type = unsigned int]
+     vector<_Tp, _Alloc>::
+     ^
+/usr/include/c++/5/bits/vector.tcc:107:5: note:   candidate expects 2 arguments, 3 provided
+In file included from /usr/include/c++/5/vector:64:0,
+                 from src/radix.h:8,
+                 from src/radix.cc:8:
+/usr/include/c++/5/bits/stl_vector.h:1014:7: note: candidate: std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::insert(std::vector<_Tp, _Alloc>::const_iterator, std::vector<_Tp, _Alloc>::value_type&&) [with _Tp = unsigned int; _Alloc = std::allocator<unsigned int>; std::vector<_Tp, _Alloc>::iterator = __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >; typename std::_Vector_base<_Tp, _Alloc>::pointer = unsigned int*; std::vector<_Tp, _Alloc>::const_iterator = __gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int> >; typename __gnu_cxx::__alloc_traits<typename std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type>::const_pointer = const unsigned int*; std::vector<_Tp, _Alloc>::value_type = unsigned int]
+       insert(const_iterator __position, value_type&& __x)
+       ^
+/usr/include/c++/5/bits/stl_vector.h:1014:7: note:   candidate expects 2 arguments, 3 provided
+/usr/include/c++/5/bits/stl_vector.h:1031:7: note: candidate: std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::insert(std::vector<_Tp, _Alloc>::const_iterator, std::initializer_list<_Tp>) [with _Tp = unsigned int; _Alloc = std::allocator<unsigned int>; std::vector<_Tp, _Alloc>::iterator = __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >; typename std::_Vector_base<_Tp, _Alloc>::pointer = unsigned int*; std::vector<_Tp, _Alloc>::const_iterator = __gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int> >; typename __gnu_cxx::__alloc_traits<typename std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type>::const_pointer = const unsigned int*]
+       insert(const_iterator __position, initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/stl_vector.h:1031:7: note:   candidate expects 2 arguments, 3 provided
+/usr/include/c++/5/bits/stl_vector.h:1051:7: note: candidate: std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::insert(std::vector<_Tp, _Alloc>::const_iterator, std::vector<_Tp, _Alloc>::size_type, const value_type&) [with _Tp = unsigned int; _Alloc = std::allocator<unsigned int>; std::vector<_Tp, _Alloc>::iterator = __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int> >; typename std::_Vector_base<_Tp, _Alloc>::pointer = unsigned int*; std::vector<_Tp, _Alloc>::const_iterator = __gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int> >; typename __gnu_cxx::__alloc_traits<typename std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type>::const_pointer = const unsigned int*; std::vector<_Tp, _Alloc>::size_type = long unsigned int; std::vector<_Tp, _Alloc>::value_type = unsigned int]
+       insert(const_iterator __position, size_type __n, const value_type& __x)
+       ^
+/usr/include/c++/5/bits/stl_vector.h:1051:7: note:   no known conversion for argument 1 from ‘std::vector<int>::iterator {aka __gnu_cxx::__normal_iterator<int*, std::vector<int> >}’ to ‘std::vector<unsigned int>::const_iterator {aka __gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int> >}’
+/usr/include/c++/5/bits/stl_vector.h:1095:9: note: candidate: template<class _InputIterator, class> std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::insert(std::vector<_Tp, _Alloc>::const_iterator, _InputIterator, _InputIterator) [with _InputIterator = _InputIterator; <template-parameter-2-2> = <template-parameter-1-2>; _Tp = unsigned int; _Alloc = std::allocator<unsigned int>]
+         insert(const_iterator __position, _InputIterator __first,
+         ^
+/usr/include/c++/5/bits/stl_vector.h:1095:9: note:   template argument deduction/substitution failed:
+src/radix.cc:75:53: note:   cannot convert ‘it’ (type ‘std::vector<int>::iterator {aka __gnu_cxx::__normal_iterator<int*, std::vector<int> >}’) to type ‘std::vector<unsigned int>::const_iterator {aka __gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int> >}’
+       list.insert(it, bins[i].begin(), bins[i].end());
+                                                     ^

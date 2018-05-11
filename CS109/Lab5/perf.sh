@@ -17,31 +17,20 @@ num=$1
 
 for lists in 4 6 8 10 12
 do
-    ./radix $num $lists 1 | tee radix.single
-    ./radix $num $lists $lists | tee radix.quad
+    ./perf $num $lists $lists | tee radix.single
 
-    single=`grep 'Elapsed time:' radix.single | awk '{print $3}'`
-    quad=`grep 'Elapsed time:' radix.quad | awk '{print $3}'`
+    speedup=`grep 'Speedup:' radix.single | awk '{print $2}' | sed 's/\%//'`
 
-    res=`echo "$quad > 0.0" | bc -l`
+    echo -n "Speedup $lists lists $lists cores: "
 
-    if [ "$res" = "0" ]
-    then
-        speedup=0
-    else
-        speedup=`echo "scale=2; $single / $quad" | bc -l`
-    fi
-
-    printf "Speedup: %.3f times faster " $speedup
-
-    required=`echo "$lists * 0.85" | bc -l`
-    if (( $(echo "$speedup > $required" | bc -l) )) 
+    if (( $(echo "$speedup > 85" | bc -l) ))
     then
         echo "PASS"
     else
         echo "FAIL"
     fi
 done
+
 
 for lists in 4 8 12 16 20 24
 do
