@@ -4,15 +4,22 @@
  * You may not use, distribute, publish, or modify this code without 
  * the express written permission of the copyright holder.
  */
-
-#include "radix.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include <string>
 #include <vector>
 #include <thread>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include "radix.h"
 
 using namespace std;
 //http://www.cplusplus.com/reference/algorithm/sort/
@@ -31,7 +38,7 @@ void sortList(std::vector<unsigned int>* list)
 	sort(list->begin(), list->end(), compareTo);
 }
 
-void ParallelRadixSort::msd(std::vector<std::reference_wrapper<std::vector<unsigned int>>> &lists, unsigned int cores) { 
+void ParallelRadixSort::msd(std::vector<std::reference_wrapper<std::vector<unsigned int>>> &lists, const unsigned int cores) { 
     // your implementation goes here :)
     
     //http://www.cplusplus.com/reference/thread/thread/thread/
@@ -254,4 +261,152 @@ void ParallelRadixSort::msd(std::vector<std::reference_wrapper<std::vector<unsig
     		list.insert(list.end(), bins[i].begin(), bins[i].end());
     	}
     }    
+}
+//https://classes.soe.ucsc.edu/cmps109/Spring18/SECURE/12.Distributed2.pdf
+RadixServer::RadixServer(const int port, const unsigned int cores) {
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if (sockfd < 0)
+    { 
+        cout << "Exit because of connection error" << endl;
+        exit(-1);
+    }
+	struct sockaddr_in server_addr;
+	bzero((char *) &server_addr, sizeof(server_addr));
+
+    //https://www.geeksforgeeks.org/socket-programming-cc/
+    /*int opt = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
+    {
+        perror("setsockopt");
+        exit(-1);
+    }*/
+
+	server_addr.sin_family = AF_INET;
+	server_addr.sin_addr.s_addr = INADDR_ANY;
+	server_addr.sin_port = htons(port);
+
+	if (bind(sockfd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0)
+	{
+        cout << "Exit because of bind error" << endl;
+        exit(-1);
+    }
+	listen(sockfd,5);
+    
+    //std::vector<std::reference_wrapper<std::vector<unsigned int>>> &lists
+
+    struct sockaddr_in client_addr;
+    socklen_t len = sizeof(client_addr);
+
+    int newsockfd = accept(sockfd, (struct sockaddr *) &client_addr, &len);
+    if (newsockfd < 0)
+    {
+        cout << "Exit because cant connect to client?" << endl;
+        exit(-1);
+    }
+		
+    std::vector<unsigned int> list;
+    while(1)
+    {
+        //cout << "hello" << endl;
+        while(1)
+        {
+        	
+            unsigned int onwire;
+            unsigned int p = recv(newsockfd, (void*)&onwire, sizeof(unsigned int), 0);
+            if(p < 0)
+            {
+                cout << "couldnt recieve value" << endl;
+                exit(-1);
+            }
+            unsigned int local = ntohl(onwire);
+            //cout << "recv: " << local << endl;
+            if(local == 0 && list.size() == 0) sleep(1);
+            else if(local == 0 && list.size() != 0) break;
+            else if(local != 0)
+            {
+                //cout << "push: " + to_string(local) << endl;
+                list.push_back(local);
+            }
+        } 
+
+        //foundZero = true;
+        sortList(&list);
+        list.push_back(0);
+        for(unsigned int i = 0; i < list.size(); i++)
+        {
+            unsigned int local = list[i];
+            unsigned int onwire = htonl(local);
+            //cout << "send value: " << local << endl;
+            unsigned int q = send(newsockfd, (void*)&onwire, sizeof(unsigned int), 0);
+            if(q < 0)
+            {
+                //cout << "couldnt send value " << local << endl;
+                exit(-1);
+            }
+        }
+
+        list.clear();  
+        //sleep(4); 
+    }
+    //close(newsockfd);
+    //close(sockfd);
+    cout << "fell off" << endl;
+}
+//https://classes.soe.ucsc.edu/cmps109/Spring18/SECURE/12.Distributed2.pdf
+void RadixClient::msd(const char *hostname, const int port, std::vector<std::reference_wrapper<std::vector<unsigned int>>> &lists) { 
+    
+    int sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (sockfd < 0) throw "open";
+
+    struct hostent *server = gethostbyname(hostname);
+	if (server == NULL)
+    {
+        cout << "Exiting because it cant find server" << endl;
+        exit(-1);      
+    } 
+
+    struct sockaddr_in serv_addr;
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+
+    serv_addr.sin_port = htons(port);
+
+    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
+    {
+        cout << "Exiting because it cant connect" << endl;
+        exit(-1);
+    }
+    for(vector<unsigned int> &list : lists)
+    {
+    	for(unsigned int i = 0; i < list.size(); i++)
+    	{
+    		
+            unsigned int local = list[i];
+            unsigned int onwire = htonl(local);
+            send(sockfd, (void*)&onwire, sizeof(unsigned int), 0);
+            
+    	}
+    	unsigned int local = 0;
+        unsigned int onwire = htonl(local);
+        send(sockfd, (void*)&onwire, sizeof(unsigned int), 0);
+
+    	std::vector<unsigned int> newList;	
+   		bool foundZero = false;
+    	while(!foundZero)
+    	{
+    		unsigned int onwire = 0;
+            recv(sockfd, (void*)&onwire, sizeof(unsigned int), 0);
+            unsigned int local = ntohl(onwire);
+            if(local == 0) foundZero = true;
+			else
+			{
+            	newList.push_back(local);
+    		}
+    	}
+    	list.clear();
+    	list.insert(list.end(), newList.begin(), newList.end());
+	}
+    
+	//close(sockfd);
 }
