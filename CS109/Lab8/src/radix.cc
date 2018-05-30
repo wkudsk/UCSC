@@ -80,17 +80,41 @@ void RadixServer::start(const int port, const unsigned int cores) {
     	{
     		Message message;
             
-            int n = recvfrom(sockfd, (void*)&message, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
-            if(n < 0)
-            	cout << "Failed recieving" << endl;
-            
-            //cout << "recieved! sequence: " << ntohl(message.sequence) << endl;
-  			recvMessages.push_back(message);
-      		
-            if(ntohl(message.flag) == LAST)
+            //https://stackoverflow.com/questions/13547721/udp-socket-set-timeout
+            struct timeval tv;
+			tv.tv_sec = 1;
+			tv.tv_usec = 100000;
+			if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,&tv,sizeof(tv)) < 0) {
+    			cout << "error" << endl;
+			}
+            else
             {
-            	foundLast = true;
+            	int n = recvfrom(sockfd, (void*)&message, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+            	if(n < 0)
+     			{
+     				unsigned int lastSeq = ntohl(recvMessages[recvMessages.size() - 1].sequence);
+	    			Message resend = makeMessage(htonl(1), htonl(0), htonl(RESEND));
+					resend.values[0] = htonl(lastSeq);
+					int n = sendto(sockfd, (void*)&resend, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
+	    			if(n < 0)
+						cout << "Failed Send!" << endl;
+	    			n = recvfrom(sockfd, (void*)&resend, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+	        		if(n < 0)
+	        			cout << "Failed recieving" << endl;
+	        		recvMessages.push_back(resend);
+	        		n = recvfrom(sockfd, (void*)&resend, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+	        		if(n < 0)
+	        			cout << "Failed recieving" << endl;
+	        		foundLast = true;
+     			}       	
+	            //cout << "recieved! sequence: " << ntohl(message.sequence) << endl;
+	  			recvMessages.push_back(message);
+	  			if(ntohl(message.flag) == LAST)
+            	{
+            		foundLast = true;
+            	}
             }
+
     	}
 
     	while(ntohl(recvMessages[recvMessages.size() - 1].sequence) > recvMessages.size() - 1)
@@ -167,6 +191,7 @@ void RadixServer::start(const int port, const unsigned int cores) {
     	list.clear();
     	recvMessages.clear();
     	sentMessages.clear();
+
 	}
 	close(sockfd);
 }
@@ -244,35 +269,82 @@ void RadixClient::msd(const char *hostname, const int port, std::vector<std::ref
     		//cout << "waiting for recieving" << endl;
             Message message;
             
-            int n = recvfrom(sockfd, (void*)&message, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
-            if(n < 0)
-            	cout << "Failed recieving" << endl;
-            
-            //cout << "recieved! sequence: " << ntohl(message.sequence) << endl;
-      
-            if(ntohl(message.flag) == RESEND)
-            {
-            	unsigned int numMessage = ntohl(message.sequence);
-            	//cout << "Sending back : " << numMessage << endl;
-            	message = sentMessages[numMessage];
-            	int n = sendto(sockfd, (void*)&message, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
-    			if(n < 0)
-    				cout << "Failed Send!" << endl;
+			//https://stackoverflow.com/questions/13547721/udp-socket-set-timeout
+            struct timeval tv;
+			tv.tv_sec = 1;
+			tv.tv_usec = 100000;
+			if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,&tv,sizeof(tv)) < 0) {
+    			cout << "error" << endl;
+			}
+			else
+			{
+	            int n = recvfrom(sockfd, (void*)&message, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+	            if(n < 0)
+	            {
+	            	unsigned int lastSeq = ntohl(sentMessages[sentMessages.size() - 1].sequence);
+	    			Message resend = makeMessage(htonl(1), htonl(0), htonl(RESEND));
+					resend.values[0] = htonl(lastSeq);
+					int n = sendto(sockfd, (void*)&resend, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
+	    			if(n < 0)
+						cout << "Failed Send!" << endl;
+	    			n = recvfrom(sockfd, (void*)&resend, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+	        		if(n < 0)
+	        			cout << "Failed recieving" << endl;
+	        		recvMessages.push_back(resend);
+	        		n = recvfrom(sockfd, (void*)&resend, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+	        		if(n < 0)
+	        			cout << "Failed recieving" << endl;
+	        		foundLast = true;
+	            }
+	            
+	            //cout << "recieved! sequence: " << ntohl(message.sequence) << endl;
+	      
+	            if(ntohl(message.flag) == RESEND)
+	            {
+	            	for(unsigned int numMessage : message.values)
+	    			{
+	    				unsigned int num = ntohl(numMessage);
+	            		//cout << "Sending back : " << numMessage << endl;
+	            		message = sentMessages[num];
+	            		int n = sendto(sockfd, (void*)&message, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
+	    				if(n < 0)
+	    					cout << "Failed Send!" << endl;	
+	    			}
+	            	message.sequence = htonl(0);
+	            	message.flag = htonl(LAST);
+	            	message.num_values = htonl(0);
+	            	n = sendto(sockfd, (void*)&message, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
+	    			if(n < 0)
+	    				cout << "Failed Send!" << endl;
 
-            	message.sequence = htonl(0);
-            	message.flag = htonl(LAST);
-            	message.num_values = htonl(0);
-            	n = sendto(sockfd, (void*)&message, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
-    			if(n < 0)
-    				cout << "Failed Send!" << endl;
+	            }
+	  			else
+	  			{
+	  				recvMessages.push_back(message);
+	      		}
 
-            }
-  			else recvMessages.push_back(message);
-      		
-            if(ntohl(message.flag) == LAST)
-            {
-            	foundLast = true;
-            } 
+	            if(ntohl(recvMessages[recvMessages.size() - 1].flag) == LAST)
+	            {
+	            	foundLast = true;
+	            } 
+    		}
+    	}
+
+    	if(ntohl(recvMessages[0].sequence) != 0)
+    	{
+    		Message resend = makeMessage(htonl(1), htonl(0), htonl(RESEND));
+			resend.values[0] = htonl(0);
+			n = sendto(sockfd, (void*)&resend, sizeof(Message), 0, (struct sockaddr *)&remote_addr,len);
+			if(n < 0)
+				cout << "Failed Send!" << endl;
+			n = recvfrom(sockfd, (void*)&resend, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+    		if(n < 0)
+    			cout << "Failed recieving" << endl;
+    		recvMessages.insert(recvMessages.begin() + 0, resend);
+			n = recvfrom(sockfd, (void*)&resend, sizeof(Message), 0,(struct sockaddr *)&remote_addr, &len);
+    		if(n < 0)
+    			cout << "Failed recieving" << endl;
+            		
     	}
 
     	while(ntohl(recvMessages[recvMessages.size() - 1].sequence) > recvMessages.size() - 1)
