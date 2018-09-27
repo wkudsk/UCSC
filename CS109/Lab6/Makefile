@@ -7,26 +7,32 @@
 #
 #######################################################################
 
-CFLAGS = -Wall -Iinclude
+CFLAGS = -Wall -Isrc -lpthread
 CC = g++ -std=c++17
 
 SRC=$(wildcard src/*.cc)
 
-bounds: $(SRC) 
+all: radix mperf
+
+radix: $(SRC) main.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) 2>&1 | tee make.out
 
-check: bounds
-	@./check.sh
-	@echo ""
+mperf: $(SRC) perf.o
+	$(CC) -o perf $^ $(CFLAGS) $(LIBS) 2>&1 >/dev/null 
 
-grade: clean bounds
-	@./grade.sh 
+check: radix
+	@./check.sh 500000
 
-comply: 
-	@./comply.sh
+perf: mperf
+	@./perf.sh  500000
+
+grade: clean radix mperf
+	@./grade.sh 500000
 
 clean:
-	@rm -f bounds make.out
+	@rm -f radix perf make.out
 
-submit: clean comply
-	@tar czvf ~/CMPS109-Lab3.tar.gz --exclude include/containable.h src/*.cc include/*.h 
+submit: clean 
+	@tar czvf ~/CMPS109-Lab6.tar.gz \
+	    --exclude Makefile.h \
+	    src/*.cc src/*.h 

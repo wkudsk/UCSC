@@ -7,26 +7,26 @@
 #
 #######################################################################
 
-CFLAGS = -Wall -Iinclude
+CFLAGS = -Wall -Isrc -lpthread -lcrypt -g
 CC = g++ -std=c++17
 
 SRC=$(wildcard src/*.cc)
 
-bounds: $(SRC) 
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) 2>&1 | tee make.out
+all: crack server
 
-check: bounds
-	@./check.sh
-	@echo ""
+crack: src/cracker.cc crack.o
+	$(CC) -o $@ $^ $(CFLAGS)
 
-grade: clean bounds
-	@./grade.sh 
+helpcrack: src/helpcrack.cc crack.o
+	$(CC) -o $@ $^ $(CFLAGS)
 
-comply: 
-	@./comply.sh
+server: src/server.cc crack.o
+	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
-	@rm -f bounds make.out
+	@rm crack
+	@rm server
 
-submit: clean comply
-	@tar czvf ~/CMPS109-Lab3.tar.gz --exclude include/containable.h src/*.cc include/*.h 
+submit: clean 
+	@tar czvf ~/CMPS109-Lab9.tar.gz \
+	    src/*.cc src/*.h 

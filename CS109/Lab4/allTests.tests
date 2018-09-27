@@ -1,0 +1,44 @@
+# 8x8 square centered on the origin IS contained by a circle of radius 8 centered on the origin
+RegularConvexPolygon -4,-4 -4,4 4,4 4,-4 Circle 0,0 8 true square inside circle
+
+# Circle of radius 4 centered at 3,3 IS NOT contained within an 8x8 square centered on the origin.
+Circle 3,3 4 RegularConvexPolygon -4,-4 -4,4 4,4 4,-4 false circle intersects square
+
+#Circle of radius 5 centered at 1,2 IS contained within a circle of radius 12 centered at 3,4.
+Circle 1,2 5 Circle 3,4 12 true circle inside circle
+
+#Circle of radius 5 centered at -2,-4 IS NOT contained within a circle of radius 12 centered at 3,4.
+Circle -2,-4, 5 Circle 3,4 12 false circle intersects circle
+
+#Circle of radius 3 centered at (0,0) IS contained by a reuleaux triangle with vertices at (0,12),(6,-3.4),(-6,-3.4)
+Circle 0,0 3 ReuleauxTriangle 0,12 6,-3.46410161514 -6,-3.46410161514 true circle inside reuleaux triangle
+
+#Circle of radius 3 at (0,-2) IS NOT contained by a reuleaux triangle with vertices at (0,12),(6,-3.4),(-6,-3.4)
+Circle 0,-2 3 ReuleauxTriangle 0,12 6,-3.46410161514 -6,-3.46410161514 true circle intersects reuleaux triangle
+
+#ReuleauxTriangle with vertices (0,12),(6,-3.4),(-6,-3.4) IS contained by Circle centered at (0,0) with radius 14
+ReuleauxTriangle 0,12 6,-3.46410161514 -6,-3.46410161514 Circle 0,0 14 true reuleaux triangle inside circle
+
+#ReuleauxTriangle with vertices (0,5),(6,-0.4),(-6,-0.4) IS NOT contained by Circle centered at (0,0) with radius 14
+ReuleauxTriangle 0,15 6,-0.46410161514 -6,-0.46410161514 Circle 0,0 14 false reuleaux triangle intersects circle
+
+#ReuleauxTetrahedron with vertices (0,12,0),(6,-3.46,0),(-6,-3.46410161514,0),(0,7.73205080757,12) IS contained by a Sphere with a center of (0,0,0) and a radius of 20
+ReuleauxTetrahedron 0,12,0 6,-3.46410161514,0 -6,-3.46410161514,0 0,7.73205080757,12 Sphere 0,0,0 20 true reuleaux tetrahedron inside circle
+
+#Sphere centered at (1,1,1) with radius of 8 IS contained ReuleauxTetrahedron with vertices (0,12,0),(6,-3.46,0),(-6,-3.46410161514,0),(0,7.73205080757,12)
+Sphere 1,1,1 8 ReuleauxTetrahedron 0,12,0 6,-3.46410161514,0 -6,-3.46410161514,0 0,7.73205080757,12 true sphere inside reuleaux tetrahedron
+
+#Sphere centered at (8,8,8) with radius of 8 IS NOT contained ReuleauxTetrahedron with vertices (0,12,0),(6,-3.46,0),(-6,-3.46410161514,0),(0,7.73205080757,12)
+Sphere 8,8,8 8 ReuleauxTetrahedron 0,12,0 6,-3.46410161514,0 -6,-3.46410161514,0 0,7.73205080757,12 false sphere intersects reuleaux tetrahedron
+
+#Sphere centered at (0,0,0) with radius of 4 IS contained by Sphere centered at (0,0,0) with radius of 8
+Sphere 0,0,0 4 Sphere 0,0,0 8 true sphere inside sphere
+
+#Sphere centered at (2,2,2) with radius of 8 IS NOT contained by Sphere centered at (0,0,0) with radius of 8
+Sphere 2,2,2 8 Sphere 0,0,0 8 false sphere intersects sphere
+
+#Sphere centered at (20,0,0) with radius of 4 IS NOT contained by Sphere centered at (0,0,0) with radius of 8
+Sphere 20,0,0 4 Sphere 0,0,0 8 false sphere outside sphere
+
+#Sphere centered at (0,0,0) with radius of 2 IS contained by Cube with vertices (4,4,4),(4,-4,4),(-4,4,4),(-4,-4,4),(4,4,-4),(4,-4,-4),(-4,4,-4),(-4,-4,-4)
+Sphere 0,0,0 2 Cube 4,4,4 4,-4,4 -4,4,4 -4,-4,4 4,4,-4 4,-4,-4 -4,4,-4 -4,-4,-4 true sphere inside cube
