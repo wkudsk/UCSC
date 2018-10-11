@@ -40,7 +40,7 @@
              (let ((program (read inputfile)))
                   (close-input-port inputfile)
                          program))))
-
+;; list program lists all the 
 (define (write-program-by-line filename program)
     (printf "==================================================~n")
     (printf "~a: ~s~n" *run-file* filename)
@@ -58,3 +58,19 @@
 
 (when (terminal-port? *stdin*)
       (main (vector->list (current-command-line-arguments))))
+
+;; making statement hash tables 
+(define stthash (make-hash))
+(for-each
+      (lambda (item) (hash-set! stthash (car item) (cadr item)))
+        '((print , (lambda (x) (printf x))))
+)
+
+;;(hash-for-each stthash (lambda (key value) (show key value)))
+;;(newline)
+
+(define (interpret-program program)
+      (if (null? (car program))
+        (interpret-program cdr program)
+        ;;(show ("car program") (hash-ref stthash `"car program") #f)))
+        (printf (car line))))

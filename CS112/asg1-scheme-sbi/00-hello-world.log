@@ -1,1 +1,10 @@
-./testrun.sh: line 6: ./sbi.scm: No such file or directory
+==================================================
+sbi.scm: "00-hello-world.sbir"
+==================================================
+(
+(1)
+(2)
+(3)
+(4)
+(5 (print "Hello, World!"))
+)
