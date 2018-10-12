@@ -12,6 +12,19 @@
 ;;    program, which is the executed.  Currently it is only printed.
 ;;
 
+;; making statement hash tables 
+(define stthash (make-hash))
+(for-each
+      (lambda (item) (hash-set! stthash (car item) (cadr item)))
+        '((print , (lambda (x) (printf x))))
+)
+
+(define (interpret-program program)
+      (if (null? (car program))
+        (interpret-program cdr program)
+        (show (cadr program) (hash-ref stthash `"car program") #f)))
+
+
 (define *stdin* (current-input-port))
 (define *stdout* (current-output-port))
 (define *stderr* (current-error-port))
@@ -47,7 +60,10 @@
     (printf "==================================================~n")
     (printf "(~n")
     (map (lambda (line) (printf "~s~n" line)) program)
-    (printf ")~n"))
+    (printf ")~n")
+    ;;(printf (program))
+    (interpret-program program))
+
 
 (define (main arglist)
     (if (or (null? arglist) (not (null? (cdr arglist))))
@@ -59,18 +75,3 @@
 (when (terminal-port? *stdin*)
       (main (vector->list (current-command-line-arguments))))
 
-;; making statement hash tables 
-(define stthash (make-hash))
-(for-each
-      (lambda (item) (hash-set! stthash (car item) (cadr item)))
-        '((print , (lambda (x) (printf x))))
-)
-
-;;(hash-for-each stthash (lambda (key value) (show key value)))
-;;(newline)
-
-(define (interpret-program program)
-      (if (null? (car program))
-        (interpret-program cdr program)
-        ;;(show ("car program") (hash-ref stthash `"car program") #f)))
-        (printf (car line))))
