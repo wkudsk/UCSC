@@ -12,22 +12,52 @@
 ;;    program, which is the executed.  Currently it is only printed.
 ;;
 
-;; making statement hash tables 
-(define stthash (make-hash))
-(for-each
-      (lambda (item) (hash-set! stthash (car item) (cadr item)))
-        '((print , (lambda (x) (printf x))))
-)
-
-(define (interpret-program program)
-      (if (null? (car program))
-        (interpret-program cdr program)
-        (show (cadr program) (hash-ref stthash `"car program") #f)))
-
-
 (define *stdin* (current-input-port))
 (define *stdout* (current-output-port))
 (define *stderr* (current-error-port))
+
+;;making label hash table
+(define lblhash (make-hash))
+;; making statement hash table 
+(define stthash (make-hash))
+;; making variable hash table
+(define varhash (make-hash))
+
+;;Commonly called functions
+(define (get-label key)
+        (hash-ref lblhash key #f))
+
+(define (insert-label key value)
+        (hash-set! lblhash key value))
+
+(define (get-statement key)
+        (hash-ref stthash key #f))
+
+(define (insert-statement key value)
+        (hash-set! stthash key value))
+
+(define (get-variable key)
+        (hash-ref varhash key #f))
+
+(define (insert-variable key value)
+        (hash-set! *variable-table* key value))
+
+(for-each
+      (lambda (item) (hash-set! stthash (car item) (cadr item)))
+        `((print , my-print)))
+
+(define (interpret-program program) 
+  (when (not (null? program))
+              (let ((linenumber (caar program)))
+                   (when (and (number? linenumber) (not (null? (cdar program))) (symbol? (cadar program)))
+                      (insert-label (cadar program) (caar program))))
+              (interpret-program (cdr program))))
+
+(define (execute-statement sttname program)
+  )
+
+(define (run-program program)
+  )
 
 (define *run-file*
     (let-values
@@ -60,9 +90,10 @@
     (printf "==================================================~n")
     (printf "(~n")
     (map (lambda (line) (printf "~s~n" line)) program)
-    (printf ")~n")
+    (printf ")~n"))
     ;;(printf (program))
-    (interpret-program program))
+    ;;(interpret-program program))
+
 
 
 (define (main arglist)
@@ -70,7 +101,8 @@
         (usage-exit)
         (let* ((sbprogfile (car arglist))
                (program (readlist-from-inputfile sbprogfile)))
-              (write-program-by-line sbprogfile program))))
+              (write-program-by-line sbprogfile program)
+              (interpret-program program))))
 
 (when (terminal-port? *stdin*)
       (main (vector->list (current-command-line-arguments))))
