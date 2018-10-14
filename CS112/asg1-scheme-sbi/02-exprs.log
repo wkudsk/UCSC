@@ -1,23 +1,6 @@
-caar: contract violation
-  expected: (cons/c pair? any/c)
-  given: #<procedure:list>
-  context...:
-   /afs/cats.ucsc.edu/users/u/wkudsk/UCSC/CS112/asg1-scheme-sbi/./sbi.scm:35:0: interpret-program
-==================================================
-sbi.scm: "02-exprs.sbir"
-==================================================
-(
-(1)
-(2)
-(3)
-(4)
-(5 (print "1+1      = " (+ 1 1)))
-(6 (print "2-2      = " (- 2 2)))
-(7 (print "3*3      = " (* 3 3)))
-(8)
-(9 (print))
-(10)
-(11 (print "4/9      = " (/ 4 9)))
-(12 (print "3*4+5*6  = " (+ (* 3 4) (* 5 6))))
-(13)
-)
+1+1      = 2
+2-2      = 0
+3*3      = 9
+
+4/9      = 4/9
+3*4+5*6  = 42

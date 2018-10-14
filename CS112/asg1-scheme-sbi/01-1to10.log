@@ -1,24 +1,10 @@
-caar: contract violation
-  expected: (cons/c pair? any/c)
-  given: #<procedure:list>
-  context...:
-   /afs/cats.ucsc.edu/users/u/wkudsk/UCSC/CS112/asg1-scheme-sbi/./sbi.scm:35:0: interpret-program
-==================================================
-sbi.scm: "01-1to10.sbir"
-==================================================
-(
-(1)
-(2)
-(3)
-(4)
-(5 (print 1))
-(6 (print 2))
-(7 (print 3))
-(8 (print 4))
-(9 (print 5))
-(10 (print 6))
-(11 (print 7))
-(12 (print 8))
-(13 (print 9))
-(14 (print 10))
-)
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
