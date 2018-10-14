@@ -58,3 +58,5 @@
 
 (when (terminal-port? *stdin*)
       (main (vector->list (current-command-line-arguments))))
+
+
