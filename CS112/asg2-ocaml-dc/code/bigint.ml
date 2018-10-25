@@ -46,6 +46,14 @@ module Bigint = struct
                        ((if sign = Pos then "" else "-") ::
                         (map string_of_int reversed))
 
+
+    (*let rec cmp list1 list2 = match (list1, list2) with
+        | [], []    -> 0
+        | list1, [] -> 1
+        | [], list2 -> -1
+        | list1, list2 -> *)
+
+
     let rec add' list1 list2 carry = match (list1, list2, carry) with
         | list1, [], 0       -> list1
         | [], list2, 0       -> list2
@@ -60,30 +68,44 @@ module Bigint = struct
         then Bigint (neg1, add' value1 value2 0)
         else zero
 
-    let rec sub' list1 list2 carry = match (list1, list2, carry) with
-        | list1, [], 0       -> list1
-        | [], list2, 0       -> list2
-        | list1, [], carry   -> sub' list1 [carry] 0
-        | [], list2, carry   -> sub' [carry] list2 0
-        | car1::cdr1, car2::cdr2, carry ->
-          if car1 < car2
-          then sub' cdr1 1 0
-               car1 = car1 + 10
-          let sum = car1 - car2 - carry
-          in  sum mod radix :: sub' cdr1 cdr2 (sum / radix)
+
+    let rec sub' list1 list2 = match (list1, list2) with
+        | list1, []      -> list1
+        | [], list2      -> list2
+        | car1::cdr1, car2::cdr2 ->
+            if car1 < car2
+                then 
+                (
+                    cdr1 = sub' cdr1 1
+                    car1 = car1 + 10
+                )
+            let newList = car1 - car2 :: sub' cdr1 cdr2;;
 
     let sub (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
         if neg1 = neg2
-        then Bigint (neg1, sub' value1 value2 0)
+        then Bigint (neg1, sub' value1 value2)
         else zero
 
-    let mul = add
+
+    let rec mul' list1 list2 carry = match (list1, list2, carry) with
+        | list1, [], 0       -> list1
+        | [], list2, 0       -> list2
+        | list1, [], carry   -> mul' list1 [carry] 0
+        | [], list2, carry   -> mul' [carry] list2 0
+        | car1::cdr1, car2::cdr2, carry ->
+          let sum = (car1 * car2) + carry
+          in  sum mod radix :: mul' cdr1 cdr2 (sum / radix)
+
+
+    let mul (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
+        if neg1 = neg2
+        then Bigint (Pos, mul' value1 value2 0)
+        else Bigint (Neg, mul' value1 value2 0)
 
     let div = add
 
     let rem = add
 
     let pow = add
-
 end
 
