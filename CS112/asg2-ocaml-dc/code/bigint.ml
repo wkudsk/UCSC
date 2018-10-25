@@ -69,17 +69,17 @@ module Bigint = struct
         else zero
 
 
-    let rec sub' list1 list2 = match (list1, list2) with
-        | list1, []      -> list1
-        | [], list2      -> list2
-        | car1::cdr1, car2::cdr2 ->
-            if car1 < car2
-                then 
-                (
-                    cdr1 = sub' cdr1 1
-                    car1 = car1 + 10
-                )
-            let newList = car1 - car2 :: sub' cdr1 cdr2;;
+    let rec sub' list1 list2 carry = match (list1, list2, carry) with
+        | list1, [], 0      -> list1
+        | [], list2, 0      -> []
+	| list1, [], carry  -> sub'list1 [carry] 0
+	| [], list2, carry  -> []
+        | car1::cdr1, car2::cdr2, carry ->
+        let diff = car1 - car2 - carry    
+	in if diff < 0
+        then car1 + radix - car2 - borrow :: sub' cdr1 cdr2 1
+	else car1 - car2 - carry :: sub' cdr1 cdr2 0 
+    
 
     let sub (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
         if neg1 = neg2
