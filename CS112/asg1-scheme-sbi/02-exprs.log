@@ -1,1 +1,6 @@
-./testrun.sh: line 8: ./sbi.scm: No such file or directory
+1+1      = 2
+2-2      = 0
+3*3      = 9
+
+4/9      = 4/9
+3*4+5*6  = 42
