@@ -59,12 +59,17 @@ module Bigint = struct
             else if (comp = 1)then 1
             else -1
 
-    let rec rmZero list1 = match (list1) with
+    let rec rmZero' list1 = match (list1) with
         | [] -> [0]
         | car1::cdr1 -> 
             if(car1 = 0)
-            then rmZero cdr1
-            else cdr1
+            then rmZero' cdr1
+            else car1::cdr1
+
+    let rmZero list1 =
+        let revlist = reverse list1 
+        in reverse (rmZero' revlist)
+
 
     let rec add' list1 list2 carry = match (list1, list2, carry) with
         | list1, [], 0       -> list1
@@ -75,28 +80,32 @@ module Bigint = struct
           let sum = car1 + car2 + carry
           in  sum mod radix :: add' cdr1 cdr2 (sum / radix)
 
+
+    let rec sub' list1 list2 carry = match (list1, list2, carry) with
+            | list1, [], 0      -> list1
+            | list1, [], carry  -> sub' list1 [carry] 0
+            | [], list2, 0      -> []
+            | [], list2, carry  -> []
+            | car1::cdr1, car2::cdr2, carry ->
+                let diff = car1 - car2 - carry
+                in if (diff >= 0 || cdr1 == [])
+                    then diff :: sub' cdr1 cdr2 0 
+                    else diff + radix :: sub' cdr1 cdr2 1
+
     let add (Bigint (neg1, value1)) (Bigint (neg2, value2)) =
         if (neg1 = neg2 )
         then Bigint (neg1, add' value1 value2 0)
-        else zero
-
-
-    let rec sub' list1 list2 carry = match (list1, list2, carry) with
-        | list1, [], 0      -> list1
-        | list1, [], carry  -> sub' list1 [carry] 0
-        | [], list2, 0      -> []
-        | [], list2, carry  -> []
-        | car1::cdr1, car2::cdr2, carry ->
-            let diff = car1 - car2 - carry
-            in if (diff >= 0 || cdr1 == [])
-                then diff :: sub' cdr1 cdr2 0 
-                else diff + radix :: sub' cdr1 cdr2 1
+        else if(cmp value1 value2 = 1) 
+        then Bigint(neg1, rmZero (sub' value1 value2 0))
+        else Bigint(neg2, rmZero (sub' value2 value1 0))
 
     let sub (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
         if (neg1 = neg2 && cmp value1 value2 = -1 && neg1 = Pos)
-        then Bigint (Neg,  rmZero (sub' value2 value1 0))
+            then Bigint (Neg,  rmZero (sub' value2 value1 0))
         else if(neg1 = neg2 && cmp value1 value2 = -1 && neg1 = Neg)
-        then Bigint (Pos,  rmZero (sub' value2 value1 0))
+            then Bigint (Pos,  rmZero (sub' value2 value1 0))
+        else if(neg1 != neg2)
+            then Bigint (neg1, rmZero (add' value1 value2 0))
         else Bigint (neg1, rmZero (sub' value1 value2 0))
 
 
