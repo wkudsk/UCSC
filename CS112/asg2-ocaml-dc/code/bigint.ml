@@ -82,15 +82,15 @@ module Bigint = struct
 
 
     let rec sub' list1 list2 carry = match (list1, list2, carry) with
-            | list1, [], 0      -> list1
-            | list1, [], carry  -> sub' list1 [carry] 0
-            | [], list2, 0      -> []
-            | [], list2, carry  -> []
-            | car1::cdr1, car2::cdr2, carry ->
-                let diff = car1 - car2 - carry
-                in if (diff >= 0 || cdr1 == [])
-                    then diff :: sub' cdr1 cdr2 0 
-                    else diff + radix :: sub' cdr1 cdr2 1
+        | list1, [], 0      -> list1
+        | list1, [], carry  -> sub' list1 [carry] 0
+        | [], list2, 0      -> []
+        | [], list2, carry  -> []
+        | car1::cdr1, car2::cdr2, carry ->
+            let diff = car1 - car2 - carry
+            in if (diff >= 0 || cdr1 == [])
+                then diff :: sub' cdr1 cdr2 0 
+                else diff + radix :: sub' cdr1 cdr2 1
 
     let add (Bigint (neg1, value1)) (Bigint (neg2, value2)) =
         if (neg1 = neg2 )
@@ -108,15 +108,16 @@ module Bigint = struct
             then Bigint (neg1, rmZero (add' value1 value2 0))
         else Bigint (neg1, rmZero (sub' value1 value2 0))
 
-
-    let rec mul' list1 list2 carry = match (list1, list2, carry) with
-        | list1, [], 0       -> list1
-        | [], list2, 0       -> list2
-        | list1, [], carry   -> mul' list1 [carry] 0
-        | [], list2, carry   -> mul' [carry] list2 0
+    let rec mul' list1 list2 carry = match(list1, list2, carry) with
+        | [], list2, 0 -> []
+        | [], list2, carry -> [carry]
+        | list1, [], 0 -> []
+        | list1, [], carry -> [carry]
         | car1::cdr1, car2::cdr2, carry ->
-          let sum = (car1 * car2) + carry
-          in  sum mod radix :: mul' cdr1 cdr2 (sum / radix)
+            let product = car1 * car2 + carry in
+            add' (product mod radix :: 
+                    mul' [car1] cdr2 (product / radix))
+                 (mul' cdr1 list2 0) 0
 
 
     let mul (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
