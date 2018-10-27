@@ -13,6 +13,7 @@ module Bigint = struct
     let cdr       = List.tl
     let map       = List.map
     let reverse   = List.rev
+    let append    = List.append
     let strcat    = String.concat
     let strlen    = String.length
     let strsub    = String.sub
@@ -114,16 +115,22 @@ module Bigint = struct
         | list1, [], 0 -> []
         | list1, [], carry -> [carry]
         | car1::cdr1, car2::cdr2, carry ->
-            let product = car1 * car2 + carry in
-            add' (product mod radix :: 
-                    mul' [car1] cdr2 (product / radix))
-                 (mul' cdr1 list2 0) 0
+            if(car1 = 0) then 0 :: mul' cdr1 list2 0 
+            else
+                let product = car1 * car2 + carry in
+                add' (product mod radix :: 
+                        mul' [car1] cdr2 (product / radix))
+                     (mul' (append [0] cdr1) list2 0) 0
 
 
     let mul (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
-        if neg1 = neg2
-        then Bigint (Pos, mul' value1 value2 0)
-        else Bigint (Neg, mul' value1 value2 0)
+        if (neg1 = neg2 && cmp value1 value2 != 1)
+            then Bigint (Pos, mul' value1 value2 0)
+        else if(neg1 = neg2 && cmp value1 value2 = 1) 
+            then Bigint (Pos, mul' value2 value1 0)
+        else if(neg1 != neg2 && cmp value1 value2 != 1)
+            then Bigint (Neg, mul' value1 value2 0)
+        else Bigint (Neg, mul' value2 value1 0)
 
     let div = add
 
