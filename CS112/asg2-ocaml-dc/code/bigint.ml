@@ -132,10 +132,42 @@ module Bigint = struct
             then Bigint (Neg, mul' value1 value2 0)
         else Bigint (Neg, mul' value2 value1 0)
 
-    let div = add
+    let rec convertToInt list1 n = match(list1, n) with
+        | [], n -> 0
+        | car1::cdr1, n ->
+            (car1 * n) + convertToInt cdr1 (n * 10)
+
+
+    let rec div' list1 list2 carry = match(list1, list2, carry) with
+        | [], list2, 0 -> []
+        | [], list2, carry -> [carry]
+        | list1, [], 0 -> []
+        | list1, [], carry -> [carry]
+        | car1::cdr1, car2::cdr2, carry ->
+            if(car1 = 0) then 0 :: div' cdr1 list2 0 
+            else
+                let quotient = (car2 / (convertToInt list1 1))
+                 + carry in
+                add' (quotient mod radix :: 
+                        div' [convertToInt list1 1] cdr2 
+                        (quotient / radix))
+                     (div' (append [0] cdr1) list2 0) 0
+
+
+    let div (Bigint (neg1, value1)) (Bigint (neg2, value2)) =
+        Bigint (Pos, rmZero (div' value2 value1 0)) 
 
     let rem = add
 
-    let pow = add
+    let rec pow' list1 list2 = match(list1, list2) with 
+        | [], list2 -> list2
+        | list1, [] -> []
+        | list1, list2->
+            if(cmp list1 [1] = 0) then list2
+            else mul' list2 (pow' (sub' list1 [1] 0) list2) 0
+
+    let pow (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
+    if(neg1 = Neg) then zero
+    else Bigint (Pos, pow' value1 value2)
 end
 
