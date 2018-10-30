@@ -71,7 +71,6 @@ module Bigint = struct
         let revlist = reverse list1 
         in reverse (rmZero' revlist)
 
-
     let rec add' list1 list2 carry = match (list1, list2, carry) with
         | list1, [], 0       -> list1
         | [], list2, 0       -> list2
@@ -80,7 +79,6 @@ module Bigint = struct
         | car1::cdr1, car2::cdr2, carry ->
           let sum = car1 + car2 + carry
           in  sum mod radix :: add' cdr1 cdr2 (sum / radix)
-
 
     let rec sub' list1 list2 carry = match (list1, list2, carry) with
         | list1, [], 0      -> list1
@@ -122,7 +120,6 @@ module Bigint = struct
                         mul' [car1] cdr2 (product / radix))
                      (mul' (append [0] cdr1) list2 0) 0
 
-
     let mul (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
         if (neg1 = neg2 && cmp value1 value2 != 1)
             then Bigint (Pos, mul' value1 value2 0)
@@ -132,42 +129,46 @@ module Bigint = struct
             then Bigint (Neg, mul' value1 value2 0)
         else Bigint (Neg, mul' value2 value1 0)
 
-    let rec convertToInt list1 n = match(list1, n) with
-        | [], n -> 0
-        | car1::cdr1, n ->
-            (car1 * n) + convertToInt cdr1 (n * 10)
-
-
-    let rec div' list1 list2 carry = match(list1, list2, carry) with
-        | [], list2, 0 -> []
-        | [], list2, carry -> [carry]
-        | list1, [], 0 -> []
-        | list1, [], carry -> [carry]
-        | car1::cdr1, car2::cdr2, carry ->
-            if(car1 = 0) then 0 :: div' cdr1 list2 0 
-            else
-                let quotient = (car2 / (convertToInt list1 1))
-                 + carry in
-                add' (quotient mod radix :: 
-                        div' [convertToInt list1 1] cdr2 
-                        (quotient / radix))
-                     (div' (append [0] cdr1) list2 0) 0
-
-
-    let div (Bigint (neg1, value1)) (Bigint (neg2, value2)) =
-        Bigint (Pos, rmZero (div' value2 value1 0)) 
-
-    let rem = add
-
     let rec pow' list1 list2 = match(list1, list2) with 
         | [], list2 -> list2
         | list1, [] -> []
         | list1, list2->
-            if(cmp list1 [1] = 0) then list2
-            else mul' list2 (pow' (sub' list1 [1] 0) list2) 0
+            if(cmp list1 [1] = 0 || cmp list1 [1] = -1) then list2
+            else mul' list2 (pow' (rmZero (sub' list1 [1] 0)) list2) 0
+
+    (*Egyptian Method: find the multiples of the divisor and 2^n
+     *add them together until you get the value of the dividend.
+     *return the 2^n values without the divisor as your answer.
+     *)
+    let rec egyptianDiv dividend divisor kval nval value = 
+        let overUnder = (rmZero (mul' (add' value nval 0) 
+                divisor 0)) in
+            if cmp overUnder dividend = 1 then kval
+            else if cmp overUnder dividend = -1 
+                then egyptianDiv dividend divisor 
+                nval (mul' nval [2] 0) value
+            else nval
+
+    let rec div' list1 list2 carry = 
+        let nval = egyptianDiv list1 list2 [] [1] carry in
+            if nval = [] then carry
+            else div' list1 list2 (add' carry nval 0)
+
+    let div (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
+        if(cmp value1 value2 = -1) then zero
+        else if (cmp value2 [0] = 0) then failwith "dividing by zero"
+        else if(neg1 = neg2) then 
+                Bigint (Pos, rmZero (div' value1 value2 []))
+        else Bigint (Neg, rmZero (div' value1 value2 []))
+
+    let rem (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
+        let quotient = rmZero (div' value1 value2 [])
+        in Bigint (Pos, rmZero (sub' value1
+         (mul' quotient value2 0) 0))
 
     let pow (Bigint (neg1, value1)) (Bigint (neg2, value2)) = 
     if(neg1 = Neg) then zero
     else Bigint (Pos, pow' value1 value2)
+
 end
 
