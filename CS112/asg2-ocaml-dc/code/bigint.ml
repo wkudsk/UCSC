@@ -171,4 +171,3 @@ module Bigint = struct
     else Bigint (Pos, pow' value1 value2)
 
 end
-
