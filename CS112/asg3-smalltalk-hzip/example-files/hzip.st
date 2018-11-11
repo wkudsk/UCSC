@@ -1,5 +1,8 @@
 #!/afs/cats.ucsc.edu/courses/cmps112-wm/usr/smalltalk/bin/gst -f
 
+
+"A lot of example files have this, idk why"
+"see cmdl.st"
 execname := '$RCSfile: hzip.st,v $' =~ '.*: (.*),v.*' at: 1.
 nl := Character nl.
 
@@ -50,7 +53,7 @@ Object subclass: Leaf [
 
 ]
 
-"Tree object."
+"Tree object - also from tree.st"
 Leaf subclass: Tree [
   |left right|
   "Left just returns the left leaf, same for right"
@@ -102,7 +105,13 @@ Object subclass: BitStream [
       myStream := fileStream.
    ]
   
-   flushByte [
+  "outbits.st"
+  clearBits [
+    bitIndex := 0.
+    byte := 0.
+  ]
+
+  flushByte [
     bitIndex = 8 ifFalse: [
       myStream nextPut: (Character value: byte asInteger).
       bitIndex := 8.
@@ -116,12 +125,6 @@ Object subclass: BitStream [
     bitIndex = 0 ifTrue: [self flushByte].
     byte := byte bitAt: bitIndex put: bit.
     bitIndex := bitIndex - 1.
-  ]
-  
-  "outbits.st"
-  clearBits [
-    bitIndex := 0.
-    byte := 0.
   ]
 
   "See extendstream.st"
@@ -140,16 +143,19 @@ Object subclass: BitStream [
       ^ (bitIndex isNil | (bitIndex = 0)) & self atEnd
    ]
 
-  charBit: char [
+  charBit: char 
+  [
     |bit charVal bitIndex|
     charVal := char value.
     bitIndex := 8.
-    [bitIndex ~= 0] whileTrue: [
+    [bitIndex ~= 0] whileTrue: 
+    [
       bit := char value bitAt: bitIndex.
       bitIndex := bitIndex - 1.
       self writeBit: bit.
     ].
-    (charVal = 0) | (charVal = 256) ifTrue: [
+    (charVal = 0) | (charVal = 256) ifTrue: 
+    [
       self writeBit: (charVal bitAt: 9).
     ].
   ]
@@ -200,7 +206,6 @@ Object subclass: ZeroArray [
 
 ]
 
-"Extend the Character to output the character per project description"
 Character extend [
   asBit [
     ^ self value bitAt: 1.
@@ -229,15 +234,7 @@ visible [
                          copyFrom: 4)]
                      ]           
    ]
-]
-
-
-
-d := false.
-c := false.
-t := false.
-u := false.
-   
+]   
  
 "cmdline.st"
 argc:=0.
@@ -247,12 +244,19 @@ ifTrue: [
   stderr << 'Please use this optons:' << execname 
   << ' -dtcu inputfile outputfile' << nl.
   stderr << '-d is optional debug' << nl.
+  stderr << '-t is used to compress and print to stdout' << nl.
+  stderr << '-c is used to compress and write to file' << nl.
+  stderr << '-u is used to uncompress and write to file' << nl.
   ObjectMemory quit.
 ].
 
+d := false.
+c := false.
+t := false.
+u := false.
+
 Smalltalk arguments: '-d -t -c -u'
 do: [:opt :arg |
-
    (opt = $d) ifTrue: [ d := true. ].
    (opt = $t) ifTrue: [ t := true. ].
    (opt = $c) ifTrue: [ c := true. ].
@@ -265,45 +269,53 @@ outputFile := (Smalltalk getArgv: 3).
 
 "(a) from pdf, last value is the EOF"
 frequencyTable := ZeroArray new: 257.
-    |infile char|
-    [infile := FileStream open: inputFile
+|infile char|
+[
+    infile := FileStream open: inputFile
               mode: FileStream read.
-    [infile atEnd] whileFalse: [
+    [infile atEnd] whileFalse: 
+    [
       char := infile next asInteger.
       frequencyTable incr: char.
     ].
-    char = nil ifFalse: [
+    char = nil ifFalse: 
+    [
       frequencyTable incr: 256.
     ].
     infile close.
-    ] on: SystemExceptions.FileError do: [:signal |
-    |errno|
-    errno := File errno.
-    stdout flush.
-    stderr << execname << ': ' << outputFile << ': '
-        << signal messageText << nl.
-    stderr flush.
-  ].
+] on: SystemExceptions.FileError do: [:signal |
+|errno|
+errno := File errno.
+stdout flush.
+stderr << execname << ': ' << outputFile << ': '
+    << signal messageText << nl.
+stderr flush.
+].
     
 "(b) from pdf, make priority queue and sort collection"
-  pqueue := SortedCollection new.
+  prioQ := SortedCollection new.
+  "Order prioQ from smallest to largest"
   frequencyTable keysAndValuesDo: [:key :count |
     (count notNil and: [count > 0]) ifTrue: [
-      pqueue add:(Leaf new: (key asCharacter) count: count).
+      prioQ add:(Leaf new: (key asCharacter) count: count).
     ]
   ].
   
-"Unload priority queue into Huffman tree."
-  [pqueue notEmpty] whileTrue: [
-    tree := pqueue removeFirst.
-    pqueue size = 0 ifTrue: [^ tree].
-    rightChild := pqueue removeFirst.
-    pqueue add: (Tree new: tree char 
+"Create trees and leaves using priority queue"
+  [prioQ notEmpty] whileTrue: 
+  [
+    tree := prioQ removeFirst.
+    "You are done once the pq is done"
+    prioQ size = 0 ifTrue: [^ tree].
+    "Since the tree is ordered with smallest to the furthest right"
+    "The right child is always smaller"
+    rightChild := prioQ removeFirst.
+    prioQ add: (Tree new: tree char 
     count: (tree count + rightChild count)
     left: tree right: rightChild).
   ].
   
-"Traverse Huffman tree into encoding array."
+"Convert the tree into an array"
   encodedCharacterdArray := ZeroArray new: 257.
   tree = nil ifFalse: [
     tree inorder: [:char :encoding |
@@ -312,41 +324,41 @@ frequencyTable := ZeroArray new: 257.
   ].
 
 "-t work, this prints out to stdout"
-t ifTrue: [
+t ifTrue: 
+[
   frequencyTable keysAndValuesDo: [:key :value |
     (value notNil and: [value > 0]) ifTrue: [
        |character|
        character := (key asCharacter visible).
        character asString size to: 3 do: [:skip| stdout].
        stdout << character << ' '. 
-       value asString size to: 6 do: [:skip| stdout << ' '].
-       stdout << value << '  '.
+       value asString size to: 3 do: [:skip| stdout << ' '].
+       stdout << value << ' '.
        stdout << (encodedCharacterdArray at: key) << nl.
     ]
   ]
 ].
 
 "-c work, instead of stdout use output"
-c ifTrue: [
+c ifTrue: 
+[
   [ 
     |infile outfile encodedCharacter outBits|
     infile := FileStream open: inputFile
-              mode: FileStream read.
+                         mode: FileStream read.
     outputFile = nil
     ifTrue: 
     [
-      frequencyTable keysAndValuesDo: 
-      [
-        :key :value |
-        (value notNil and: [value > 0]) ifTrue: 
-        [
-          |character|
-          character := (key asCharacter visible).
-          character asString size to: 3 do: [:skip| stdout].
-          stdout << character << ' '. 
-          value asString size to: 6 do: [:skip| stdout << ' '].
-          stdout << value << '  '.
-          stdout << (encodedCharacterdArray at: key) << nl.
+      "If no output file, do same a -t"
+      frequencyTable keysAndValuesDo: [:key :value |
+        (value notNil and: [value > 0]) ifTrue: [
+           |character|
+           character := (key asCharacter visible).
+           character asString size to: 3 do: [:skip| stdout].
+           stdout << character << ' '. 
+           value asString size to: 3 do: [:skip| stdout << ' '].
+           stdout << value << ' '.
+           stdout << (encodedCharacterdArray at: key) << nl.
         ]
       ]
     ]
@@ -354,7 +366,7 @@ c ifTrue: [
     ifFalse:
     [
       outfile := FileStream open: outputFile
-                mode: FileStream write.
+                    mode: FileStream write.
     ].
 
     outBits := BitStream new: outfile.
@@ -386,26 +398,24 @@ c ifTrue: [
     outfile close.
     infile close.
   ]
-
-  on: SystemExceptions.FileError do: 
-  [
-    :signal |
-    |errno|
-    errno := File errno.
-    stdout flush.
-    stderr << execname << ': ' << outputFile << ': '
-        << signal messageText << nl.
-    stderr flush.
-  ].  
+  "see catfile.st for how to close files"
+  on: SystemExceptions.FileError do: [:signal |
+                  |errno|
+                  errno := File errno.
+                  stdout flush.
+                  stderr << execname << ': ' << filename << ': '
+                         << signal messageText << nl.
+                  stderr flush.
+               ]
 ].
 
-"Decompress input file to the output file."
+"Uncompress input file and save into an output file."
 u ifTrue: 
 [
   [ 
-    |mybit myTree infile outfile stack inBits bl|
+    |infile outfile huffBit huffTree stack inBits bl|
     infile := FileStream open: inputFile
-              mode: FileStream read.
+                         mode: FileStream read.
                 
     inBits := BitStream new: infile.
     stack := OrderedCollection new.
@@ -466,42 +476,39 @@ u ifTrue:
       ifFalse: 
       [
         outfile := FileStream open: outputFile
-                  mode: FileStream write.
+                              mode: FileStream write.
       ].    
-      myTree := tree.
-      mybit := 0.
-      [mybit ~= nil] whileTrue: 
+      huffTree := tree.
+      huffBit := 0.
+      [huffBit ~= nil] whileTrue: 
       [
-        mybit := inBits nextBit.
-        mybit = 0 ifTrue: 
+        huffBit := inBits nextBit.
+        huffBit = 0 ifTrue: 
         [
-          myTree := myTree left.
+          huffTree := huffTree left.
         ].
-        mybit = 1 ifTrue: 
+        huffBit = 1 ifTrue: 
         [
-          myTree := myTree right.
+          huffTree := huffTree right.
         ].
-        (myTree isMemberOf: Leaf) ifTrue: 
+        (huffTree isMemberOf: Leaf) ifTrue: 
         [
           |char|
-          myTree char = 256 ifTrue: [ ^ char ].
-          char := Character value: myTree char asInteger.
+          huffTree char = 256 ifTrue: [ ^ char ].
+          char := Character value: huffTree char asInteger.
           outfile nextPut: char.
-          myTree := tree.
+          huffTree := tree.
         ].
       ].
       outfile close. 
     ].
-    infile close. 
-  ]
-  on: SystemExceptions.FileError do: 
-  [
-    :signal |
-    |errno|
-    errno := File errno.
-    stdout flush.
-    stderr << execname << ': ' << outputFile << ': '
-        << signal messageText << nl.
-    stderr flush.
-  ].  
+    infile close.
+    ] on: SystemExceptions.FileError do: [:signal |
+      |errno|
+      errno := File errno.
+      stdout flush.
+      stderr << execname << ': ' << filename << ': '
+             << signal messageText << nl.
+      stderr flush.
+       ]
 ].
