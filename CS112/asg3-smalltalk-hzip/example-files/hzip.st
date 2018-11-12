@@ -56,7 +56,7 @@ Object subclass: Leaf [
 "Tree object - also from tree.st"
 Leaf subclass: Tree [
   |left right|
-  "Left just returns the left leaf, same for right"
+  "left just returns the left leaf, same for right"
   left [ ^ left ]
   right [ ^ right ]
 
